@@ -1,4 +1,4 @@
-package onestraw.org.poovali;
+package org.onestraw.poovali;
 
 import org.junit.Test;
 

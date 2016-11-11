@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="onestraw.org.poovali">
+    package="org.onestraw.poovali">
 
     <application
         android:allowBackup="true"
@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".PlantListActivity">
+        <activity android:name="org.onestraw.poovali.PlantListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -16,13 +16,13 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".PlantDetailActivity"
+            android:name="org.onestraw.poovali.PlantDetailActivity"
             android:label="@string/title_activity_plant_detail"
-            android:parentActivityName=".PlantListActivity"
+            android:parentActivityName="org.onestraw.poovali.PlantListActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="onestraw.org.poovali.PlantListActivity" />
+                android:value="org.onestraw.poovali.PlantListActivity" />
         </activity>
     </application>
 
