@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#2e7d32</color>
     <color name="colorAccent">#ffffff</color>
     <color name="lineDivider">#1b5e20</color>
+    <color name="windowBackground">#FFFFFF</color>
+    <color name="navigationBarColor">#000000</color>
 </resources>
