@@ -18,8 +18,7 @@
         <activity
             android:name="org.onestraw.poovali.PlantDetailActivity"
             android:label="@string/title_activity_plant_detail"
-            android:parentActivityName="org.onestraw.poovali.PlantListActivity"
-            android:theme="@style/AppTheme.NoActionBar">
+            android:parentActivityName="org.onestraw.poovali.PlantListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.onestraw.poovali.PlantListActivity" />

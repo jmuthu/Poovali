@@ -3,4 +3,6 @@
     <string name="title_activity_plant_detail">PlantDetail</string>
     <string name="plant_crop_duration">Crop Duration</string>
     <string name="plant_soil">Soil</string>
+    <string name="seed_treatment">Seed Treatment</string>
+    <string name="sowing_season">Sowing Season</string>
 </resources>
