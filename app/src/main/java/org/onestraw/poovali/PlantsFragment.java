@@ -12,6 +12,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.List;
@@ -66,9 +67,12 @@ public class PlantsFragment extends Fragment {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            holder.mNameView.setText(mValues.get(position).name);
-            holder.mContentView.setText(mValues.get(position).cropDuration + " days");
+            holder.mNameView.setText(holder.mItem.name);
+            holder.mContentView.setText(holder.mItem.cropDuration + " days");
 
+            holder.mIconView.setImageResource(getResources().getIdentifier(holder.mItem.imageName,
+                    "drawable",
+                    holder.mIconView.getContext().getPackageName()));
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -89,6 +93,7 @@ public class PlantsFragment extends Fragment {
             public final View mView;
             public final TextView mNameView;
             public final TextView mContentView;
+            public final ImageView mIconView;
             public PlantContent.Plant mItem;
 
             public ViewHolder(View view) {
@@ -96,6 +101,7 @@ public class PlantsFragment extends Fragment {
                 mView = view;
                 mNameView = (TextView) view.findViewById(R.id.name);
                 mContentView = (TextView) view.findViewById(R.id.content);
+                mIconView = (ImageView) view.findViewById(R.id.image_icon);
             }
 
             @Override
@@ -109,12 +115,12 @@ public class PlantsFragment extends Fragment {
         private Drawable mDivider;
 
         public SimpleDividerItemDecoration(Context context) {
-            mDivider = ContextCompat.getDrawable(context,R.drawable.line_divider);
+            mDivider = ContextCompat.getDrawable(context, R.drawable.line_divider);
         }
 
         @Override
         public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
-            int left = parent.getPaddingLeft();
+            int left = parent.getPaddingLeft() + 80;
             int right = parent.getWidth() - parent.getPaddingRight();
 
             int childCount = parent.getChildCount();

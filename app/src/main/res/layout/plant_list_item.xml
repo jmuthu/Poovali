@@ -28,31 +28,40 @@
     android:orientation="horizontal"
     android:padding="5dip">
 
+    <ImageView
+        android:id="@+id/image_icon"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginTop="10dip"
+        android:layout_marginRight="10dp"
+        android:layout_marginLeft="10dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/tomato"/>
+
     <TextView
         android:id="@+id/name"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textStyle="bold"
-        android:typeface="sans"
-        android:textSize="16sp" />
+        android:layout_marginTop="5dip"
+        android:layout_toRightOf="@id/image_icon"
+        style="@android:style/TextAppearance.Material.Title"/>
 
     <TextView
         android:id="@+id/content"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/name"
-        android:layout_marginTop="5dip"
-        android:textColor="#343434"
-        android:textSize="12sp" />
+        android:layout_toRightOf="@id/image_icon"
+        style="@android:style/TextAppearance.Material.Small"/>
 
     <TextView
         android:id="@+id/batches"
+        style="@android:style/TextAppearance.Material.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/content"
         android:layout_alignBottom="@+id/content"
         android:layout_alignParentRight="true"
-        android:textColor="#343434"
-        android:textSize="12sp"
         android:text="1 Batch"/>
 </RelativeLayout>

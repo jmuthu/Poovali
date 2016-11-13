@@ -99,6 +99,7 @@ public class PlantContent {
         public final String soil;
         public final String sowingSeason;
         public final String seedTreatment;
+        public final String imageName;
         public final Integer cropDuration;
         //public final String spacingRequirements;
         //public final Map fertilizerSchedule;
@@ -110,7 +111,9 @@ public class PlantContent {
             this.sowingSeason = sowingSeason;
             this.seedTreatment = seedTreatment;
             this.cropDuration = cropDuration;
+            this.imageName = name.toLowerCase().replace(' ', '_').replaceAll("\\W", "");
         }
+
 
         @Override
         public String toString() {

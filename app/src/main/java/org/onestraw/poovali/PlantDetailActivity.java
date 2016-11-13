@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 public class PlantDetailActivity extends AppCompatActivity {
@@ -33,7 +34,10 @@ public class PlantDetailActivity extends AppCompatActivity {
         if (appBarLayout != null) {
             appBarLayout.setTitle(plant.name);
         }
-
+        ImageView imageBar = (ImageView) findViewById(R.id.image_id);
+        imageBar.setImageResource(getResources().getIdentifier(plant.imageName,
+                "drawable",
+                getPackageName()));
         TextView cropDuration = (TextView) findViewById(R.id.crop_duration);
         cropDuration.setText(plant.cropDuration.toString() + " days");
         TextView soil = (TextView) findViewById(R.id.soil);
