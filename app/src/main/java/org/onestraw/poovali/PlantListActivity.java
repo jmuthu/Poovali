@@ -46,7 +46,7 @@ public class PlantListActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new PlantsFragment(), "Plants");
-        adapter.addFragment(new ActivitiesFragment(), "Activities");
+        adapter.addFragment(new EventsFragment(), "Activities");
         viewPager.setAdapter(adapter);
     }
 

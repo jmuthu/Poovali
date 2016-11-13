@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:background="?android:attr/selectableItemBackground"
+    android:orientation="horizontal"
+    android:padding="5dip">
+
+    <ImageView
+        android:id="@+id/event_type_icon"
+        android:layout_width="20dp"
+        android:layout_height="20dp"
+        android:layout_alignParentLeft="true"
+        android:layout_marginLeft="10dp"
+        android:layout_marginRight="10dp"
+        android:layout_marginTop="10dip"
+        android:scaleType="centerCrop"
+        android:src="@drawable/tomato" />
+
+    <TextView
+        android:id="@+id/event_type"
+        style="@android:style/TextAppearance.Material.Title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dip"
+        android:layout_toRightOf="@id/event_type_icon" />
+
+    <TextView
+        android:id="@+id/event_description"
+        style="@android:style/TextAppearance.Material.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/event_type"
+        android:layout_toRightOf="@id/event_type_icon" />
+
+    <TextView
+        android:id="@+id/event_created_date"
+        style="@android:style/TextAppearance.Material.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/event_type"
+        android:layout_alignBottom="@+id/event_type"
+        android:layout_alignParentRight="true"
+        android:text="1 Batch" />
+</RelativeLayout>
