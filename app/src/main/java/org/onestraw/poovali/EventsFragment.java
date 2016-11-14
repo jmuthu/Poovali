@@ -12,20 +12,20 @@ import android.widget.TextView;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
+
+import static org.onestraw.poovali.GardenEvent.items;
 
 /**
  * Created by mike on 12/11/16.
  */
 
 public class EventsFragment extends Fragment {
-    final String EVENTS_FILE = "poovali_events.json";
+    public static final String EVENTS_FILE = "poovali_events.json";
+    public static final List<GardenEvent> ITEMS = new ArrayList<GardenEvent>();
 
     public EventsFragment() {
         // Required empty public constructor
@@ -50,28 +50,15 @@ public class EventsFragment extends Fragment {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        List<GardenEvent> items = new ArrayList<GardenEvent>();
+
         try {
             File file = new File(getContext().getFilesDir(), EVENTS_FILE);
-
-            if (!file.isFile()) {
-                file.createNewFile();
-                GardenEvent obj = new GardenEvent();
-                obj.setCreatedDate(new Date());
-                obj.setDescription("Applied panchagavya to all the plants in the evening. Also sprayed it on the plants and i need to buy more of panchagavya");
-                obj.setType(GardenEvent.EventType.FERTILIZER);
-                FileOutputStream fout = new FileOutputStream(file);
-                ObjectOutputStream oos = new ObjectOutputStream(fout);
-                oos.writeObject(obj);
-                oos.close();
-            } else {
+            if (file.isFile()) {
                 FileInputStream fin = new FileInputStream(file);
                 ObjectInputStream ois = new ObjectInputStream(fin);
                 GardenEvent obj = (GardenEvent) ois.readObject();
                 items.add(obj);
             }
-
-
         } catch (Exception e) {
             e.printStackTrace();
         }

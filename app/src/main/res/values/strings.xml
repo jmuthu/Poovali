@@ -5,4 +5,11 @@
     <string name="plant_soil">Soil</string>
     <string name="seed_treatment">Seed Treatment</string>
     <string name="sowing_season">Sowing Season</string>
+    <string name="save_label">Save</string>
+    <string name="cancel_label">Cancel</string>
+    <string name="pick_date">Pick Date</string>
+    <string name="title_activity_add_event">AddEvent</string>
+    <string name="event_type">Select Activity Type</string>
+    <string name="created_on">Created On</string>
+    <string name="event_description_hint">Enter a description for the event</string>
 </resources>

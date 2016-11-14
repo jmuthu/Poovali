@@ -1,15 +1,20 @@
 package org.onestraw.poovali;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Created by mike on 13/11/16.
  */
 
 class GardenEvent implements Serializable {
-    static final long serialVersionUID =-1856133174987221772L;
+    static final long serialVersionUID = -1856133174987221772L;
+    public static final List<GardenEvent> items = new ArrayList<GardenEvent>();
+
     public enum EventType {
+
         MICRO_NUTRIENTS {
             public String toString() {
                 return "Micronutrients";
@@ -29,6 +34,7 @@ class GardenEvent implements Serializable {
         }
 
     }
+
     private Date createdDate;
     private EventType type;
     private String description;

@@ -8,7 +8,7 @@
         android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="org.onestraw.poovali.PlantListActivity">
+        <activity android:name=".PlantListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -16,13 +16,17 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="org.onestraw.poovali.PlantDetailActivity"
+            android:name=".PlantDetailActivity"
             android:label="@string/title_activity_plant_detail"
-            android:parentActivityName="org.onestraw.poovali.PlantListActivity">
+            android:parentActivityName=".PlantListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="org.onestraw.poovali.PlantListActivity" />
         </activity>
+        <activity
+            android:name=".AddEventActivity"
+            android:label="@string/title_activity_add_event"
+            android:theme="@style/AppTheme"></activity>
     </application>
 
 </manifest>

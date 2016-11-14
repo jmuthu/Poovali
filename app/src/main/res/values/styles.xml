@@ -1,4 +1,5 @@
 <resources>
+
     <style name="MyMaterialTheme.Base" parent="Theme.AppCompat.Light.DarkActionBar">
         <item name="windowNoTitle">true</item>
         <item name="windowActionBar">false</item>
@@ -7,7 +8,7 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
-    <style name="AppTheme" parent="MyMaterialTheme.Base"/>
+    <style name="AppTheme" parent="MyMaterialTheme.Base" />
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>
@@ -26,6 +27,7 @@
         <item name="android:layout_height">wrap_content</item>
 
     </style>
+
     <style name="DetailValue" parent="@android:style/TextAppearance.Material.Small">
         <item name="android:layout_marginLeft">10sp</item>
         <item name="android:layout_marginStart">10sp</item>
@@ -33,4 +35,22 @@
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
+    <style name="addEventActionButtonText" parent="@android:style/TextAppearance.Material.Button">
+        <item name="android:layout_height">match_parent</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:focusable">true</item>
+        <item name="android:layout_weight">1</item>
+        <item name="android:gravity">center</item>
+        <item name="android:background">@drawable/ripple_button</item>
+        <item name="android:clickable">true</item>
+    </style>
+
+    <style name="AddEventLabel" parent="@android:style/TextAppearance.Material.Headline">
+        <item name="android:layout_marginTop">10sp</item>
+        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+
+    </style>
+
 </resources>

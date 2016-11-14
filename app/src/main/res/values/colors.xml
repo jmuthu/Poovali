@@ -6,4 +6,5 @@
     <color name="lineDivider">#E0E0E0</color>
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
+    <color name="borderColor">#E0E0E0</color>
 </resources>
