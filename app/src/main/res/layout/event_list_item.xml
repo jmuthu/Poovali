@@ -8,8 +8,8 @@
 
     <ImageView
         android:id="@+id/event_type_icon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentLeft="true"
         android:layout_marginLeft="10dp"
         android:layout_marginRight="10dp"

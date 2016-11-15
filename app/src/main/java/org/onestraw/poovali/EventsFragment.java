@@ -16,6 +16,7 @@ import java.util.List;
 public class EventsFragment extends Fragment {
 
     RecyclerView recyclerView;
+
     public EventsFragment() {
         // Required empty public constructor
     }
@@ -73,9 +74,10 @@ public class EventsFragment extends Fragment {
             holder.mEventCreatedDateView.setText(date);
             holder.mEventDescriptionView.setText(holder.mItem.getDescription());
 
-            /*holder.mIconView.setImageResource(getResources().getIdentifier(holder.mItem.imageName,
-                   holder.mIconView.getContext().getPackageName()));
-            holder.mView.setOnClickListener(new View.OnClickListener() {
+            holder.mIconView.setImageResource(getResources().getIdentifier(holder.mItem.getType().toString().toLowerCase().replaceAll("\\W", ""),
+                    "drawable",
+                    holder.mIconView.getContext().getPackageName()));
+            /*holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     Context context = v.getContext();
@@ -92,15 +94,15 @@ public class EventsFragment extends Fragment {
             return mValues.size();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            public final View mView;
-            public final TextView mEventTypeView;
-            public final TextView mEventCreatedDateView;
-            public final TextView mEventDescriptionView;
-            public final ImageView mIconView;
-            public EventContent.Event mItem;
+        class ViewHolder extends RecyclerView.ViewHolder {
+            final View mView;
+            final TextView mEventTypeView;
+            final TextView mEventCreatedDateView;
+            final TextView mEventDescriptionView;
+            final ImageView mIconView;
+            EventContent.Event mItem;
 
-            public ViewHolder(View view) {
+            ViewHolder(View view) {
                 super(view);
                 mView = view;
                 mEventTypeView = (TextView) view.findViewById(R.id.event_type);

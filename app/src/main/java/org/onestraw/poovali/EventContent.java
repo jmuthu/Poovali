@@ -64,6 +64,11 @@ class EventContent implements Serializable {
                 return "Fertilizer";
             }
         },
+        HARVEST {
+            public String toString() {
+                return "Harvest";
+            }
+        },
         MICRO_NUTRIENTS {
             public String toString() {
                 return "Micronutrients";
@@ -88,7 +93,13 @@ class EventContent implements Serializable {
             public String toString() {
                 return "Re-plant";
             }
+        },
+        SOW {
+            public String toString() {
+                return "Sow";
+            }
         }
+
     }
 
     static class Event implements Serializable {
