@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.List;
 
@@ -34,7 +35,6 @@ public class EventsFragment extends Fragment {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.activities_list);
         assert recyclerView != null;
         setupRecyclerView(recyclerView);
-        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
 
         return rootView;
     }
@@ -69,8 +69,8 @@ public class EventsFragment extends Fragment {
         public void onBindViewHolder(final EventsFragment.SimpleItemRecyclerViewAdapter.ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
             holder.mEventTypeView.setText(holder.mItem.getType().toString());
-            SimpleDateFormat format = new SimpleDateFormat("MMM dd, yyyy h:mm a");
-            String date = format.format(holder.mItem.getCreatedDate());
+            DateFormat df = SimpleDateFormat.getDateInstance(DateFormat.MEDIUM);
+            String date = df.format(holder.mItem.getCreatedDate());
             holder.mEventCreatedDateView.setText(date);
             holder.mEventDescriptionView.setText(holder.mItem.getDescription());
 
