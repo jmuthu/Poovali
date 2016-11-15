@@ -36,8 +36,6 @@ public class PlantsFragment extends Fragment {
         RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.plant_list);
         assert recyclerView != null;
         setupRecyclerView(recyclerView);
-        recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
-
         return rootView;
     }
 
@@ -50,7 +48,7 @@ public class PlantsFragment extends Fragment {
 
         private final List<PlantContent.Plant> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<PlantContent.Plant> items) {
+        SimpleItemRecyclerViewAdapter(List<PlantContent.Plant> items) {
             mValues = items;
         }
 
@@ -86,14 +84,14 @@ public class PlantsFragment extends Fragment {
             return mValues.size();
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
-            public final View mView;
-            public final TextView mNameView;
-            public final TextView mContentView;
-            public final ImageView mIconView;
-            public PlantContent.Plant mItem;
+        class ViewHolder extends RecyclerView.ViewHolder {
+            final View mView;
+            final TextView mNameView;
+            final TextView mContentView;
+            final ImageView mIconView;
+            PlantContent.Plant mItem;
 
-            public ViewHolder(View view) {
+            ViewHolder(View view) {
                 super(view);
                 mView = view;
                 mNameView = (TextView) view.findViewById(R.id.name);
