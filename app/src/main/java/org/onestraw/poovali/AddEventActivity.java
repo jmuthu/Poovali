@@ -42,7 +42,7 @@ public class AddEventActivity extends AppCompatActivity {
         dateView.setText(DatePickerFragment.DATE_FORMAT.format(currDate));
 
         TextView timeView = (TextView) findViewById(R.id.time);
-        timeView.setText(DatePickerFragment.TIME_FORMAT.format(currDate));
+        timeView.setText(TimePickerFragment.TIME_FORMAT.format(currDate));
     }
 
     public void saveEvent(View v) {
@@ -86,18 +86,27 @@ public class AddEventActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
+    public void showTimePickerDialog(View v) {
+        DialogFragment newFragment = new TimePickerFragment();
+        newFragment.show(getSupportFragmentManager(), "timePicker");
+    }
+
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
         public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("EEE, MMM dd, yyyy");
-        public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("h:mm a");
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current date as the default date in the picker
-            final Calendar c = Calendar.getInstance();
-            int year = c.get(Calendar.YEAR);
-            int month = c.get(Calendar.MONTH);
-            int day = c.get(Calendar.DAY_OF_MONTH);
+            TextView dateView = (TextView) getActivity().findViewById(R.id.date);
+            Calendar calendar = Calendar.getInstance();
+            try {
+                calendar.setTime(DATE_FORMAT.parse(dateView.getText().toString()));
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            int year = calendar.get(Calendar.YEAR);
+            int month = calendar.get(Calendar.MONTH);
+            int day = calendar.get(Calendar.DAY_OF_MONTH);
             // Create a new instance of DatePickerDialog and return it
             return new DatePickerDialog(getActivity(), this, year, month, day);
         }
@@ -111,34 +120,33 @@ public class AddEventActivity extends AppCompatActivity {
         }
     }
 
-    public void showTimePickerDialog(View v) {
-        DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "timePicker");
-    }
-
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
+        public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("h:mm a");
 
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
-            // Use the current time as the default values for the picker
-            final Calendar c = Calendar.getInstance();
-            int hour = c.get(Calendar.HOUR_OF_DAY);
-            int minute = c.get(Calendar.MINUTE);
+            TextView timeView = (TextView) getActivity().findViewById(R.id.time);
+            Calendar calendar = Calendar.getInstance();
+            try {
+                calendar.setTime(TIME_FORMAT.parse(timeView.getText().toString()));
 
-            // Create a new instance of TimePickerDialog and return it
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+            int hour = calendar.get(Calendar.HOUR_OF_DAY);
+            int minute = calendar.get(Calendar.MINUTE);
+
             return new TimePickerDialog(getActivity(), this, hour, minute,
                     DateFormat.is24HourFormat(getActivity()));
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
             TextView dateView = (TextView) getActivity().findViewById(R.id.time);
-            String dayPeriod = "AM";
-            if (hourOfDay > 12) {
-                dayPeriod = "PM";
-                hourOfDay = hourOfDay - 12;
-            }
-            dateView.setText(hourOfDay + ":" + String.format("%02d", minute) + " " + dayPeriod);
+            final Calendar calendar = Calendar.getInstance();
+            calendar.set(Calendar.HOUR, hourOfDay);
+            calendar.set(Calendar.MINUTE, minute);
+            dateView.setText(TIME_FORMAT.format(calendar.getTime()));
         }
     }
 
