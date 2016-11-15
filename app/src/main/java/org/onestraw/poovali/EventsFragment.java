@@ -74,19 +74,9 @@ public class EventsFragment extends Fragment {
             holder.mEventCreatedDateView.setText(date);
             holder.mEventDescriptionView.setText(holder.mItem.getDescription());
 
-            holder.mIconView.setImageResource(getResources().getIdentifier(holder.mItem.getType().toString().toLowerCase().replaceAll("\\W", ""),
+            holder.mIconView.setImageResource(getResources().getIdentifier(Helper.getImageFileName(holder.mItem.getType().toString()),
                     "drawable",
                     holder.mIconView.getContext().getPackageName()));
-            /*holder.mView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    Context context = v.getContext();
-                    Intent intent = new Intent(context, PlantDetailActivity.class);
-                    intent.putExtra(PlantContent.ARG_ITEM_ID, holder.mItem.id);
-                    context.startActivity(intent);
-                }
-            });
-            */
         }
 
         @Override

@@ -172,7 +172,7 @@ public class AddEventActivity extends AppCompatActivity {
         public View getView(int position, View convertView, ViewGroup parent) {
             View itemView = inflater.inflate(groupid, parent, false);
             ImageView imageView = (ImageView) itemView.findViewById(R.id.img);
-            imageView.setImageResource(getResources().getIdentifier(list.get(position).toString().toLowerCase().replace(' ', '_').replaceAll("\\W", ""),
+            imageView.setImageResource(getResources().getIdentifier(Helper.getImageFileName(list.get(position).toString()),
                     "drawable",
                     imageView.getContext().getPackageName()));
             TextView textView = (TextView) itemView.findViewById(R.id.txt);

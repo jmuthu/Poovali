@@ -111,7 +111,7 @@ public class PlantContent {
             this.sowingSeason = sowingSeason;
             this.seedTreatment = seedTreatment;
             this.cropDuration = cropDuration;
-            this.imageName = name.toLowerCase().replace(' ', '_').replaceAll("\\W", "");
+            this.imageName = Helper.getImageFileName(name);
         }
 
 

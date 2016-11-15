@@ -57,7 +57,7 @@ class EventContent implements Serializable {
     enum EventType {
         DEWEED {
             public String toString() {
-                return "De-Weed";
+                return "DeWeed";
             }
         },
         FERTILIZER {
