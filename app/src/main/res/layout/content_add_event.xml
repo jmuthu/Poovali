@@ -5,6 +5,8 @@
     android:id="@+id/content_add_event"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginStart="5dp"
+    android:layout_marginEnd="5dp"
     android:paddingBottom="@dimen/activity_vertical_margin"
     android:paddingLeft="@dimen/activity_horizontal_margin"
     android:paddingRight="@dimen/activity_horizontal_margin"
@@ -13,86 +15,93 @@
     tools:context="org.onestraw.poovali.AddEventActivity"
     tools:showIn="@layout/activity_add_event">
     <TextView
-        android:id="@+id/date_label"
-        android:layout_marginTop="20dip"
-        style="@style/AddEventLabel"
-        android:text="@string/created_on" />
-    <TextView
-        android:id="@+id/date"
-        android:layout_width="@dimen/date"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dip"
-        android:layout_below="@+id/date_label"
-        android:drawableEnd="@android:drawable/ic_input_add"
-        android:onClick="showDatePickerDialog"
-        style="@android:style/TextAppearance.Material.Subhead"/>
-    <View
-        android:id="@+id/date_line"
-        android:layout_width="@dimen/date"
-        android:layout_height="1dp"
-        android:layout_below="@id/date"
-        android:background="@android:color/darker_gray" />
-    <!--ImageButton
-        android:id="@+id/dateButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:background="@android:drawable/ic_input_add"
-        android:layout_marginTop="5dp"
-        android:layout_marginStart="5dp"
-        android:layout_toEndOf="@id/date"
-        android:onClick="showDatePickerDialog" /-->
-    <TextView
-        android:id="@+id/time"
-        android:layout_width="@dimen/time"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="5dip"
-        android:layout_below="@+id/date_label"
-        android:layout_marginStart="25dp"
-        android:layout_toEndOf="@id/date"
-        android:gravity="end"
-        android:drawableEnd="@android:drawable/ic_input_add"
-        android:onClick="showTimePickerDialog"
-        style="@android:style/TextAppearance.Material.Subhead"/>
-    <View
-        android:layout_width="@dimen/time"
-        android:layout_height="1dp"
-        android:layout_marginStart="25dp"
-        android:layout_below="@+id/time"
-        android:layout_toEndOf="@id/date"
-        android:background="@android:color/darker_gray" />
-    <TextView
         android:id="@+id/event_type_label"
-        android:layout_below="@+id/date_line"
-        android:layout_marginTop="20dip"
         style="@style/AddEventLabel"
         android:text="@string/event_type" />
     <Spinner
         android:id="@+id/event_type_spinner"
-        style="@android:style/TextAppearance.Material.Subhead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dip"
-        android:layout_below="@+id/event_type_label"/>
+        style="@style/ThemeSpinner"
+        android:layout_below="@+id/event_type_label" />
+    <View
+        android:layout_width="0dp"
+        android:layout_alignStart="@+id/event_type_spinner"
+        android:layout_alignEnd="@+id/event_type_spinner"
+        android:layout_height="1dp"
+        android:layout_below="@+id/event_type_spinner"
+        android:background="@color/underline" />
+    <TextView
+        android:id="@+id/plant_label"
+        android:layout_below="@+id/event_type_spinner"
+        style="@style/AddEventLabel"
+        android:text="@string/plant_label" />
+    <Spinner
+        android:id="@+id/plant_type_spinner"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        style="@style/ThemeSpinner"
+        android:layout_below="@+id/plant_label" />
+    <View
+        android:layout_width="0dp"
+        android:layout_alignStart="@+id/plant_type_spinner"
+        android:layout_alignEnd="@+id/plant_type_spinner"
+        android:layout_height="1dp"
+        android:layout_below="@+id/plant_type_spinner"
+        android:background="@color/underline" />
+    <TextView
+        android:id="@+id/date_label"
+        android:layout_below="@+id/plant_type_spinner"
+        style="@style/AddEventLabel"
+        android:text="@string/created_on" />
+    <TextView
+        android:id="@+id/date"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date_label"
+        android:onClick="showDatePickerDialog"
+        android:background="?android:attr/selectableItemBackground"
+        android:clickable="true"
+        style="@android:style/TextAppearance.Material.Medium"/>
+    <View
+        android:id="@+id/date_line"
+        android:layout_width="0dp"
+        android:layout_alignStart="@+id/date"
+        android:layout_alignEnd="@+id/date"
+        android:layout_height="1dp"
+        android:layout_below="@id/date"
+        android:background="@color/underline" />
+    <TextView
+        android:id="@+id/time"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/date_label"
+        android:layout_marginStart="25dp"
+        android:layout_toEndOf="@id/date"
+        android:gravity="center"
+        android:onClick="showTimePickerDialog"
+        style="@android:style/TextAppearance.Material.Medium"/>
+    <View
+        android:layout_width="0dp"
+        android:layout_alignStart="@+id/time"
+        android:layout_alignEnd="@+id/time"
+        android:layout_height="1dp"
+        android:layout_below="@+id/time"
+        android:background="@color/underline" />
+    <TextView
+        android:id="@+id/event_description_label"
+        android:layout_below="@+id/time"
+        style="@style/AddEventLabel"
+        android:text="@string/event_description" />
     <EditText
         android:id="@+id/event_description"
-        android:layout_below="@+id/event_type_spinner"
-        android:layout_marginTop="20dip"
+        android:layout_below="@+id/event_description_label"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:inputType="textCapSentences|textMultiLine"
         android:maxLength="2000"
+        android:minLines="1"
         android:maxLines="4"
-        android:padding="5dip"
-        android:background="@drawable/edit_text_border"
-        android:hint="@string/event_description_hint"/>
-    <!--ImageButton
-        android:id="@+id/timeButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="15dip"
-        android:layout_below="@id/date"
-        android:layout_toEndOf="@+id/time"
-        android:layout_marginStart="5dp"
-        android:background="@android:drawable/ic_input_add"
-        android:onClick="showDatePickerDialog" /-->
+        android:backgroundTint="@color/underline"
+        android:textCursorDrawable="@drawable/cursor"/>
 </RelativeLayout>

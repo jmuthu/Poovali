@@ -46,11 +46,23 @@
         <item name="android:clickable">true</item>
     </style>
 
-    <style name="AddEventLabel" parent="@android:style/TextAppearance.Material.Headline">
-        <item name="android:layout_marginTop">10sp</item>
+    <style name="AddEventLabel" parent="@android:style/TextAppearance.Material.Medium">
+        <item name="android:layout_marginTop">25sp</item>
+        <item name="android:layout_marginBottom">10sp</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
+    </style>
 
+    <style name="ThemeSpinner" parent="@android:style/Widget.Material.Spinner">
+        <!--
+        <item name="colorAccent">@color/underline</item>
+        <item name="colorControlNormal">@color/underline</item>
+        <item name="colorControlActivated">@color/underline</item>
+        <item name="colorControlHighlight">@color/underline</item-->
+    </style>
+
+    <style name="Notes" >
+        <item name="colorAccent">@color/underline</item>
     </style>
 
 </resources>

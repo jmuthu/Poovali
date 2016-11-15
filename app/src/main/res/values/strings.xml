@@ -9,7 +9,8 @@
     <string name="cancel_label">Cancel</string>
     <string name="pick_date">Pick Date</string>
     <string name="title_activity_add_event">AddEvent</string>
-    <string name="event_type">Select Activity Type</string>
+    <string name="event_type">Select Activity</string>
     <string name="created_on">Created On</string>
-    <string name="event_description_hint">Enter a description for the event</string>
+    <string name="event_description">Notes</string>
+    <string name="plant_label">For Plant</string>
 </resources>

@@ -18,6 +18,7 @@ import java.util.List;
 
 class EventContent implements Serializable {
     public static final String EVENTS_FILE = "poovali_events.json";
+    public static final int DEFAULT_EVENT_TYPE_POSITION = EventType.HARVEST.ordinal();
     static private List<Event> ITEMS = new ArrayList<Event>();
 
     static List<Event> getEventList(Context context) {
@@ -71,7 +72,7 @@ class EventContent implements Serializable {
         },
         MICRO_NUTRIENTS {
             public String toString() {
-                return "Micronutrients";
+                return "Micro nutrients";
             }
         },
         MULCH {
@@ -106,7 +107,16 @@ class EventContent implements Serializable {
         static final long serialVersionUID = -1856133174987221772L;
         private Date createdDate;
         private EventType type;
+        private int plantId;
         private String description;
+
+        public int getPlantId() {
+            return plantId;
+        }
+
+        public void setPlantId(int plantId) {
+            this.plantId = plantId;
+        }
 
         Date getCreatedDate() {
             return createdDate;

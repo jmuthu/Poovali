@@ -1,22 +1,30 @@
 package org.onestraw.poovali;
 
+import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.text.format.DateFormat;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -30,8 +38,18 @@ public class AddEventActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Spinner mySpinner = (Spinner) findViewById(R.id.event_type_spinner);
-        mySpinner.setAdapter(new ArrayAdapter<EventContent.EventType>(this, android.R.layout.simple_spinner_item, EventContent.EventType.values()));
+        Spinner eventSpinner = (Spinner) findViewById(R.id.event_type_spinner);
+
+        SpinnerAdapter eventSpinnerAdapter = new CustomSpinnerAdapter<EventContent.EventType>(this, R.layout.spinner_item, R.id.txt,
+                new ArrayList<EventContent.EventType>(Arrays.asList(EventContent.EventType.values())));
+        eventSpinner.setAdapter(eventSpinnerAdapter);
+        //mySpinner.setSelection(EventContent.DEFAULT_EVENT_TYPE_POSITION);
+
+        Spinner plantSpinner = (Spinner) findViewById(R.id.plant_type_spinner);
+
+        SpinnerAdapter plantSpinnerAdapter = new CustomSpinnerAdapter<PlantContent.Plant>(this, R.layout.spinner_item, R.id.txt,
+                new ArrayList<PlantContent.Plant>(PlantContent.ITEMS));
+        plantSpinner.setAdapter(plantSpinnerAdapter);
 
         Date currDate = Calendar.getInstance().getTime();
 
@@ -43,7 +61,6 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     public void saveEvent(View v) {
-
         EventContent.Event event = new EventContent.Event();
 
         TextView dateView = (TextView) findViewById(R.id.date);
@@ -64,8 +81,6 @@ public class AddEventActivity extends AppCompatActivity {
 
         EventContent.addEvent(this, event);
         finish();
-
-
     }
 
     public void cancelAddEvent(View v) {
@@ -141,4 +156,33 @@ public class AddEventActivity extends AppCompatActivity {
         }
     }
 
+    public class CustomSpinnerAdapter<T> extends ArrayAdapter<T> {
+        int groupid;
+        ArrayList<T> list;
+        LayoutInflater inflater;
+
+        public CustomSpinnerAdapter(Activity context, int groupid, int id, ArrayList<T>
+                list) {
+            super(context, id, list);
+            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            this.list = list;
+            this.groupid = groupid;
+        }
+
+        public View getView(int position, View convertView, ViewGroup parent) {
+            View itemView = inflater.inflate(groupid, parent, false);
+            ImageView imageView = (ImageView) itemView.findViewById(R.id.img);
+            imageView.setImageResource(getResources().getIdentifier(list.get(position).toString().toLowerCase().replace(' ', '_').replaceAll("\\W", ""),
+                    "drawable",
+                    imageView.getContext().getPackageName()));
+            TextView textView = (TextView) itemView.findViewById(R.id.txt);
+            textView.setText(list.get(position).toString());
+            return itemView;
+        }
+
+        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+            return getView(position, convertView, parent);
+
+        }
+    }
 }
