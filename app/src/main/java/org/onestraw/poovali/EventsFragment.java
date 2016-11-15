@@ -10,23 +10,12 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.ObjectInputStream;
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.List;
 
-import static org.onestraw.poovali.GardenEvent.items;
-
-/**
- * Created by mike on 12/11/16.
- */
-
 public class EventsFragment extends Fragment {
-    public static final String EVENTS_FILE = "poovali_events.json";
-    public static final List<GardenEvent> ITEMS = new ArrayList<GardenEvent>();
 
+    RecyclerView recyclerView;
     public EventsFragment() {
         // Required empty public constructor
     }
@@ -41,7 +30,7 @@ public class EventsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.events_fragment, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.activities_list);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.activities_list);
         assert recyclerView != null;
         setupRecyclerView(recyclerView);
         recyclerView.addItemDecoration(new SimpleDividerItemDecoration(getActivity()));
@@ -49,28 +38,22 @@ public class EventsFragment extends Fragment {
         return rootView;
     }
 
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+    @Override
+    public void onResume() {
+        super.onResume();
+        recyclerView.getAdapter().notifyDataSetChanged(); // For adding activity
+    }
 
-        try {
-            File file = new File(getContext().getFilesDir(), EVENTS_FILE);
-            if (file.isFile()) {
-                FileInputStream fin = new FileInputStream(file);
-                ObjectInputStream ois = new ObjectInputStream(fin);
-                GardenEvent obj = (GardenEvent) ois.readObject();
-                items.add(obj);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        recyclerView.setAdapter(new EventsFragment.SimpleItemRecyclerViewAdapter(items));
+    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+        recyclerView.setAdapter(new EventsFragment.SimpleItemRecyclerViewAdapter(EventContent.getEventList(getContext())));
     }
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<EventsFragment.SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<GardenEvent> mValues;
+        private final List<EventContent.Event> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<GardenEvent> items) {
+        public SimpleItemRecyclerViewAdapter(List<EventContent.Event> items) {
             mValues = items;
         }
 
@@ -115,7 +98,7 @@ public class EventsFragment extends Fragment {
             public final TextView mEventCreatedDateView;
             public final TextView mEventDescriptionView;
             public final ImageView mIconView;
-            public GardenEvent mItem;
+            public EventContent.Event mItem;
 
             public ViewHolder(View view) {
                 super(view);

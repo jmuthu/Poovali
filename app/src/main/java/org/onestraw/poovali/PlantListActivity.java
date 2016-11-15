@@ -27,6 +27,12 @@ public class PlantListActivity extends AppCompatActivity {
         getSupportActionBar().setIcon(R.mipmap.watering_can);
         toolbar.setTitle(getTitle());
 
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(viewPager);
+
+        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
+        tabLayout.setupWithViewPager(viewPager);
+
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -36,12 +42,6 @@ public class PlantListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
-
-        TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -79,5 +79,4 @@ public class PlantListActivity extends AppCompatActivity {
             return mFragmentTitleList.get(position);
         }
     }
-
 }

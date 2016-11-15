@@ -16,9 +16,6 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.ObjectOutputStream;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,7 +31,7 @@ public class AddEventActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Spinner mySpinner = (Spinner) findViewById(R.id.event_type_spinner);
-        mySpinner.setAdapter(new ArrayAdapter<GardenEvent.EventType>(this, android.R.layout.simple_spinner_item, GardenEvent.EventType.values()));
+        mySpinner.setAdapter(new ArrayAdapter<EventContent.EventType>(this, android.R.layout.simple_spinner_item, EventContent.EventType.values()));
 
         Date currDate = Calendar.getInstance().getTime();
 
@@ -46,35 +43,29 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     public void saveEvent(View v) {
-        File file = new File(getFilesDir(), EventsFragment.EVENTS_FILE);
+
+        EventContent.Event event = new EventContent.Event();
+
+        TextView dateView = (TextView) findViewById(R.id.date);
+        TextView timeView = (TextView) findViewById(R.id.time);
+        SimpleDateFormat format = new SimpleDateFormat("EEE, MMM dd, yyyy h:mm a");
         try {
-            if (!file.isFile()) {
-                file.createNewFile();
-            }
-            GardenEvent obj = new GardenEvent();
-
-            TextView dateView = (TextView) findViewById(R.id.date);
-            TextView timeView = (TextView) findViewById(R.id.time);
-            SimpleDateFormat format = new SimpleDateFormat("EEE, MMM dd, yyyy h:mm a");
             Date date = format.parse(dateView.getText().toString() + " " + timeView.getText().toString());
-            obj.setCreatedDate(date);
-
-            Spinner spinner = (Spinner) findViewById(R.id.event_type_spinner);
-            obj.setType((GardenEvent.EventType) spinner.getSelectedItem());
-
-            EditText desc = (EditText) findViewById(R.id.event_description);
-            obj.setDescription(desc.getText().toString());
-
-            EventsFragment.ITEMS.add(obj);
-            FileOutputStream fout = new FileOutputStream(file);
-            ObjectOutputStream oos = new ObjectOutputStream(fout);
-            oos.writeObject(obj);
-            oos.close();
-            finish();
-
+            event.setCreatedDate(date);
         } catch (Exception e) {
             e.printStackTrace();
         }
+
+        Spinner spinner = (Spinner) findViewById(R.id.event_type_spinner);
+        event.setType((EventContent.EventType) spinner.getSelectedItem());
+
+        EditText desc = (EditText) findViewById(R.id.event_description);
+        event.setDescription(desc.getText().toString());
+
+        EventContent.addEvent(this, event);
+        finish();
+
+
     }
 
     public void cancelAddEvent(View v) {
