@@ -12,10 +12,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-/**
- * Created by mike on 13/11/16.
- */
-
 class EventContent implements Serializable {
     public static final String EVENTS_FILE = "poovali_events.json";
     public static final int DEFAULT_EVENT_TYPE_POSITION = EventType.HARVEST.ordinal();
@@ -99,22 +95,37 @@ class EventContent implements Serializable {
             public String toString() {
                 return "Sow";
             }
+        },
+        WATER {
+            public String toString() {
+                return "Water";
+            }
         }
 
     }
 
     static class Event implements Serializable {
         static final long serialVersionUID = -1856133174987221772L;
+
+        private String eventId;
         private Date createdDate;
         private EventType type;
-        private int plantId;
+        private String plantId;
         private String description;
 
-        public int getPlantId() {
+        String getEventId() {
+            return eventId;
+        }
+
+        void setEventId(String eventId) {
+            this.eventId = eventId;
+        }
+
+        String getPlantId() {
             return plantId;
         }
 
-        public void setPlantId(int plantId) {
+        void setPlantId(String plantId) {
             this.plantId = plantId;
         }
 

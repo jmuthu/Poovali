@@ -26,6 +26,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.UUID;
 
 public class AddEventActivity extends AppCompatActivity {
 
@@ -61,7 +62,7 @@ public class AddEventActivity extends AppCompatActivity {
 
     public void saveEvent(View v) {
         EventContent.Event event = new EventContent.Event();
-
+        event.setEventId(UUID.randomUUID().toString());
         TextView dateView = (TextView) findViewById(R.id.date);
         TextView timeView = (TextView) findViewById(R.id.time);
         DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
@@ -74,6 +75,9 @@ public class AddEventActivity extends AppCompatActivity {
 
         Spinner spinner = (Spinner) findViewById(R.id.event_type_spinner);
         event.setType((EventContent.EventType) spinner.getSelectedItem());
+
+        spinner = (Spinner) findViewById(R.id.plant_type_spinner);
+        event.setPlantId(((PlantContent.Plant)spinner.getSelectedItem()).id);
 
         EditText desc = (EditText) findViewById(R.id.event_description);
         event.setDescription(desc.getText().toString());

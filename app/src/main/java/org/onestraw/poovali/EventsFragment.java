@@ -67,13 +67,13 @@ public class EventsFragment extends Fragment {
         @Override
         public void onBindViewHolder(final EventsFragment.SimpleItemRecyclerViewAdapter.ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            holder.mEventTypeView.setText(holder.mItem.getType().toString());
+            holder.mEventTypeView.setText(holder.mItem.getType().toString() + " " + PlantContent.ITEM_MAP.get(holder.mItem.getPlantId()));
             DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
             String date = df.format(holder.mItem.getCreatedDate());
             holder.mEventCreatedDateView.setText(date);
             holder.mEventDescriptionView.setText(holder.mItem.getDescription());
 
-            holder.mIconView.setImageResource(getResources().getIdentifier(Helper.getImageFileName(holder.mItem.getType().toString()),
+            holder.mIconView.setImageResource(getResources().getIdentifier(Helper.getImageFileName(holder.mItem.getType().name()),
                     "drawable",
                     holder.mIconView.getContext().getPackageName()));
         }
