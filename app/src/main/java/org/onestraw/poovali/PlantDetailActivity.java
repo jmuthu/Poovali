@@ -39,7 +39,8 @@ public class PlantDetailActivity extends AppCompatActivity {
                 "drawable",
                 getPackageName()));
         TextView cropDuration = (TextView) findViewById(R.id.crop_duration);
-        cropDuration.setText(plant.cropDuration.toString() + " days");
+        String days = String.format(getResources().getString(R.string.days), plant.cropDuration.toString());
+        cropDuration.setText(days);
         TextView soil = (TextView) findViewById(R.id.soil);
         soil.setText(plant.soil);
         TextView seedTreatment = (TextView) findViewById(R.id.seed_treatment);

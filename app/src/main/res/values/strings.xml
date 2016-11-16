@@ -7,7 +7,7 @@
     <string name="sowing_season">Sowing Season</string>
     <string name="save_label">Save</string>
     <string name="cancel_label">Cancel</string>
-    <string name="pick_date">Pick Date</string>
+    <string name="days">%s days</string>
     <string name="title_activity_add_event">AddEvent</string>
     <string name="event_type">Select Activity</string>
     <string name="created_on">Created On</string>

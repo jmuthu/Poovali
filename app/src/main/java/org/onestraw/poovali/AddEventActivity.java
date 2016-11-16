@@ -4,12 +4,11 @@ import android.app.Activity;
 import android.app.DatePickerDialog;
 import android.app.Dialog;
 import android.app.TimePickerDialog;
-import android.content.Context;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.text.format.DateFormat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,7 +21,7 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -40,14 +39,14 @@ public class AddEventActivity extends AppCompatActivity {
 
         Spinner eventSpinner = (Spinner) findViewById(R.id.event_type_spinner);
 
-        SpinnerAdapter eventSpinnerAdapter = new CustomSpinnerAdapter<EventContent.EventType>(this, R.layout.spinner_item, R.id.txt,
+        SpinnerAdapter eventSpinnerAdapter = new CustomSpinnerAdapter<EventContent.EventType>(this,
                 new ArrayList<EventContent.EventType>(Arrays.asList(EventContent.EventType.values())));
         eventSpinner.setAdapter(eventSpinnerAdapter);
         //mySpinner.setSelection(EventContent.DEFAULT_EVENT_TYPE_POSITION);
 
         Spinner plantSpinner = (Spinner) findViewById(R.id.plant_type_spinner);
 
-        SpinnerAdapter plantSpinnerAdapter = new CustomSpinnerAdapter<PlantContent.Plant>(this, R.layout.spinner_item, R.id.txt,
+        SpinnerAdapter plantSpinnerAdapter = new CustomSpinnerAdapter<PlantContent.Plant>(this,
                 new ArrayList<PlantContent.Plant>(PlantContent.ITEMS));
         plantSpinner.setAdapter(plantSpinnerAdapter);
 
@@ -65,9 +64,9 @@ public class AddEventActivity extends AppCompatActivity {
 
         TextView dateView = (TextView) findViewById(R.id.date);
         TextView timeView = (TextView) findViewById(R.id.time);
-        SimpleDateFormat format = new SimpleDateFormat("EEE, MMM dd, yyyy h:mm a");
+        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
         try {
-            Date date = format.parse(dateView.getText().toString() + " " + timeView.getText().toString());
+            Date date = df.parse(dateView.getText().toString() + " " + timeView.getText().toString());
             event.setCreatedDate(date);
         } catch (Exception e) {
             e.printStackTrace();
@@ -99,9 +98,10 @@ public class AddEventActivity extends AppCompatActivity {
 
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
-        public static final SimpleDateFormat DATE_FORMAT = new SimpleDateFormat("EEE, MMM dd, yyyy");
+        public static final DateFormat DATE_FORMAT = DateFormat.getDateInstance(DateFormat.MEDIUM);
 
         @Override
+        @NonNull
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             TextView dateView = (TextView) getActivity().findViewById(R.id.date);
             Calendar calendar = Calendar.getInstance();
@@ -128,10 +128,11 @@ public class AddEventActivity extends AppCompatActivity {
 
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
-        public static final SimpleDateFormat TIME_FORMAT = new SimpleDateFormat("h:mm a");
+        public static final DateFormat TIME_FORMAT = DateFormat.getTimeInstance(DateFormat.MEDIUM);
 
         @Override
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
+        @NonNull
+        public Dialog onCreateDialog(@NonNull Bundle savedInstanceState) {
             TextView timeView = (TextView) getActivity().findViewById(R.id.time);
             Calendar calendar = Calendar.getInstance();
             try {
@@ -144,7 +145,7 @@ public class AddEventActivity extends AppCompatActivity {
             int minute = calendar.get(Calendar.MINUTE);
 
             return new TimePickerDialog(getActivity(), this, hour, minute,
-                    DateFormat.is24HourFormat(getActivity()));
+                    android.text.format.DateFormat.is24HourFormat(getActivity()));
         }
 
         public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
@@ -157,30 +158,30 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     public class CustomSpinnerAdapter<T> extends ArrayAdapter<T> {
-        int groupid;
-        ArrayList<T> list;
-        LayoutInflater inflater;
 
-        public CustomSpinnerAdapter(Activity context, int groupid, int id, ArrayList<T>
-                list) {
-            super(context, id, list);
-            inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            this.list = list;
-            this.groupid = groupid;
+        CustomSpinnerAdapter(Activity context, ArrayList<T> list) {
+            super(context, 0, list);
         }
 
-        public View getView(int position, View convertView, ViewGroup parent) {
-            View itemView = inflater.inflate(groupid, parent, false);
-            ImageView imageView = (ImageView) itemView.findViewById(R.id.img);
-            imageView.setImageResource(getResources().getIdentifier(Helper.getImageFileName(list.get(position).toString()),
-                    "drawable",
-                    imageView.getContext().getPackageName()));
-            TextView textView = (TextView) itemView.findViewById(R.id.txt);
-            textView.setText(list.get(position).toString());
-            return itemView;
+        @NonNull
+        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+            T item = getItem(position);
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.spinner_item, parent, false);
+            }
+            if (item!=null) {
+                ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
+                imageView.setImageResource(getResources().getIdentifier(Helper.getImageFileName(item.toString()),
+                        "drawable",
+                        imageView.getContext().getPackageName()));
+
+                TextView textView = (TextView) convertView.findViewById(R.id.txt);
+                textView.setText(item.toString());
+            }
+            return convertView;
         }
 
-        public View getDropDownView(int position, View convertView, ViewGroup parent) {
+        public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
             return getView(position, convertView, parent);
 
         }

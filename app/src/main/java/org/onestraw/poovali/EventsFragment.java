@@ -11,7 +11,6 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.text.DateFormat;
-import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class EventsFragment extends Fragment {
@@ -54,7 +53,7 @@ public class EventsFragment extends Fragment {
 
         private final List<EventContent.Event> mValues;
 
-        public SimpleItemRecyclerViewAdapter(List<EventContent.Event> items) {
+        SimpleItemRecyclerViewAdapter(List<EventContent.Event> items) {
             mValues = items;
         }
 
@@ -69,7 +68,7 @@ public class EventsFragment extends Fragment {
         public void onBindViewHolder(final EventsFragment.SimpleItemRecyclerViewAdapter.ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
             holder.mEventTypeView.setText(holder.mItem.getType().toString());
-            DateFormat df = SimpleDateFormat.getDateInstance(DateFormat.MEDIUM);
+            DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
             String date = df.format(holder.mItem.getCreatedDate());
             holder.mEventCreatedDateView.setText(date);
             holder.mEventDescriptionView.setText(holder.mItem.getDescription());

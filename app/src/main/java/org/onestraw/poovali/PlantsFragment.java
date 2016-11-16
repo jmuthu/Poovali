@@ -14,10 +14,6 @@ import android.widget.TextView;
 
 import java.util.List;
 
-/**
- * Created by mike on 12/11/16.
- */
-
 public class PlantsFragment extends Fragment {
     public PlantsFragment() {
         // Required empty public constructor
@@ -63,7 +59,8 @@ public class PlantsFragment extends Fragment {
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
             holder.mNameView.setText(holder.mItem.name);
-            holder.mContentView.setText(holder.mItem.cropDuration + " days");
+            String days = String.format(getResources().getString(R.string.days), holder.mItem.cropDuration.toString());
+            holder.mContentView.setText(days);
 
             holder.mIconView.setImageResource(getResources().getIdentifier(holder.mItem.imageName,
                     "drawable",
