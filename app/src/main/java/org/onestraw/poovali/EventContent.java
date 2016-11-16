@@ -13,11 +13,11 @@ import java.util.Date;
 import java.util.List;
 
 class EventContent implements Serializable {
-    public static final String EVENTS_FILE = "poovali_events.json";
+    static final String EVENTS_FILE = "poovali_events.json";
     public static final int DEFAULT_EVENT_TYPE_POSITION = EventType.HARVEST.ordinal();
-    static private List<Event> ITEMS = new ArrayList<Event>();
+    static List<Event> ITEMS = new ArrayList<Event>();
 
-    static List<Event> getEventList(Context context) {
+    static void intializeItems(Context context) {
         try {
             File file = new File(context.getFilesDir(), EVENTS_FILE);
 
@@ -30,7 +30,6 @@ class EventContent implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return ITEMS;
     }
 
     static void addEvent(Context context, Event event) {
@@ -39,7 +38,7 @@ class EventContent implements Serializable {
             if (!file.isFile()) {
                 file.createNewFile();
             }
-            ITEMS.add(event);
+            ITEMS.add(0,event);
             FileOutputStream fout = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fout);
             oos.writeObject(EventContent.ITEMS);
@@ -107,26 +106,26 @@ class EventContent implements Serializable {
     static class Event implements Serializable {
         static final long serialVersionUID = -1856133174987221772L;
 
-        private String eventId;
+        private String id;
         private Date createdDate;
         private EventType type;
-        private String plantId;
+        private String batchId;
         private String description;
 
-        String getEventId() {
-            return eventId;
+        String getId() {
+            return id;
         }
 
-        void setEventId(String eventId) {
-            this.eventId = eventId;
+        void setId(String eventId) {
+            this.id = eventId;
         }
 
-        String getPlantId() {
-            return plantId;
+        String getBatchId() {
+            return batchId;
         }
 
-        void setPlantId(String plantId) {
-            this.plantId = plantId;
+        void setBatchId(String batchId) {
+            this.batchId = batchId;
         }
 
         Date getCreatedDate() {

@@ -12,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -29,7 +30,8 @@ import java.util.Date;
 import java.util.UUID;
 
 public class AddEventActivity extends AppCompatActivity {
-
+    SpinnerAdapter plantSpinnerAdapter;
+    SpinnerAdapter batchSpinnerAdapter;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,11 +47,31 @@ public class AddEventActivity extends AppCompatActivity {
         eventSpinner.setAdapter(eventSpinnerAdapter);
         //mySpinner.setSelection(EventContent.DEFAULT_EVENT_TYPE_POSITION);
 
-        Spinner plantSpinner = (Spinner) findViewById(R.id.plant_type_spinner);
+        final Spinner plantSpinner = (Spinner) findViewById(R.id.plant_type_spinner);
 
-        SpinnerAdapter plantSpinnerAdapter = new CustomSpinnerAdapter<PlantContent.Plant>(this,
+        plantSpinnerAdapter = new CustomSpinnerAdapter<PlantContent.Plant>(this,
                 new ArrayList<PlantContent.Plant>(PlantContent.ITEMS));
-        plantSpinner.setAdapter(plantSpinnerAdapter);
+        batchSpinnerAdapter = new CustomSpinnerAdapter<BatchContent.Batch>(this,
+                new ArrayList<BatchContent.Batch>(BatchContent.ITEMS));
+
+        AdapterView.OnItemSelectedListener eventTypeSelectedListener = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> spinner, View container,
+                                       int position, long id) {
+                EventContent.EventType eventType = (EventContent.EventType) spinner.getSelectedItem();
+                if (eventType == EventContent.EventType.SOW) {
+                    plantSpinner.setAdapter(plantSpinnerAdapter);
+                } else {
+                    plantSpinner.setAdapter(batchSpinnerAdapter);
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> arg0) {
+                plantSpinner.setAdapter(batchSpinnerAdapter);
+            }
+        };
+        eventSpinner.setOnItemSelectedListener(eventTypeSelectedListener);
 
         Date currDate = Calendar.getInstance().getTime();
 
@@ -62,7 +84,7 @@ public class AddEventActivity extends AppCompatActivity {
 
     public void saveEvent(View v) {
         EventContent.Event event = new EventContent.Event();
-        event.setEventId(UUID.randomUUID().toString());
+        event.setId(UUID.randomUUID().toString());
         TextView dateView = (TextView) findViewById(R.id.date);
         TextView timeView = (TextView) findViewById(R.id.time);
         DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
@@ -74,10 +96,22 @@ public class AddEventActivity extends AppCompatActivity {
         }
 
         Spinner spinner = (Spinner) findViewById(R.id.event_type_spinner);
-        event.setType((EventContent.EventType) spinner.getSelectedItem());
+        EventContent.EventType eventType = (EventContent.EventType) spinner.getSelectedItem();
+        event.setType(eventType);
 
         spinner = (Spinner) findViewById(R.id.plant_type_spinner);
-        event.setPlantId(((PlantContent.Plant)spinner.getSelectedItem()).id);
+        if (eventType == EventContent.EventType.SOW) {
+            BatchContent.Batch batch = new BatchContent.Batch();
+            batch.setId(UUID.randomUUID().toString());
+            batch.setCreatedDate(event.getCreatedDate());
+            batch.setPlantId(((PlantContent.Plant)spinner.getSelectedItem()).id);
+            df = DateFormat.getDateInstance(DateFormat.MEDIUM);
+            batch.setName(PlantContent.ITEM_MAP.get(batch.getPlantId()).name + "-" + df.format(batch.getCreatedDate()));
+            BatchContent.addBatch(this,batch);
+            event.setBatchId(batch.getId());
+        } else {
+            event.setBatchId(((BatchContent.Batch)spinner.getSelectedItem()).getId());
+        }
 
         EditText desc = (EditText) findViewById(R.id.event_description);
         event.setDescription(desc.getText().toString());

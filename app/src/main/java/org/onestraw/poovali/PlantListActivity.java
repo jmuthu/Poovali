@@ -20,6 +20,11 @@ public class PlantListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        EventContent.intializeItems(this);
+        BatchContent.initializeItems(this);
+        PlantContent.initializeItems();
+
         setContentView(R.layout.activity_plant_list);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);

@@ -1,33 +1,19 @@
 package org.onestraw.poovali;
 
-/**
- * Created by mike on 8/11/16.
- */
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 
-public class PlantContent {
+class PlantContent {
+
+    static final String ARG_ITEM_ID = "item_id";
+    static final List<Plant> ITEMS = new ArrayList<Plant>();
+    static final Map<String, Plant> ITEM_MAP = new HashMap<String, Plant>();
 
 
-    public static final String ARG_ITEM_ID = "item_id";
-    /**
-     * An array of sample (dummy) items.
-     */
-    public static final List<Plant> ITEMS = new ArrayList<Plant>();
-
-    /**
-     * A map of sample (dummy) items, by ID.
-     */
-    public static final Map<String, Plant> ITEM_MAP = new HashMap<String, Plant>();
-
-
-    static {
-        // Add some sample items.
-
+    static void initializeItems() {
         addItem(
                 new Plant(
                         "1",
@@ -75,36 +61,19 @@ public class PlantContent {
         ITEMS.add(item);
         ITEM_MAP.put(item.id, item);
     }
-    /*
-    private static Plant createPlant(int position) {
-        return new Plant(String.valueOf(position), name, makeDetails(position));
-    }
 
-    private static String makeDetails(int position) {
-        StringBuilder builder = new StringBuilder();
-        builder.append("Details about Plant: ").append(position);
-        for (int i = 0; i < position; i++) {
-            builder.append("\nMore details information here.");
-        }
-        return builder.toString();
-    }
-   */
-
-    /**
-     * A dummy item representing a piece of content.
-     */
-    public static class Plant {
+    static class Plant {
         public final String id;
         public final String name;
-        public final String soil;
-        public final String sowingSeason;
-        public final String seedTreatment;
-        public final String imageName;
-        public final Integer cropDuration;
+        final String soil;
+        final String sowingSeason;
+        final String seedTreatment;
+        final String imageName;
+        final Integer cropDuration;
         //public final String spacingRequirements;
         //public final Map fertilizerSchedule;
 
-        public Plant(String id, String name, String soil, String sowingSeason, String seedTreatment, Integer cropDuration) {
+        Plant(String id, String name, String soil, String sowingSeason, String seedTreatment, Integer cropDuration) {
             this.id = id;
             this.name = name;
             this.soil = soil;
@@ -114,7 +83,6 @@ public class PlantContent {
             this.imageName = Helper.getImageFileName(name);
         }
 
-
         @Override
         public String toString() {
             return name;
@@ -122,10 +90,10 @@ public class PlantContent {
     }
 
     public final class GrowthStages {
-        public final Integer SowingToPlant;
-        public final Integer FlowerInitiationToFlowering;
-        public final Integer FloweringToFruit;
-        public final Integer Harvesting;
+        final Integer SowingToPlant;
+        final Integer FlowerInitiationToFlowering;
+        final Integer FloweringToFruit;
+        final Integer Harvesting;
 
         public GrowthStages(Integer SowingToPlant,
                             Integer FlowerInitiationToFlowering,
@@ -136,6 +104,5 @@ public class PlantContent {
             this.FloweringToFruit = FloweringToFruit;
             this.Harvesting = Harvesting;
         }
-
     }
 }

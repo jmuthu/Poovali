@@ -45,7 +45,7 @@ public class EventsFragment extends Fragment {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new EventsFragment.SimpleItemRecyclerViewAdapter(EventContent.getEventList(getContext())));
+        recyclerView.setAdapter(new EventsFragment.SimpleItemRecyclerViewAdapter(EventContent.ITEMS));
     }
 
     public class SimpleItemRecyclerViewAdapter
@@ -67,11 +67,13 @@ public class EventsFragment extends Fragment {
         @Override
         public void onBindViewHolder(final EventsFragment.SimpleItemRecyclerViewAdapter.ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            holder.mEventTypeView.setText(holder.mItem.getType().toString() + " " + PlantContent.ITEM_MAP.get(holder.mItem.getPlantId()));
+            BatchContent.Batch batch = BatchContent.ITEM_MAP.get(holder.mItem.getBatchId());
+
             DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
             String date = df.format(holder.mItem.getCreatedDate());
             holder.mEventCreatedDateView.setText(date);
             holder.mEventDescriptionView.setText(holder.mItem.getDescription());
+            holder.mEventTypeView.setText(holder.mItem.getType().toString() + " " + batch.getName());
 
             holder.mIconView.setImageResource(getResources().getIdentifier(Helper.getImageFileName(holder.mItem.getType().name()),
                     "drawable",
