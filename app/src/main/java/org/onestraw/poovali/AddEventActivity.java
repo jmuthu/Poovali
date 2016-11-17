@@ -22,6 +22,11 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import org.onestraw.poovali.model.BatchContent;
+import org.onestraw.poovali.model.EventContent;
+import org.onestraw.poovali.model.PlantContent;
+import org.onestraw.poovali.utility.Helper;
+
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -107,7 +112,7 @@ public class AddEventActivity extends AppCompatActivity {
             batch.setPlantId(((PlantContent.Plant) spinner.getSelectedItem()).getId());
             df = DateFormat.getDateInstance(DateFormat.MEDIUM);
             batch.setName(PlantContent.getItemMap().get(batch.getPlantId()).getName() +
-                    " Batch of " + df.format(batch.getCreatedDate()));
+                    " batch of " + df.format(batch.getCreatedDate()));
             BatchContent.addBatch(this,batch);
             event.setBatchId(batch.getId());
         } else {

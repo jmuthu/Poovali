@@ -1,4 +1,4 @@
-package org.onestraw.poovali;
+package org.onestraw.poovali.model;
 
 import android.content.Context;
 
@@ -12,11 +12,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-class EventContent implements Serializable {
+public class EventContent implements Serializable {
     private static final String EVENTS_FILE = "poovali_events.json";
     private static List<Event> ITEMS = new ArrayList<Event>();
 
-    static void initializeItems(Context context) {
+    private static void initializeItems(Context context) {
         try {
             File file = new File(context.getFilesDir(), EVENTS_FILE);
 
@@ -31,7 +31,7 @@ class EventContent implements Serializable {
         }
     }
 
-    static void addEvent(Context context, Event event) {
+    public static void addEvent(Context context, Event event) {
         try {
             File file = new File(context.getFilesDir(), EVENTS_FILE);
             if (!file.isFile()) {
@@ -48,14 +48,14 @@ class EventContent implements Serializable {
         }
     }
 
-    static List<Event> getItems(Context context) {
+    public static List<Event> getItems(Context context) {
         if (ITEMS.isEmpty()) {
             initializeItems(context);
         }
         return ITEMS;
     }
 
-    enum EventType {
+    public enum EventType {
         DEWEED {
             public String toString() {
                 return "DeWeed";
@@ -109,8 +109,8 @@ class EventContent implements Serializable {
 
     }
 
-    static class Event implements Serializable {
-        static final long serialVersionUID = 1L;
+    public static class Event implements Serializable {
+        private static final long serialVersionUID = 1L;
 
         private String id;
         private Date createdDate;
@@ -118,43 +118,43 @@ class EventContent implements Serializable {
         private String batchId;
         private String description;
 
-        String getId() {
+        public String getId() {
             return id;
         }
 
-        void setId(String eventId) {
+        public void setId(String eventId) {
             this.id = eventId;
         }
 
-        String getBatchId() {
+        public String getBatchId() {
             return batchId;
         }
 
-        void setBatchId(String batchId) {
+        public void setBatchId(String batchId) {
             this.batchId = batchId;
         }
 
-        Date getCreatedDate() {
+        public Date getCreatedDate() {
             return createdDate;
         }
 
-        void setCreatedDate(Date createdDate) {
+        public void setCreatedDate(Date createdDate) {
             this.createdDate = createdDate;
         }
 
-        EventType getType() {
+        public EventType getType() {
             return type;
         }
 
-        void setType(EventType type) {
+        public void setType(EventType type) {
             this.type = type;
         }
 
-        String getDescription() {
+        public String getDescription() {
             return description;
         }
 
-        void setDescription(String description) {
+        public void setDescription(String description) {
             this.description = description;
         }
 

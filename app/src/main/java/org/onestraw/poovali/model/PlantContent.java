@@ -1,18 +1,20 @@
-package org.onestraw.poovali;
+package org.onestraw.poovali.model;
+
+import org.onestraw.poovali.utility.Helper;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-class PlantContent {
+public class PlantContent {
 
-    static final String ARG_ITEM_ID = "item_id";
+    public static final String ARG_ITEM_ID = "item_id";
     private static final List<Plant> ITEMS = new ArrayList<Plant>();
     private static final Map<String, Plant> ITEM_MAP = new HashMap<String, Plant>();
 
 
-    static void initializeItems() {
+    private static void initializeItems() {
         addItem(
                 new Plant(
                         "1",
@@ -56,14 +58,14 @@ class PlantContent {
 
     }
 
-    static List<Plant> getItems() {
+    public static List<Plant> getItems() {
         if (ITEMS.isEmpty()) {
             initializeItems();
         }
         return ITEMS;
     }
 
-    static Map<String, Plant> getItemMap() {
+    public static Map<String, Plant> getItemMap() {
         if (ITEM_MAP.isEmpty()) {
             initializeItems();
         }
@@ -75,7 +77,7 @@ class PlantContent {
         ITEM_MAP.put(item.id, item);
     }
 
-    static class Plant implements Helper.DisplayableItem {
+    public static class Plant implements Helper.DisplayableItem {
         private String id;
         private String name;
         private String sowingSeason;
@@ -133,10 +135,10 @@ class PlantContent {
             this.soil = soil;
         }
 
-        Plant() {
+        public Plant() {
         }
 
-        Plant(String id, String name, String soil, String sowingSeason, String seedTreatment, Integer cropDuration) {
+        public Plant(String id, String name, String soil, String sowingSeason, String seedTreatment, Integer cropDuration) {
             this.id = id;
             this.name = name;
             this.soil = soil;

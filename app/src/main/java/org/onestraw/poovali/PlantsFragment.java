@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.onestraw.poovali.model.PlantContent;
+
 import java.util.List;
 
 public class PlantsFragment extends Fragment {

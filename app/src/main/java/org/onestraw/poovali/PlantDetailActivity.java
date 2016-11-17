@@ -14,6 +14,9 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.onestraw.poovali.model.PlantContent;
+import org.onestraw.poovali.utility.Helper;
+
 public class PlantDetailActivity extends AppCompatActivity {
 
     public static final int NOTIFICATION_ID = 1;

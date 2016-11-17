@@ -10,6 +10,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.onestraw.poovali.model.BatchContent;
+import org.onestraw.poovali.model.EventContent;
+import org.onestraw.poovali.utility.Helper;
+
 import java.text.DateFormat;
 import java.util.List;
 

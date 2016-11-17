@@ -1,6 +1,8 @@
-package org.onestraw.poovali;
+package org.onestraw.poovali.model;
 
 import android.content.Context;
+
+import org.onestraw.poovali.utility.Helper;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -20,7 +22,7 @@ public class BatchContent implements Serializable {
     private static final Map<String, Batch> ITEM_MAP = new HashMap<String, Batch>();
     private static List<Batch> ITEMS = new ArrayList<Batch>();
 
-    static void initializeItems(Context context) {
+    private static void initializeItems(Context context) {
         try {
             File file = new File(context.getFilesDir(), BATCH_FILE);
 
@@ -43,21 +45,21 @@ public class BatchContent implements Serializable {
         }
     }
 
-    static List<Batch> getItems(Context context) {
+    public static List<Batch> getItems(Context context) {
         if (ITEMS.isEmpty()) {
             initializeItems(context);
         }
         return ITEMS;
     }
 
-    static Map<String, Batch> getItemMap(Context context) {
+    public static Map<String, Batch> getItemMap(Context context) {
         if (ITEM_MAP.isEmpty()) {
             initializeItems(context);
         }
         return ITEM_MAP;
     }
 
-    static void addBatch(Context context, Batch batch) {
+    public static void addBatch(Context context, Batch batch) {
         try {
             File file = new File(context.getFilesDir(), BATCH_FILE);
             if (!file.isFile()) {
@@ -75,17 +77,17 @@ public class BatchContent implements Serializable {
         }
     }
 
-    static class Batch implements Serializable, Helper.DisplayableItem {
-        static final long serialVersionUID = 1L;
+    public static class Batch implements Serializable, Helper.DisplayableItem {
+        private static final long serialVersionUID = 1L;
         private String id;
         private String plantId;
         private String name;
         private Date createdDate;
 
-        Batch() {
+        public Batch() {
         }
 
-        Batch(String id, String plantId, String name, Date createdDate) {
+        public Batch(String id, String plantId, String name, Date createdDate) {
             this.id = id;
             this.plantId = plantId;
             this.name = name;
