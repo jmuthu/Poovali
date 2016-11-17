@@ -12,6 +12,9 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 
+import org.onestraw.poovali.fragment.EventsFragment;
+import org.onestraw.poovali.fragment.PlantsFragment;
+
 import java.util.ArrayList;
 import java.util.List;
 

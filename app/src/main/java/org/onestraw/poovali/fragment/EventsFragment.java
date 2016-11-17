@@ -1,4 +1,4 @@
-package org.onestraw.poovali;
+package org.onestraw.poovali.fragment;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.onestraw.poovali.R;
 import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.EventContent;
 import org.onestraw.poovali.utility.Helper;

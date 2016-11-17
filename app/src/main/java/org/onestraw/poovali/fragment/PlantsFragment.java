@@ -1,4 +1,4 @@
-package org.onestraw.poovali;
+package org.onestraw.poovali.fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.onestraw.poovali.PlantDetailActivity;
+import org.onestraw.poovali.R;
 import org.onestraw.poovali.model.PlantContent;
 
 import java.util.List;
