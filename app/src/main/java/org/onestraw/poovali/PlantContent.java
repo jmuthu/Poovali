@@ -1,16 +1,17 @@
 package org.onestraw.poovali;
 
+import android.content.Context;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
 class PlantContent {
 
     static final String ARG_ITEM_ID = "item_id";
-    static final List<Plant> ITEMS = new ArrayList<Plant>();
-    static final Map<String, Plant> ITEM_MAP = new HashMap<String, Plant>();
+    private static final List<Plant> ITEMS = new ArrayList<Plant>();
+    private static final Map<String, Plant> ITEM_MAP = new HashMap<String, Plant>();
 
 
     static void initializeItems() {
@@ -55,6 +56,20 @@ class PlantContent {
                         "Treat the seeds with Trichoderma viride 4 g or Pseudomonas fluorescens 10 g or Carbendazim 2 g per kg of seeds 24 hours before sowing. Just before sowing, treat the seeds with Azospirillum @ 40 g / 400 g of seeds. Sow in lines at 10 cm apart in raised nursery beds and cover with sand.",
                         150));
 
+    }
+
+    static List<Plant> getItems(Context context) {
+        if (ITEMS.isEmpty()) {
+            initializeItems();
+        }
+        return ITEMS;
+    }
+
+    static Map<String, Plant> getItemMap(Context context) {
+        if (ITEM_MAP.isEmpty()) {
+            initializeItems();
+        }
+        return ITEM_MAP;
     }
 
     private static void addItem(Plant item) {

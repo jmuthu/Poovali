@@ -36,7 +36,7 @@ public class PlantsFragment extends Fragment {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(PlantContent.ITEMS));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(PlantContent.getItems(getActivity())));
     }
 
     public class SimpleItemRecyclerViewAdapter

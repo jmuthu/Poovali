@@ -17,8 +17,8 @@ import java.util.Map;
 public class BatchContent implements Serializable {
 
     private static final String BATCH_FILE = "poovali_batch.json";
-    static List<Batch> ITEMS = new ArrayList<Batch>();
-    static final Map<String, Batch> ITEM_MAP = new HashMap<String, Batch>();
+    private static List<Batch> ITEMS = new ArrayList<Batch>();
+    private static final Map<String, Batch> ITEM_MAP = new HashMap<String, Batch>();
 
     static void initializeItems(Context context) {
         try {
@@ -41,6 +41,20 @@ public class BatchContent implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    static List<Batch> getItems(Context context) {
+        if (ITEMS.isEmpty()) {
+            initializeItems(context);
+        }
+        return ITEMS;
+    }
+
+    static Map<String, Batch> getItemMap(Context context) {
+        if (ITEM_MAP.isEmpty()) {
+            initializeItems(context);
+        }
+        return ITEM_MAP;
     }
 
     static void addBatch(Context context, Batch batch) {

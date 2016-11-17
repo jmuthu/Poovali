@@ -45,7 +45,7 @@ public class EventsFragment extends Fragment {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new EventsFragment.SimpleItemRecyclerViewAdapter(EventContent.ITEMS));
+        recyclerView.setAdapter(new EventsFragment.SimpleItemRecyclerViewAdapter(EventContent.getItems(getActivity())));
     }
 
     public class SimpleItemRecyclerViewAdapter
@@ -67,7 +67,7 @@ public class EventsFragment extends Fragment {
         @Override
         public void onBindViewHolder(final EventsFragment.SimpleItemRecyclerViewAdapter.ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            BatchContent.Batch batch = BatchContent.ITEM_MAP.get(holder.mItem.getBatchId());
+            BatchContent.Batch batch = BatchContent.getItemMap(getActivity()).get(holder.mItem.getBatchId());
 
             DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
             String date = df.format(holder.mItem.getCreatedDate());

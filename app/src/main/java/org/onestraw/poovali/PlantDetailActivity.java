@@ -24,7 +24,7 @@ public class PlantDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_plant_detail);
 
         String itemId = getIntent().getStringExtra(PlantContent.ARG_ITEM_ID);
-        PlantContent.Plant plant = PlantContent.ITEM_MAP.get(itemId);
+        PlantContent.Plant plant = PlantContent.getItemMap(this).get(itemId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);

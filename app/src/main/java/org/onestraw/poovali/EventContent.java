@@ -13,11 +13,10 @@ import java.util.Date;
 import java.util.List;
 
 class EventContent implements Serializable {
-    static final String EVENTS_FILE = "poovali_events.json";
-    public static final int DEFAULT_EVENT_TYPE_POSITION = EventType.HARVEST.ordinal();
-    static List<Event> ITEMS = new ArrayList<Event>();
+    private static final String EVENTS_FILE = "poovali_events.json";
+    private static List<Event> ITEMS = new ArrayList<Event>();
 
-    static void intializeItems(Context context) {
+    static void initializeItems(Context context) {
         try {
             File file = new File(context.getFilesDir(), EVENTS_FILE);
 
@@ -47,6 +46,13 @@ class EventContent implements Serializable {
         } catch (Exception e) {
             e.printStackTrace();
         }
+    }
+
+    static List<Event> getItems(Context context) {
+        if (ITEMS.isEmpty()) {
+            initializeItems(context);
+        }
+        return ITEMS;
     }
 
     enum EventType {

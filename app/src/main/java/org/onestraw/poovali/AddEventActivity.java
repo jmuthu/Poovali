@@ -50,9 +50,9 @@ public class AddEventActivity extends AppCompatActivity {
         final Spinner plantSpinner = (Spinner) findViewById(R.id.plant_type_spinner);
 
         plantSpinnerAdapter = new CustomSpinnerAdapter<PlantContent.Plant>(this,
-                new ArrayList<PlantContent.Plant>(PlantContent.ITEMS));
+                new ArrayList<PlantContent.Plant>(PlantContent.getItems(this)));
         batchSpinnerAdapter = new CustomSpinnerAdapter<BatchContent.Batch>(this,
-                new ArrayList<BatchContent.Batch>(BatchContent.ITEMS));
+                new ArrayList<BatchContent.Batch>(BatchContent.getItems(this)));
 
         AdapterView.OnItemSelectedListener eventTypeSelectedListener = new AdapterView.OnItemSelectedListener() {
             @Override
@@ -106,7 +106,7 @@ public class AddEventActivity extends AppCompatActivity {
             batch.setCreatedDate(event.getCreatedDate());
             batch.setPlantId(((PlantContent.Plant)spinner.getSelectedItem()).id);
             df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-            batch.setName(PlantContent.ITEM_MAP.get(batch.getPlantId()).name + "-" + df.format(batch.getCreatedDate()));
+            batch.setName(PlantContent.getItemMap(this).get(batch.getPlantId()).name + "-" + df.format(batch.getCreatedDate()));
             BatchContent.addBatch(this,batch);
             event.setBatchId(batch.getId());
         } else {
