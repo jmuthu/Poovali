@@ -62,7 +62,8 @@ public class PlantsFragment extends Fragment {
             String days = String.format(getResources().getString(R.string.days), holder.mItem.cropDuration.toString());
             holder.mContentView.setText(days);
 
-            holder.mIconView.setImageResource(getResources().getIdentifier(holder.mItem.imageName,
+            holder.mIconView.setImageResource(getResources().getIdentifier(
+                    holder.mItem.imageName + Helper.SMALL_IMAGE_SUFFIX,
                     "drawable",
                     holder.mIconView.getContext().getPackageName()));
             holder.mView.setOnClickListener(new View.OnClickListener() {
