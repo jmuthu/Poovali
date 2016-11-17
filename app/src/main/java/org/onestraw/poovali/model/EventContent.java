@@ -2,6 +2,8 @@ package org.onestraw.poovali.model;
 
 import android.content.Context;
 
+import org.onestraw.poovali.utility.Helper;
+
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -109,7 +111,7 @@ public class EventContent implements Serializable {
 
     }
 
-    public static class Event implements Serializable {
+    public static class Event implements Serializable, Helper.DisplayableItem {
         private static final long serialVersionUID = 1L;
 
         private String id;
@@ -156,6 +158,14 @@ public class EventContent implements Serializable {
 
         public void setDescription(String description) {
             this.description = description;
+        }
+
+        public String getName() {
+            return type.toString();
+        }
+
+        public String getImageName() {
+            return Helper.getImageFileName(type.name());
         }
 
         @Override

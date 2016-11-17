@@ -28,6 +28,7 @@ import org.onestraw.poovali.model.PlantContent;
 import org.onestraw.poovali.utility.Helper;
 
 import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Calendar;
@@ -110,9 +111,10 @@ public class AddEventActivity extends AppCompatActivity {
             batch.setId(UUID.randomUUID().toString());
             batch.setCreatedDate(event.getCreatedDate());
             batch.setPlantId(((PlantContent.Plant) spinner.getSelectedItem()).getId());
-            df = DateFormat.getDateInstance(DateFormat.MEDIUM);
+            SimpleDateFormat format = new SimpleDateFormat("dd MMM yy");
+            String date = format.format(batch.getCreatedDate());
             batch.setName(PlantContent.getItemMap().get(batch.getPlantId()).getName() +
-                    " batch of " + df.format(batch.getCreatedDate()));
+                    " batch of " + date);
             BatchContent.addBatch(this,batch);
             event.setBatchId(batch.getId());
         } else {

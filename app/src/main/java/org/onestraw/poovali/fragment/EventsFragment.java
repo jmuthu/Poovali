@@ -13,9 +13,9 @@ import android.widget.TextView;
 import org.onestraw.poovali.R;
 import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.EventContent;
-import org.onestraw.poovali.utility.Helper;
+import org.onestraw.poovali.model.PlantContent;
 
-import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class EventsFragment extends Fragment {
@@ -74,15 +74,23 @@ public class EventsFragment extends Fragment {
             holder.mItem = mValues.get(position);
             BatchContent.Batch batch = BatchContent.getItemMap(getActivity()).get(holder.mItem.getBatchId());
 
-            DateFormat df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-            String date = df.format(holder.mItem.getCreatedDate());
+            SimpleDateFormat format = new SimpleDateFormat("dd MMM yy");
+            String date = format.format(holder.mItem.getCreatedDate());
             holder.mEventCreatedDateView.setText(date);
             holder.mEventDescriptionView.setText(holder.mItem.getDescription());
-            holder.mEventTypeView.setText(holder.mItem.getType().toString() + " " + batch.getName());
-
-            holder.mIconView.setImageResource(getResources().getIdentifier(Helper.getImageFileName(holder.mItem.getType().name()),
+            holder.mEventTypeView.setText(batch.getName());
+            String imageName;
+            if (batch.getPlantId().isEmpty()) {
+                imageName = batch.getImageName();
+            } else {
+                imageName = PlantContent.getItemMap().get(batch.getPlantId()).getImageName();
+            }
+            holder.mPlantIconView.setImageResource(getResources().getIdentifier(imageName,
                     "drawable",
-                    holder.mIconView.getContext().getPackageName()));
+                    holder.mPlantIconView.getContext().getPackageName()));
+            holder.mEventIconView.setImageResource(getResources().getIdentifier(holder.mItem.getImageName(),
+                    "drawable",
+                    holder.mPlantIconView.getContext().getPackageName()));
         }
 
         @Override
@@ -95,7 +103,8 @@ public class EventsFragment extends Fragment {
             final TextView mEventTypeView;
             final TextView mEventCreatedDateView;
             final TextView mEventDescriptionView;
-            final ImageView mIconView;
+            final ImageView mPlantIconView;
+            final ImageView mEventIconView;
             EventContent.Event mItem;
 
             ViewHolder(View view) {
@@ -104,7 +113,8 @@ public class EventsFragment extends Fragment {
                 mEventTypeView = (TextView) view.findViewById(R.id.event_type);
                 mEventCreatedDateView = (TextView) view.findViewById(R.id.event_created_date);
                 mEventDescriptionView = (TextView) view.findViewById(R.id.event_description);
-                mIconView = (ImageView) view.findViewById(R.id.event_type_icon);
+                mEventIconView = (ImageView) view.findViewById(R.id.event_type_icon);
+                mPlantIconView = (ImageView) view.findViewById(R.id.plant_type_icon);
             }
 
             @Override
