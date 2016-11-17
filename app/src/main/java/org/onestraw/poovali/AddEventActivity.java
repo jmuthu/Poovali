@@ -107,7 +107,7 @@ public class AddEventActivity extends AppCompatActivity {
             batch.setPlantId(((PlantContent.Plant) spinner.getSelectedItem()).getId());
             df = DateFormat.getDateInstance(DateFormat.MEDIUM);
             batch.setName(PlantContent.getItemMap().get(batch.getPlantId()).getName() +
-                    "-" + df.format(batch.getCreatedDate()));
+                    " Batch of " + df.format(batch.getCreatedDate()));
             BatchContent.addBatch(this,batch);
             event.setBatchId(batch.getId());
         } else {
