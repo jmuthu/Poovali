@@ -24,7 +24,7 @@ public class PlantDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_plant_detail);
 
         String itemId = getIntent().getStringExtra(PlantContent.ARG_ITEM_ID);
-        PlantContent.Plant plant = PlantContent.getItemMap(this).get(itemId);
+        PlantContent.Plant plant = PlantContent.getItemMap().get(itemId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
@@ -32,21 +32,21 @@ public class PlantDetailActivity extends AppCompatActivity {
 
         CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         if (appBarLayout != null) {
-            appBarLayout.setTitle(plant.name);
+            appBarLayout.setTitle(plant.getName());
         }
         ImageView imageBar = (ImageView) findViewById(R.id.image_id);
-        imageBar.setImageResource(getResources().getIdentifier(plant.imageName,
+        imageBar.setImageResource(getResources().getIdentifier(plant.getImageName() + Helper.DETAIL_IMAGE_SUFFIX,
                 "drawable",
                 getPackageName()));
         TextView cropDuration = (TextView) findViewById(R.id.crop_duration);
-        String days = String.format(getResources().getString(R.string.days), plant.cropDuration.toString());
+        String days = String.format(getResources().getString(R.string.days), plant.getCropDuration().toString());
         cropDuration.setText(days);
         TextView soil = (TextView) findViewById(R.id.soil);
-        soil.setText(plant.soil);
+        soil.setText(plant.getSoil());
         TextView seedTreatment = (TextView) findViewById(R.id.seed_treatment);
-        seedTreatment.setText(plant.seedTreatment);
+        seedTreatment.setText(plant.getSeedTreatment());
         TextView sowingSeason = (TextView) findViewById(R.id.sowing_season);
-        sowingSeason.setText(plant.sowingSeason);
+        sowingSeason.setText(plant.getSowingSeason());
     }
 
     @Override

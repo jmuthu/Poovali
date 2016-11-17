@@ -42,7 +42,7 @@ public class AddEventActivity extends AppCompatActivity {
 
         Spinner eventSpinner = (Spinner) findViewById(R.id.event_type_spinner);
 
-        SpinnerAdapter eventSpinnerAdapter = new CustomSpinnerAdapter<EventContent.EventType>(this,
+        SpinnerAdapter eventSpinnerAdapter = new EventTypeSpinnerAdapter(this,
                 new ArrayList<EventContent.EventType>(Arrays.asList(EventContent.EventType.values())));
         eventSpinner.setAdapter(eventSpinnerAdapter);
         //mySpinner.setSelection(EventContent.DEFAULT_EVENT_TYPE_POSITION);
@@ -50,7 +50,7 @@ public class AddEventActivity extends AppCompatActivity {
         final Spinner plantSpinner = (Spinner) findViewById(R.id.plant_type_spinner);
 
         plantSpinnerAdapter = new CustomSpinnerAdapter<PlantContent.Plant>(this,
-                new ArrayList<PlantContent.Plant>(PlantContent.getItems(this)));
+                new ArrayList<PlantContent.Plant>(PlantContent.getItems()));
         batchSpinnerAdapter = new CustomSpinnerAdapter<BatchContent.Batch>(this,
                 new ArrayList<BatchContent.Batch>(BatchContent.getItems(this)));
 
@@ -104,9 +104,10 @@ public class AddEventActivity extends AppCompatActivity {
             BatchContent.Batch batch = new BatchContent.Batch();
             batch.setId(UUID.randomUUID().toString());
             batch.setCreatedDate(event.getCreatedDate());
-            batch.setPlantId(((PlantContent.Plant)spinner.getSelectedItem()).id);
+            batch.setPlantId(((PlantContent.Plant) spinner.getSelectedItem()).getId());
             df = DateFormat.getDateInstance(DateFormat.MEDIUM);
-            batch.setName(PlantContent.getItemMap(this).get(batch.getPlantId()).name + "-" + df.format(batch.getCreatedDate()));
+            batch.setName(PlantContent.getItemMap().get(batch.getPlantId()).getName() +
+                    "-" + df.format(batch.getCreatedDate()));
             BatchContent.addBatch(this,batch);
             event.setBatchId(batch.getId());
         } else {
@@ -195,7 +196,38 @@ public class AddEventActivity extends AppCompatActivity {
         }
     }
 
-    public class CustomSpinnerAdapter<T> extends ArrayAdapter<T> {
+    public class EventTypeSpinnerAdapter extends ArrayAdapter<EventContent.EventType> {
+
+        EventTypeSpinnerAdapter(Activity context, ArrayList<EventContent.EventType> list) {
+            super(context, 0, list);
+        }
+
+        @NonNull
+        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+            EventContent.EventType item = getItem(position);
+            if (convertView == null) {
+                convertView = LayoutInflater.from(getContext()).inflate(R.layout.spinner_item, parent, false);
+            }
+            if (item!=null) {
+                ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
+                imageView.setImageResource(getResources().getIdentifier(
+                        Helper.getImageFileName(item.toString()),
+                        "drawable",
+                        imageView.getContext().getPackageName()));
+
+                TextView textView = (TextView) convertView.findViewById(R.id.txt);
+                textView.setText(item.toString());
+            }
+            return convertView;
+        }
+
+        public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
+            return getView(position, convertView, parent);
+
+        }
+    }
+
+    public class CustomSpinnerAdapter<T extends Helper.DisplayableItem> extends ArrayAdapter<T> {
 
         CustomSpinnerAdapter(Activity context, ArrayList<T> list) {
             super(context, 0, list);
@@ -207,14 +239,15 @@ public class AddEventActivity extends AppCompatActivity {
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.spinner_item, parent, false);
             }
-            if (item!=null) {
+            if (item != null) {
                 ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
-                imageView.setImageResource(getResources().getIdentifier(Helper.getImageFileName(item.toString()),
+                imageView.setImageResource(getResources().getIdentifier(
+                        item.getImageName(),
                         "drawable",
                         imageView.getContext().getPackageName()));
 
                 TextView textView = (TextView) convertView.findViewById(R.id.txt);
-                textView.setText(item.toString());
+                textView.setText(item.getName());
             }
             return convertView;
         }

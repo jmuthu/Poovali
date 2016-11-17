@@ -110,7 +110,7 @@ class EventContent implements Serializable {
     }
 
     static class Event implements Serializable {
-        static final long serialVersionUID = -1856133174987221772L;
+        static final long serialVersionUID = 1L;
 
         private String id;
         private Date createdDate;

@@ -36,7 +36,7 @@ public class PlantsFragment extends Fragment {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(PlantContent.getItems(getActivity())));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(PlantContent.getItems()));
     }
 
     public class SimpleItemRecyclerViewAdapter
@@ -58,12 +58,12 @@ public class PlantsFragment extends Fragment {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            holder.mNameView.setText(holder.mItem.name);
-            String days = String.format(getResources().getString(R.string.days), holder.mItem.cropDuration.toString());
+            holder.mNameView.setText(holder.mItem.getName());
+            String days = String.format(getResources().getString(R.string.days), holder.mItem.getCropDuration().toString());
             holder.mContentView.setText(days);
 
             holder.mIconView.setImageResource(getResources().getIdentifier(
-                    holder.mItem.imageName + Helper.SMALL_IMAGE_SUFFIX,
+                    holder.mItem.getImageName(),
                     "drawable",
                     holder.mIconView.getContext().getPackageName()));
             holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -71,7 +71,7 @@ public class PlantsFragment extends Fragment {
                 public void onClick(View v) {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, PlantDetailActivity.class);
-                    intent.putExtra(PlantContent.ARG_ITEM_ID, holder.mItem.id);
+                    intent.putExtra(PlantContent.ARG_ITEM_ID, holder.mItem.getId());
                     context.startActivity(intent);
                 }
             });

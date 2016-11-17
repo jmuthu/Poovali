@@ -17,8 +17,8 @@ import java.util.Map;
 public class BatchContent implements Serializable {
 
     private static final String BATCH_FILE = "poovali_batch.json";
-    private static List<Batch> ITEMS = new ArrayList<Batch>();
     private static final Map<String, Batch> ITEM_MAP = new HashMap<String, Batch>();
+    private static List<Batch> ITEMS = new ArrayList<Batch>();
 
     static void initializeItems(Context context) {
         try {
@@ -29,7 +29,7 @@ public class BatchContent implements Serializable {
                 ObjectInputStream ois = new ObjectInputStream(fin);
                 ITEMS = (List<Batch>) ois.readObject();
                 ois.close();
-                for (Batch batch: ITEMS) {
+                for (Batch batch : ITEMS) {
                     ITEM_MAP.put(batch.getId(), batch);
                 }
             } else {
@@ -63,8 +63,8 @@ public class BatchContent implements Serializable {
             if (!file.isFile()) {
                 file.createNewFile();
             }
-            ITEMS.add(0,batch);
-            ITEM_MAP.put(batch.id,batch);
+            ITEMS.add(0, batch);
+            ITEM_MAP.put(batch.id, batch);
             FileOutputStream fout = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fout);
             oos.writeObject(ITEMS);
@@ -75,7 +75,8 @@ public class BatchContent implements Serializable {
         }
     }
 
-    static class Batch implements Serializable {
+    static class Batch implements Serializable, Helper.DisplayableItem {
+        static final long serialVersionUID = 1L;
         private String id;
         private String plantId;
         private String name;
@@ -121,6 +122,13 @@ public class BatchContent implements Serializable {
 
         public void setCreatedDate(Date createdDate) {
             this.createdDate = createdDate;
+        }
+
+        public String getImageName() {
+            if (plantId.isEmpty()) { // For garden
+                return Helper.getImageFileName(name);
+            }
+            return Helper.getImageFileName(PlantContent.getItemMap().get(plantId).getName());
         }
 
         @Override

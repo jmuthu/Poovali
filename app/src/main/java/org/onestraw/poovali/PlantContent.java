@@ -1,7 +1,5 @@
 package org.onestraw.poovali;
 
-import android.content.Context;
-
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -43,7 +41,7 @@ class PlantContent {
                 new Plant(
                         "4",
                         "Radish",
-                        "Sandy loam soils with high organic matter content are highly suited for radish cultivation. The highest yield can be obtained at a soil pH of 5.5 to 6.8. Roots of best size, flavour and texture are developed at about 15°C.",
+                        "Sandy loam soils with high organic matter content are highly suited for radish_detail cultivation. The highest yield can be obtained at a soil pH of 5.5 to 6.8. Roots of best size, flavour and texture are developed at about 15°C.",
                         "June –July in hills and September in plains are best suited.",
                         "",
                         55));
@@ -58,14 +56,14 @@ class PlantContent {
 
     }
 
-    static List<Plant> getItems(Context context) {
+    static List<Plant> getItems() {
         if (ITEMS.isEmpty()) {
             initializeItems();
         }
         return ITEMS;
     }
 
-    static Map<String, Plant> getItemMap(Context context) {
+    static Map<String, Plant> getItemMap() {
         if (ITEM_MAP.isEmpty()) {
             initializeItems();
         }
@@ -77,16 +75,66 @@ class PlantContent {
         ITEM_MAP.put(item.id, item);
     }
 
-    static class Plant {
-        public final String id;
-        public final String name;
-        final String soil;
-        final String sowingSeason;
-        final String seedTreatment;
-        final String imageName;
-        final Integer cropDuration;
+    static class Plant implements Helper.DisplayableItem {
+        private String id;
+        private String name;
+        private String sowingSeason;
+        private String seedTreatment;
+        private Integer cropDuration;
+        private String soil;
         //public final String spacingRequirements;
         //public final Map fertilizerSchedule;
+
+        public String getId() {
+            return id;
+        }
+
+        public void setId(String id) {
+            this.id = id;
+        }
+
+        public String getName() {
+            return name;
+        }
+
+        public void setName(String name) {
+            this.name = name;
+        }
+
+        public String getSowingSeason() {
+            return sowingSeason;
+        }
+
+        public void setSowingSeason(String sowingSeason) {
+            this.sowingSeason = sowingSeason;
+        }
+
+        public String getSeedTreatment() {
+            return seedTreatment;
+        }
+
+        public void setSeedTreatment(String seedTreatment) {
+            this.seedTreatment = seedTreatment;
+        }
+
+        public Integer getCropDuration() {
+            return cropDuration;
+        }
+
+        public void setCropDuration(Integer cropDuration) {
+            this.cropDuration = cropDuration;
+        }
+
+        public String getSoil() {
+            return soil;
+        }
+
+        public void setSoil(String soil) {
+            this.soil = soil;
+        }
+
+        Plant() {
+        }
 
         Plant(String id, String name, String soil, String sowingSeason, String seedTreatment, Integer cropDuration) {
             this.id = id;
@@ -95,7 +143,10 @@ class PlantContent {
             this.sowingSeason = sowingSeason;
             this.seedTreatment = seedTreatment;
             this.cropDuration = cropDuration;
-            this.imageName = Helper.getImageFileName(name);
+        }
+
+        public String getImageName() {
+            return Helper.getImageFileName(name);
         }
 
         @Override

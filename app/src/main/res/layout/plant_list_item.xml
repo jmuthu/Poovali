@@ -15,7 +15,7 @@
         android:layout_marginRight="10dp"
         android:layout_marginTop="10dip"
         android:scaleType="centerCrop"
-        android:src="@drawable/tomato" />
+        android:src="@drawable/tomato_detail" />
 
     <TextView
         android:id="@+id/name"
