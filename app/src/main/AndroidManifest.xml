@@ -26,7 +26,8 @@
         <activity
             android:name=".AddEventActivity"
             android:label="@string/title_activity_add_event"
-            android:theme="@style/AppTheme"></activity>
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize|stateHidden"></activity>
     </application>
 
 </manifest>
