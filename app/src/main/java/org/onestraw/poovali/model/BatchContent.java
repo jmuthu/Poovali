@@ -20,6 +20,7 @@ public class BatchContent implements Serializable {
 
     private static final String BATCH_FILE = "poovali_batch.json";
     private static final Map<String, Batch> ITEM_MAP = new HashMap<String, Batch>();
+    private static final Map<String, Integer> PLANT_MAP = new HashMap<String, Integer>();
     private static List<Batch> ITEMS = new ArrayList<Batch>();
 
     private static void initializeItems(Context context) {
@@ -33,6 +34,8 @@ public class BatchContent implements Serializable {
                 ois.close();
                 for (Batch batch : ITEMS) {
                     ITEM_MAP.put(batch.getId(), batch);
+                    Integer count = PLANT_MAP.get(batch.getPlantId());
+                    PLANT_MAP.put(batch.getPlantId(), (count == null) ? 1 : count + 1);
                 }
             } else {
                 // Adding the garden batch to account for all plants
@@ -59,6 +62,13 @@ public class BatchContent implements Serializable {
         return ITEM_MAP;
     }
 
+    public static Integer getNoOfItems(Context context, String plantId) {
+        if (ITEMS.isEmpty()) {  // Check items as batch can be empty
+            initializeItems(context);
+        }
+        return PLANT_MAP.get(plantId);
+    }
+
     public static void addBatch(Context context, Batch batch) {
         try {
             File file = new File(context.getFilesDir(), BATCH_FILE);
@@ -66,7 +76,11 @@ public class BatchContent implements Serializable {
                 file.createNewFile();
             }
             ITEMS.add(0, batch);
+
             ITEM_MAP.put(batch.id, batch);
+            Integer count = PLANT_MAP.get(batch.getPlantId());
+            PLANT_MAP.put(batch.getPlantId(), (count == null) ? 1 : count + 1);
+
             FileOutputStream fout = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fout);
             oos.writeObject(ITEMS);

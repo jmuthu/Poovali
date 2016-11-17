@@ -14,11 +14,13 @@ import android.widget.TextView;
 
 import org.onestraw.poovali.PlantDetailActivity;
 import org.onestraw.poovali.R;
+import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.PlantContent;
 
 import java.util.List;
 
 public class PlantsFragment extends Fragment {
+    RecyclerView recyclerView;
     public PlantsFragment() {
         // Required empty public constructor
     }
@@ -33,7 +35,7 @@ public class PlantsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.plants_fragment, container, false);
 
-        RecyclerView recyclerView = (RecyclerView) rootView.findViewById(R.id.plant_list);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.plant_list);
         assert recyclerView != null;
         setupRecyclerView(recyclerView);
         return rootView;
@@ -41,6 +43,12 @@ public class PlantsFragment extends Fragment {
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
         recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(PlantContent.getItems()));
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        recyclerView.getAdapter().notifyDataSetChanged(); // For adding activity
     }
 
     public class SimpleItemRecyclerViewAdapter
@@ -62,7 +70,14 @@ public class PlantsFragment extends Fragment {
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            holder.mNameView.setText(holder.mItem.getName());
+
+            Integer batchCount = BatchContent.getNoOfItems(getActivity(), holder.mItem.getId());
+            String name = holder.mItem.getName();
+            if (batchCount != null && batchCount > 0) {
+                name += " (" + batchCount + ")";
+            }
+
+            holder.mNameView.setText(name);
             String days = String.format(getResources().getString(R.string.days), holder.mItem.getCropDuration().toString());
             holder.mContentView.setText(days);
 

@@ -40,8 +40,7 @@
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/content"
         android:layout_alignBottom="@+id/content"
-        android:layout_alignParentEnd="true"
-        android:text="1 Batch" />
+        android:layout_alignParentEnd="true" />
 
     <View
         android:layout_width="0dp"
