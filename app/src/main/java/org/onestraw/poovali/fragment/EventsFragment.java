@@ -13,7 +13,6 @@ import android.widget.TextView;
 import org.onestraw.poovali.R;
 import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.EventContent;
-import org.onestraw.poovali.model.PlantContent;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
@@ -80,10 +79,10 @@ public class EventsFragment extends Fragment {
             holder.mEventDescriptionView.setText(holder.mItem.getDescription());
             holder.mEventTypeView.setText(batch.getName());
             String imageName;
-            if (batch.getPlantId().isEmpty()) {
+            if (batch.getPlant() == null) {
                 imageName = batch.getImageName();
             } else {
-                imageName = PlantContent.getItemMap().get(batch.getPlantId()).getImageName();
+                imageName = batch.getPlant().getImageName();
             }
             holder.mPlantIconView.setImageResource(getResources().getIdentifier(imageName,
                     "drawable",
@@ -123,6 +122,4 @@ public class EventsFragment extends Fragment {
             }
         }
     }
-
-
 }

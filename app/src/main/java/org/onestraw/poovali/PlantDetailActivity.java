@@ -1,16 +1,12 @@
 package org.onestraw.poovali;
 
-import android.app.NotificationManager;
 import android.content.Intent;
-import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.NavUtils;
-import android.support.v4.app.NotificationCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,8 +14,6 @@ import org.onestraw.poovali.model.PlantContent;
 import org.onestraw.poovali.utility.Helper;
 
 public class PlantDetailActivity extends AppCompatActivity {
-
-    public static final int NOTIFICATION_ID = 1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,25 +63,4 @@ public class PlantDetailActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    public void sendNotification(View view) {
-
-        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
-        builder.setSmallIcon(R.mipmap.notification);
-
-        // Set the intent that will fire when the user taps the notification.
-        //Intent resultIntent = new Intent(this, ResultActivity.class);
-        //builder.setContentIntent(resultIntent);
-
-        builder.setAutoCancel(true);
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.mipmap.watering_can));
-
-        builder.setContentTitle("Sow vegetables");
-        builder.setContentText("Time to sow tomatoes! Only 10 days left for harvesting!");
-        //builder.setSubText("");
-
-        NotificationManager notificationManager = (NotificationManager) getSystemService(
-                NOTIFICATION_SERVICE);
-        notificationManager.notify(NOTIFICATION_ID, builder.build());
-        // END_INCLUDE(send_notification)
-    }
 }

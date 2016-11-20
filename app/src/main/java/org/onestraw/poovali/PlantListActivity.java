@@ -1,5 +1,7 @@
 package org.onestraw.poovali;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,6 +18,7 @@ import org.onestraw.poovali.fragment.EventsFragment;
 import org.onestraw.poovali.fragment.PlantsFragment;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 public class PlantListActivity extends AppCompatActivity {
@@ -46,6 +49,7 @@ public class PlantListActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+        setAlarm();
     }
 
     private void setupViewPager(ViewPager viewPager) {
@@ -53,6 +57,19 @@ public class PlantListActivity extends AppCompatActivity {
         adapter.addFragment(new PlantsFragment(), "Plants");
         adapter.addFragment(new EventsFragment(), "Activities");
         viewPager.setAdapter(adapter);
+    }
+
+    public void setAlarm() {
+        Calendar calendar = Calendar.getInstance();
+        calendar.set(Calendar.HOUR_OF_DAY, 7);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+
+        Intent alarmIntent = new Intent(this, AlarmReceiver.class);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(this, 0, alarmIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        AlarmManager alarmManager = (AlarmManager) this.getSystemService(ALARM_SERVICE);
+        alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {

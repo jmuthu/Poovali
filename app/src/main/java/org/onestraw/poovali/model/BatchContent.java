@@ -2,6 +2,7 @@ package org.onestraw.poovali.model;
 
 import android.content.Context;
 
+import org.onestraw.poovali.model.PlantContent.Plant;
 import org.onestraw.poovali.utility.Helper;
 
 import java.io.File;
@@ -11,8 +12,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
@@ -20,7 +23,7 @@ public class BatchContent implements Serializable {
 
     private static final String BATCH_FILE = "poovali_batch.json";
     private static final Map<String, Batch> ITEM_MAP = new HashMap<String, Batch>();
-    private static final Map<String, Integer> PLANT_MAP = new HashMap<String, Integer>();
+    private static final Map<String, LinkedList<Batch>> PLANT_MAP = new HashMap<String, LinkedList<Batch>>();
     private static List<Batch> ITEMS = new ArrayList<Batch>();
 
     private static void initializeItems(Context context) {
@@ -33,13 +36,11 @@ public class BatchContent implements Serializable {
                 ITEMS = (List<Batch>) ois.readObject();
                 ois.close();
                 for (Batch batch : ITEMS) {
-                    ITEM_MAP.put(batch.getId(), batch);
-                    Integer count = PLANT_MAP.get(batch.getPlantId());
-                    PLANT_MAP.put(batch.getPlantId(), (count == null) ? 1 : count + 1);
+                    addBatchToMap(batch);
                 }
             } else {
                 // Adding the garden batch to account for all plants
-                Batch garden = new Batch("0", "", "Garden", new Date());
+                Batch garden = new Batch("0", "Garden", new Date(), null);
                 ITEMS.add(garden);
                 ITEM_MAP.put(garden.id, garden);
             }
@@ -66,7 +67,41 @@ public class BatchContent implements Serializable {
         if (ITEMS.isEmpty()) {  // Check items as batch can be empty
             initializeItems(context);
         }
-        return PLANT_MAP.get(plantId);
+        List<Batch> list = PLANT_MAP.get(plantId);
+        if (list != null) {
+            return list.size();
+        }
+        return 0;
+    }
+
+    public static List<NotificationContent> pendingActivities() {
+        List<NotificationContent> notification = new ArrayList<>();
+        for (LinkedList<Batch> list : PLANT_MAP.values()) {
+            Batch lastBatch = list.getLast();
+            Plant lastBatchPlant = lastBatch.getPlant();
+            long diff = Calendar.getInstance().getTimeInMillis() - lastBatchPlant.getNextSowingDate(lastBatch.getCreatedDate()).getTime();
+            long dayCount = (long) diff / (24 * 60 * 60 * 1000);
+            if (dayCount > 0) {
+                notification.add(new NotificationContent(
+                        "Sow " + lastBatch.getPlant().getName() + "!",
+                        dayCount + dayCount > 1 ? " day" : " days" + "overdue"));
+            }
+        }
+        return notification;
+    }
+
+    private static void addBatchToMap(Batch batch) {
+        ITEM_MAP.put(batch.getId(), batch);
+        if (batch.getPlant() != null) {
+            LinkedList<Batch> list = PLANT_MAP.get(batch.getPlant().getId());
+            if (list == null) {
+                list = new LinkedList<Batch>();
+                list.add(batch);
+                PLANT_MAP.put(batch.getPlant().getId(), list);
+            } else {
+                list.add(batch);
+            }
+        }
     }
 
     public static void addBatch(Context context, Batch batch) {
@@ -76,11 +111,7 @@ public class BatchContent implements Serializable {
                 file.createNewFile();
             }
             ITEMS.add(0, batch);
-
-            ITEM_MAP.put(batch.id, batch);
-            Integer count = PLANT_MAP.get(batch.getPlantId());
-            PLANT_MAP.put(batch.getPlantId(), (count == null) ? 1 : count + 1);
-
+            addBatchToMap(batch);
             FileOutputStream fout = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fout);
             oos.writeObject(ITEMS);
@@ -94,6 +125,7 @@ public class BatchContent implements Serializable {
     public static class Batch implements Serializable, Helper.DisplayableItem {
         private static final long serialVersionUID = 1L;
         private String id;
+        transient private Plant plant;
         private String plantId;
         private String name;
         private Date createdDate;
@@ -101,9 +133,12 @@ public class BatchContent implements Serializable {
         public Batch() {
         }
 
-        public Batch(String id, String plantId, String name, Date createdDate) {
+        public Batch(String id, String name, Date createdDate, Plant plant) {
             this.id = id;
-            this.plantId = plantId;
+            this.plant = plant;
+            if (plant != null) {
+                this.plantId = plant.getId();
+            }
             this.name = name;
             this.createdDate = createdDate;
         }
@@ -116,12 +151,16 @@ public class BatchContent implements Serializable {
             this.id = id;
         }
 
-        public String getPlantId() {
-            return plantId;
+        public Plant getPlant() {
+            if (plant == null && plantId != null) {
+                plant = PlantContent.getItemMap().get(plantId);
+            }
+            return plant;
         }
 
-        public void setPlantId(String plantId) {
-            this.plantId = plantId;
+        public void setPlant(Plant plant) {
+            this.plant = plant;
+            this.plantId = plant.getId();
         }
 
         public String getName() {
@@ -141,10 +180,10 @@ public class BatchContent implements Serializable {
         }
 
         public String getImageName() {
-            if (plantId.isEmpty()) { // For garden
+            if (getPlant() == null) { // For garden
                 return Helper.getImageFileName(name);
             }
-            return Helper.getImageFileName(PlantContent.getItemMap().get(plantId).getName());
+            return Helper.getImageFileName(getPlant().getName());
         }
 
         @Override
