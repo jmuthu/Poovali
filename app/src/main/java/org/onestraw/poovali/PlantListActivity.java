@@ -4,7 +4,6 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
@@ -13,6 +12,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
+import android.widget.ImageView;
 
 import org.onestraw.poovali.fragment.EventsFragment;
 import org.onestraw.poovali.fragment.PlantsFragment;
@@ -22,6 +22,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class PlantListActivity extends AppCompatActivity {
+    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,21 +35,41 @@ public class PlantListActivity extends AppCompatActivity {
         getSupportActionBar().setIcon(R.mipmap.watering_can);
         toolbar.setTitle(getTitle());
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
+        viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        ImageView addImageView = (ImageView) findViewById(R.id.add_action);
+        addImageView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), AddEventActivity.class);
-                //intent.putExtra(PlantContent.ARG_ITEM_ID, holder.mItem.id);
+                intent.putExtra(AddEventActivity.ARG_PAGE_ID, viewPager.getCurrentItem());
                 startActivity(intent);
             }
         });
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                ImageView imageView = (ImageView) findViewById(R.id.add_action);
+                int actionImageId = viewPager.getCurrentItem() == 0 ? R.drawable.seeds : R.drawable.batch_activity;
+                imageView.setImageResource(actionImageId);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         setAlarm();
     }
 

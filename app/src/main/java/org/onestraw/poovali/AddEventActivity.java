@@ -12,7 +12,6 @@ import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.DatePicker;
 import android.widget.EditText;
@@ -36,11 +35,23 @@ import java.util.Date;
 import java.util.UUID;
 
 public class AddEventActivity extends AppCompatActivity {
-    SpinnerAdapter plantSpinnerAdapter;
-    SpinnerAdapter batchSpinnerAdapter;
+    public static final String ARG_PAGE_ID = "PAGE_ID";
+    boolean isSowActivity = true;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        Bundle extras = getIntent().getExtras();
+        if (extras != null) {
+            int pageId = extras.getInt(ARG_PAGE_ID);
+            if (pageId == 0) {
+                isSowActivity = true;
+            } else {
+                isSowActivity = false;
+            }
+        }
+
         setContentView(R.layout.activity_add_event);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -48,36 +59,37 @@ public class AddEventActivity extends AppCompatActivity {
 
         Spinner eventSpinner = (Spinner) findViewById(R.id.event_type_spinner);
 
-        SpinnerAdapter eventSpinnerAdapter = new EventTypeSpinnerAdapter(this,
-                new ArrayList<EventContent.EventType>(Arrays.asList(EventContent.EventType.values())));
-        eventSpinner.setAdapter(eventSpinnerAdapter);
-        //mySpinner.setSelection(EventContent.DEFAULT_EVENT_TYPE_POSITION);
+        String label;
 
-        final Spinner plantSpinner = (Spinner) findViewById(R.id.plant_type_spinner);
+        SpinnerAdapter plantSpinnerAdapter;
 
-        plantSpinnerAdapter = new CustomSpinnerAdapter<PlantContent.Plant>(this,
-                new ArrayList<PlantContent.Plant>(PlantContent.getItems()));
-        batchSpinnerAdapter = new CustomSpinnerAdapter<BatchContent.Batch>(this,
-                new ArrayList<BatchContent.Batch>(BatchContent.getItems(this)));
+        if (isSowActivity) {
+            findViewById(R.id.event_type_label).setVisibility(View.GONE);
+            eventSpinner.setVisibility(View.GONE);
 
-        AdapterView.OnItemSelectedListener eventTypeSelectedListener = new AdapterView.OnItemSelectedListener() {
-            @Override
-            public void onItemSelected(AdapterView<?> spinner, View container,
-                                       int position, long id) {
-                EventContent.EventType eventType = (EventContent.EventType) spinner.getSelectedItem();
-                if (eventType == EventContent.EventType.SOW) {
-                    plantSpinner.setAdapter(plantSpinnerAdapter);
-                } else {
-                    plantSpinner.setAdapter(batchSpinnerAdapter);
-                }
-            }
+            label = getResources().getString(R.string.plant_label);
+            plantSpinnerAdapter = new CustomSpinnerAdapter<PlantContent.Plant>(this,
+                    new ArrayList<PlantContent.Plant>(PlantContent.getItems()));
+        } else {
 
-            @Override
-            public void onNothingSelected(AdapterView<?> arg0) {
-                plantSpinner.setAdapter(batchSpinnerAdapter);
-            }
-        };
-        eventSpinner.setOnItemSelectedListener(eventTypeSelectedListener);
+            ArrayList<EventContent.EventType> batchActivityList =
+                    new ArrayList<EventContent.EventType>(Arrays.asList(EventContent.EventType.values()));
+
+            SpinnerAdapter eventSpinnerAdapter = new EventTypeSpinnerAdapter(this, batchActivityList);
+            eventSpinner.setAdapter(eventSpinnerAdapter);
+
+            label = getResources().getString(R.string.batch_label);
+            plantSpinnerAdapter = new CustomSpinnerAdapter<BatchContent.Batch>(this,
+                    new ArrayList<BatchContent.Batch>(BatchContent.getItems(this)));
+            batchActivityList.remove(EventContent.EventType.SOW.ordinal());
+        }
+
+
+        Spinner plantSpinner = (Spinner) findViewById(R.id.plant_type_spinner);
+        plantSpinner.setAdapter(plantSpinnerAdapter);
+
+        TextView plant_label = (TextView) findViewById(R.id.plant_label);
+        plant_label.setText(label);
 
         Date currDate = Calendar.getInstance().getTime();
 
@@ -100,13 +112,15 @@ public class AddEventActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
-        Spinner spinner = (Spinner) findViewById(R.id.event_type_spinner);
-        EventContent.EventType eventType = (EventContent.EventType) spinner.getSelectedItem();
+        EventContent.EventType eventType = EventContent.EventType.SOW;
+        if (!isSowActivity) {
+            Spinner spinner = (Spinner) findViewById(R.id.event_type_spinner);
+            eventType = (EventContent.EventType) spinner.getSelectedItem();
+        }
         event.setType(eventType);
 
-        spinner = (Spinner) findViewById(R.id.plant_type_spinner);
-        if (eventType == EventContent.EventType.SOW) {
+        Spinner spinner = (Spinner) findViewById(R.id.plant_type_spinner);
+        if (isSowActivity) {
             BatchContent.Batch batch = new BatchContent.Batch();
             batch.setId(UUID.randomUUID().toString());
             batch.setCreatedDate(event.getCreatedDate());
@@ -114,11 +128,11 @@ public class AddEventActivity extends AppCompatActivity {
             SimpleDateFormat format = new SimpleDateFormat("dd MMM yy");
             String date = format.format(batch.getCreatedDate());
             batch.setName(batch.getPlant().getName() +
-                    " batch of " + date);
-            BatchContent.addBatch(this,batch);
+                    " - " + date);
+            BatchContent.addBatch(this, batch);
             event.setBatchId(batch.getId());
         } else {
-            event.setBatchId(((BatchContent.Batch)spinner.getSelectedItem()).getId());
+            event.setBatchId(((BatchContent.Batch) spinner.getSelectedItem()).getId());
         }
 
         EditText desc = (EditText) findViewById(R.id.event_description);
@@ -215,7 +229,7 @@ public class AddEventActivity extends AppCompatActivity {
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.spinner_item, parent, false);
             }
-            if (item!=null) {
+            if (item != null) {
                 ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
                 imageView.setImageResource(getResources().getIdentifier(
                         Helper.getImageFileName(item.toString()),

@@ -47,7 +47,7 @@
     </style>
 
     <style name="AddEventLabel" parent="@android:style/TextAppearance.Material.Medium">
-        <item name="android:layout_marginTop">25sp</item>
+        <item name="android:layout_marginTop">30sp</item>
         <item name="android:layout_marginBottom">10sp</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>

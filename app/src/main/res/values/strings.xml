@@ -9,8 +9,9 @@
     <string name="cancel_label">Cancel</string>
     <string name="days">%s days</string>
     <string name="title_activity_add_event">AddEvent</string>
-    <string name="event_type">Select Activity</string>
-    <string name="created_on">Created On</string>
+    <string name="event_type">Activity</string>
+    <string name="created_on">Date</string>
     <string name="event_description">Notes</string>
-    <string name="plant_label">For Plant</string>
+    <string name="plant_label">Sowed Plant</string>
+    <string name="batch_label">Batch</string>
 </resources>

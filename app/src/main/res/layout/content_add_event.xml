@@ -12,12 +12,9 @@
         android:id="@+id/content_add_event"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginEnd="5dp"
-        android:layout_marginStart="5dp"
         android:paddingBottom="@dimen/activity_vertical_margin"
         android:paddingLeft="@dimen/activity_horizontal_margin"
         android:paddingRight="@dimen/activity_horizontal_margin"
-        android:paddingTop="@dimen/activity_vertical_margin"
         tools:context="org.onestraw.poovali.AddEventActivity"
         tools:showIn="@layout/activity_add_event">
 
@@ -75,6 +72,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/date_label"
+            android:padding="5dp"
             android:background="?android:attr/selectableItemBackground"
             android:clickable="true"
             android:onClick="showDatePickerDialog" />
@@ -94,6 +92,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/date_label"
+            android:padding="5dp"
             android:layout_marginStart="25dp"
             android:layout_toEndOf="@id/date"
             android:gravity="center"
@@ -123,6 +122,8 @@
             android:maxLength="2000"
             android:maxLines="4"
             android:minLines="1"
+            android:padding="5dp"
+            android:labelFor="@id/event_description"
             android:textCursorDrawable="@drawable/cursor" />
     </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>
