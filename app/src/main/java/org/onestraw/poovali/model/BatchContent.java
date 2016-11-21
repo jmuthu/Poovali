@@ -84,7 +84,7 @@ public class BatchContent implements Serializable {
             if (dayCount > 0) {
                 notification.add(new NotificationContent(
                         "Sow " + lastBatch.getPlant().getName() + "!",
-                        dayCount + dayCount > 1 ? " day" : " days" + "overdue"));
+                        dayCount + (dayCount > 1 ? " days " : " day ") + "overdue"));
             }
         }
         return notification;
