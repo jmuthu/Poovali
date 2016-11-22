@@ -8,4 +8,5 @@
     <color name="windowBackground">#FFFFFF</color>
     <color name="navigationBarColor">#000000</color>
     <color name="borderColor">#E0E0E0</color>
+    <color name="textWarn">#BF360C</color>
 </resources>

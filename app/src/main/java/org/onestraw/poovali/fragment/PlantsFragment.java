@@ -73,13 +73,27 @@ public class PlantsFragment extends Fragment {
 
             Integer batchCount = BatchContent.getNoOfItems(getActivity(), holder.mItem.getId());
             String name = holder.mItem.getName();
-            if (batchCount != null && batchCount > 0) {
+            if (batchCount > 0) {
                 name += " (" + batchCount + ")";
             }
 
             holder.mNameView.setText(name);
             String days = String.format(getResources().getString(R.string.days), holder.mItem.getCropDuration().toString());
-            holder.mContentView.setText(days);
+            holder.mContentView.setText("Crop duration : " + days);
+
+            Integer overDue = BatchContent.pendingSowDays(holder.mItem.getId());
+            if (overDue != null) {
+                if (overDue == 0) {
+                    holder.mBatchesView.setText("Sow today");
+                } else if (overDue > 0) {
+                    String text = overDue == 1 ? overDue + " day overdue" : overDue + " days overdue";
+                    holder.mBatchesView.setText(text);
+                    holder.mBatchesView.setTextColor(getResources().getColor(R.color.textWarn));
+                } else {
+                    holder.mBatchesView.setText("Sow in " + overDue * -1 + " days");
+                }
+            }
+
 
             holder.mIconView.setImageResource(getResources().getIdentifier(
                     holder.mItem.getImageName(),
@@ -105,6 +119,7 @@ public class PlantsFragment extends Fragment {
             final View mView;
             final TextView mNameView;
             final TextView mContentView;
+            final TextView mBatchesView;
             final ImageView mIconView;
             PlantContent.Plant mItem;
 
@@ -113,12 +128,13 @@ public class PlantsFragment extends Fragment {
                 mView = view;
                 mNameView = (TextView) view.findViewById(R.id.name);
                 mContentView = (TextView) view.findViewById(R.id.content);
+                mBatchesView = (TextView) view.findViewById(R.id.batches);
                 mIconView = (ImageView) view.findViewById(R.id.image_icon);
             }
 
             @Override
             public String toString() {
-                return super.toString() + " '" + mContentView.getText() + "'";
+                return super.toString() + " '" + mNameView.getText() + "'";
             }
         }
     }

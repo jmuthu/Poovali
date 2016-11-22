@@ -13,6 +13,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.LinkedList;
@@ -77,17 +79,33 @@ public class BatchContent implements Serializable {
     public static List<NotificationContent> pendingActivities() {
         List<NotificationContent> notification = new ArrayList<>();
         for (LinkedList<Batch> list : PLANT_MAP.values()) {
-            Batch lastBatch = list.getLast();
-            Plant lastBatchPlant = lastBatch.getPlant();
-            long diff = Calendar.getInstance().getTimeInMillis() - lastBatchPlant.getNextSowingDate(lastBatch.getCreatedDate()).getTime();
-            long dayCount = (long) diff / (24 * 60 * 60 * 1000);
+            Batch latestBatch = list.getLast();
+            Integer dayCount = pendingSowDays(latestBatch);
             if (dayCount > 0) {
                 notification.add(new NotificationContent(
-                        "Sow " + lastBatch.getPlant().getName() + "!",
+                        "Sow " + latestBatch.getPlant().getName() + "!",
                         dayCount + (dayCount > 1 ? " days " : " day ") + "overdue"));
+            } else if (dayCount == 0) {
+                notification.add(new NotificationContent(
+                        "Sow " + latestBatch.getPlant().getName() + " today!",
+                        ""));
             }
         }
         return notification;
+    }
+
+    public static Integer pendingSowDays(String plantId) {
+        LinkedList<Batch> list = PLANT_MAP.get(plantId);
+        if (list == null) {
+            return null;
+        }
+        return pendingSowDays(list.getLast());
+    }
+
+    public static Integer pendingSowDays(Batch batch) {
+        Long diff = (Calendar.getInstance().getTimeInMillis() -
+                batch.getPlant().getNextSowingDate(batch.getCreatedDate()).getTime()) / (24 * 60 * 60 * 1000);
+        return diff.intValue();
     }
 
     private static void addBatchToMap(Batch batch) {
@@ -96,11 +114,10 @@ public class BatchContent implements Serializable {
             LinkedList<Batch> list = PLANT_MAP.get(batch.getPlant().getId());
             if (list == null) {
                 list = new LinkedList<Batch>();
-                list.add(batch);
-                PLANT_MAP.put(batch.getPlant().getId(), list);
-            } else {
-                list.add(batch);
             }
+            list.add(batch);
+            Collections.sort(list, new BatchComparator());
+            PLANT_MAP.put(batch.getPlant().getId(), list);
         }
     }
 
@@ -189,6 +206,14 @@ public class BatchContent implements Serializable {
         @Override
         public String toString() {
             return name;
+        }
+    }
+
+    static class BatchComparator implements Comparator<Batch> {
+
+        @Override
+        public int compare(Batch b1, Batch b2) {
+            return b1.getCreatedDate().compareTo(b2.getCreatedDate());
         }
     }
 }

@@ -23,7 +23,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="5dip"
-        android:layout_toRightOf="@id/image_icon" />
+        android:layout_toEndOf="@id/image_icon" />
 
     <TextView
         android:id="@+id/content"
@@ -31,15 +31,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/name"
-        android:layout_toRightOf="@id/image_icon" />
+        android:layout_toEndOf="@id/image_icon" />
 
     <TextView
         android:id="@+id/batches"
         style="@android:style/TextAppearance.Material.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/content"
-        android:layout_alignBottom="@+id/content"
+        android:layout_alignBaseline="@+id/name"
+        android:layout_alignBottom="@+id/name"
         android:layout_alignParentEnd="true" />
 
     <View
@@ -47,7 +47,7 @@
         android:layout_height="1dp"
         android:layout_alignEnd="@+id/batches"
         android:layout_alignStart="@+id/name"
-        android:layout_below="@+id/batches"
+        android:layout_below="@+id/content"
         android:layout_marginTop="15dp"
         android:background="@color/lineDivider" />
 </RelativeLayout>
