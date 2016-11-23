@@ -35,7 +35,8 @@ import java.util.Date;
 import java.util.UUID;
 
 public class AddEventActivity extends AppCompatActivity {
-    public static final String ARG_PAGE_ID = "PAGE_ID";
+    public static final String ARG_IS_SOW_ACTIVITY = "PAGE_ID";
+
     boolean isSowActivity = true;
 
     @Override
@@ -44,12 +45,7 @@ public class AddEventActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            int pageId = extras.getInt(ARG_PAGE_ID);
-            if (pageId == 0) {
-                isSowActivity = true;
-            } else {
-                isSowActivity = false;
-            }
+            isSowActivity = extras.getBoolean(ARG_IS_SOW_ACTIVITY);
         }
 
         setContentView(R.layout.activity_add_event);

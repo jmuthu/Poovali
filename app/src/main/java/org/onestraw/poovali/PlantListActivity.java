@@ -46,7 +46,8 @@ public class PlantListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), AddEventActivity.class);
-                intent.putExtra(AddEventActivity.ARG_PAGE_ID, viewPager.getCurrentItem());
+                boolean isSowActivity = viewPager.getCurrentItem() == 0;
+                intent.putExtra(AddEventActivity.ARG_IS_SOW_ACTIVITY, isSowActivity);
                 startActivity(intent);
             }
         });
