@@ -1,5 +1,7 @@
 package org.onestraw.poovali.fragment;
 
+import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -11,6 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.onestraw.poovali.R;
+import org.onestraw.poovali.ViewEventActivity;
 import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.EventContent;
 
@@ -71,7 +74,8 @@ public class EventsFragment extends Fragment {
         @Override
         public void onBindViewHolder(final EventsFragment.SimpleItemRecyclerViewAdapter.ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            BatchContent.Batch batch = BatchContent.getItemMap(getActivity()).get(holder.mItem.getBatchId());
+            final int eventId = position;
+            BatchContent.Batch batch = holder.mItem.getBatch(getActivity());
 
             SimpleDateFormat format = new SimpleDateFormat("dd MMM yy");
             String date = format.format(holder.mItem.getCreatedDate());
@@ -90,6 +94,15 @@ public class EventsFragment extends Fragment {
             holder.mEventIconView.setImageResource(getResources().getIdentifier(holder.mItem.getImageName(),
                     "drawable",
                     holder.mPlantIconView.getContext().getPackageName()));
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, ViewEventActivity.class);
+                    intent.putExtra(ViewEventActivity.ARG_EVENT_ID, eventId);
+                    context.startActivity(intent);
+                }
+            });
         }
 
         @Override

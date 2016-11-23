@@ -94,10 +94,10 @@ public class AddEventActivity extends AppCompatActivity {
         Date currDate = Calendar.getInstance().getTime();
 
         TextView dateView = (TextView) findViewById(R.id.date);
-        dateView.setText(DatePickerFragment.DATE_FORMAT.format(currDate));
+        dateView.setText(EventContent.DATE_FORMAT.format(currDate));
 
         TextView timeView = (TextView) findViewById(R.id.time);
-        timeView.setText(TimePickerFragment.TIME_FORMAT.format(currDate));
+        timeView.setText(EventContent.TIME_FORMAT.format(currDate));
     }
 
     public void saveEvent(View v) {
@@ -130,9 +130,9 @@ public class AddEventActivity extends AppCompatActivity {
             batch.setName(batch.getPlant().getName() +
                     " - " + date);
             BatchContent.addBatch(this, batch);
-            event.setBatchId(batch.getId());
+            event.setBatch(batch);
         } else {
-            event.setBatchId(((BatchContent.Batch) spinner.getSelectedItem()).getId());
+            event.setBatch((BatchContent.Batch) spinner.getSelectedItem());
         }
 
         EditText desc = (EditText) findViewById(R.id.event_description);
@@ -158,7 +158,6 @@ public class AddEventActivity extends AppCompatActivity {
 
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
-        public static final DateFormat DATE_FORMAT = DateFormat.getDateInstance(DateFormat.MEDIUM);
 
         @Override
         @NonNull
@@ -166,7 +165,7 @@ public class AddEventActivity extends AppCompatActivity {
             TextView dateView = (TextView) getActivity().findViewById(R.id.date);
             Calendar calendar = Calendar.getInstance();
             try {
-                calendar.setTime(DATE_FORMAT.parse(dateView.getText().toString()));
+                calendar.setTime(EventContent.DATE_FORMAT.parse(dateView.getText().toString()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -182,13 +181,12 @@ public class AddEventActivity extends AppCompatActivity {
             Calendar calendar = Calendar.getInstance();
             calendar.set(year, month, day);
 
-            dateView.setText(DATE_FORMAT.format(calendar.getTime()));
+            dateView.setText(EventContent.DATE_FORMAT.format(calendar.getTime()));
         }
     }
 
     public static class TimePickerFragment extends DialogFragment
             implements TimePickerDialog.OnTimeSetListener {
-        public static final DateFormat TIME_FORMAT = DateFormat.getTimeInstance(DateFormat.MEDIUM);
 
         @Override
         @NonNull
@@ -196,7 +194,7 @@ public class AddEventActivity extends AppCompatActivity {
             TextView timeView = (TextView) getActivity().findViewById(R.id.time);
             Calendar calendar = Calendar.getInstance();
             try {
-                calendar.setTime(TIME_FORMAT.parse(timeView.getText().toString()));
+                calendar.setTime(EventContent.TIME_FORMAT.parse(timeView.getText().toString()));
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -213,7 +211,7 @@ public class AddEventActivity extends AppCompatActivity {
             final Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR, hourOfDay);
             calendar.set(Calendar.MINUTE, minute);
-            dateView.setText(TIME_FORMAT.format(calendar.getTime()));
+            dateView.setText(EventContent.TIME_FORMAT.format(calendar.getTime()));
         }
     }
 

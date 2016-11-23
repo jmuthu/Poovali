@@ -14,4 +14,7 @@
     <string name="event_description">Notes</string>
     <string name="plant_label">Sowed Plant</string>
     <string name="batch_label">Batch</string>
+    <string name="delete">delete</string>
+    <string name="edit">edit</string>
+    <string name="delete_alert">Delete this event?</string>
 </resources>

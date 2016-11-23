@@ -10,6 +10,7 @@ import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
+import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -17,6 +18,8 @@ import java.util.List;
 public class EventContent implements Serializable {
     private static final String EVENTS_FILE = "poovali_events.json";
     private static List<Event> ITEMS = new ArrayList<Event>();
+    public static final DateFormat DATE_FORMAT = DateFormat.getDateInstance(DateFormat.MEDIUM);
+    public static final DateFormat TIME_FORMAT = DateFormat.getTimeInstance(DateFormat.MEDIUM);
 
     private static void initializeItems(Context context) {
         try {
@@ -118,6 +121,7 @@ public class EventContent implements Serializable {
         private Date createdDate;
         private EventType type;
         private String batchId;
+        transient private BatchContent.Batch batch;
         private String description;
 
         public String getId() {
@@ -128,8 +132,16 @@ public class EventContent implements Serializable {
             this.id = eventId;
         }
 
-        public String getBatchId() {
-            return batchId;
+        public BatchContent.Batch getBatch(Context context) {
+            if (batch == null && batchId != null) {
+                batch = BatchContent.getItemMap(context).get(batchId);
+            }
+            return batch;
+        }
+
+        public void setBatch(BatchContent.Batch batch) {
+            this.batch = batch;
+            this.batchId = batch.getId();
         }
 
         public void setBatchId(String batchId) {
