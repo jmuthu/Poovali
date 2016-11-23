@@ -2,6 +2,7 @@ package org.onestraw.poovali;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -18,7 +19,7 @@ import org.onestraw.poovali.model.EventContent;
 public class ViewEventActivity extends AppCompatActivity {
     public static final String ARG_EVENT_ID = "ARG_EVENT";
     EventContent.Event event;
-    public static int eventId;
+    static int eventId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,11 @@ public class ViewEventActivity extends AppCompatActivity {
                 dialog.show(getSupportFragmentManager(), "DeleteEvent");
                 return true;
             case R.id.edit:
-                //edit();
+                Intent intent = new Intent(this, AddEventActivity.class);
+                intent.putExtra(AddEventActivity.ARG_EVENT_ID, eventId);
+                intent.putExtra(AddEventActivity.ARG_IS_SOW_ACTIVITY, false);
+                startActivity(intent);
+                finish();
                 return true;
             case android.R.id.home:
                 finish();
@@ -90,6 +95,7 @@ public class ViewEventActivity extends AppCompatActivity {
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
                     EventContent.getItems(getActivity()).remove(eventId);
+                    EventContent.saveItems(getActivity());
                     (getActivity()).finish();
                 }
             });

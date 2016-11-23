@@ -36,7 +36,8 @@ import java.util.UUID;
 
 public class AddEventActivity extends AppCompatActivity {
     public static final String ARG_IS_SOW_ACTIVITY = "PAGE_ID";
-
+    public static final String ARG_EVENT_ID = "EVENT_ID";
+    EventContent.Event event = null;
     boolean isSowActivity = true;
 
     @Override
@@ -46,6 +47,10 @@ public class AddEventActivity extends AppCompatActivity {
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             isSowActivity = extras.getBoolean(ARG_IS_SOW_ACTIVITY);
+            int eventId = extras.getInt(ARG_EVENT_ID, -1);
+            if (eventId > -1) {
+                event = EventContent.getItems(this).get(eventId);
+            }
         }
 
         setContentView(R.layout.activity_add_event);
@@ -65,7 +70,7 @@ public class AddEventActivity extends AppCompatActivity {
 
             label = getResources().getString(R.string.plant_label);
             plantSpinnerAdapter = new CustomSpinnerAdapter<PlantContent.Plant>(this,
-                    new ArrayList<PlantContent.Plant>(PlantContent.getItems()));
+                    (ArrayList<PlantContent.Plant>) PlantContent.getItems());
         } else {
 
             ArrayList<EventContent.EventType> batchActivityList =
@@ -76,10 +81,10 @@ public class AddEventActivity extends AppCompatActivity {
 
             label = getResources().getString(R.string.batch_label);
             plantSpinnerAdapter = new CustomSpinnerAdapter<BatchContent.Batch>(this,
-                    new ArrayList<BatchContent.Batch>(BatchContent.getItems(this)));
+                    (ArrayList<BatchContent.Batch>) BatchContent.getItems(this));
+
             batchActivityList.remove(EventContent.EventType.SOW.ordinal());
         }
-
 
         Spinner plantSpinner = (Spinner) findViewById(R.id.plant_type_spinner);
         plantSpinner.setAdapter(plantSpinnerAdapter);
@@ -87,18 +92,34 @@ public class AddEventActivity extends AppCompatActivity {
         TextView plant_label = (TextView) findViewById(R.id.plant_label);
         plant_label.setText(label);
 
-        Date currDate = Calendar.getInstance().getTime();
+        Date date;
+        String description = null;
+        if (event != null) {
+            date = event.getCreatedDate();
+            eventSpinner.setSelection(event.getType().ordinal());
+            plantSpinner.setSelection(BatchContent.getItems(this).indexOf(event.getBatch(this)));
+            description = event.getDescription();
+        } else {
+            date = Calendar.getInstance().getTime();
+        }
 
         TextView dateView = (TextView) findViewById(R.id.date);
-        dateView.setText(EventContent.DATE_FORMAT.format(currDate));
+        dateView.setText(EventContent.DATE_FORMAT.format(date));
 
         TextView timeView = (TextView) findViewById(R.id.time);
-        timeView.setText(EventContent.TIME_FORMAT.format(currDate));
+        timeView.setText(EventContent.TIME_FORMAT.format(date));
+
+        TextView eventDescription = (TextView) findViewById(R.id.event_description);
+        eventDescription.setText(description);
     }
 
     public void saveEvent(View v) {
-        EventContent.Event event = new EventContent.Event();
-        event.setId(UUID.randomUUID().toString());
+        boolean isNewEvent = false;
+        if (event == null) {
+            event = new EventContent.Event();
+            event.setId(UUID.randomUUID().toString());
+            isNewEvent = true;
+        }
         TextView dateView = (TextView) findViewById(R.id.date);
         TextView timeView = (TextView) findViewById(R.id.time);
         DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
@@ -134,7 +155,11 @@ public class AddEventActivity extends AppCompatActivity {
         EditText desc = (EditText) findViewById(R.id.event_description);
         event.setDescription(desc.getText().toString());
 
-        EventContent.addEvent(this, event);
+        if (isNewEvent) {
+            EventContent.addEvent(this, event);
+        } else {
+            EventContent.saveItems(this);
+        }
         finish();
     }
 

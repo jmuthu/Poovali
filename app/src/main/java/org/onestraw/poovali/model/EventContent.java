@@ -16,10 +16,10 @@ import java.util.Date;
 import java.util.List;
 
 public class EventContent implements Serializable {
-    private static final String EVENTS_FILE = "poovali_events.json";
-    private static List<Event> ITEMS = new ArrayList<Event>();
     public static final DateFormat DATE_FORMAT = DateFormat.getDateInstance(DateFormat.MEDIUM);
     public static final DateFormat TIME_FORMAT = DateFormat.getTimeInstance(DateFormat.MEDIUM);
+    private static final String EVENTS_FILE = "poovali_events.json";
+    private static List<Event> ITEMS = new ArrayList<Event>();
 
     private static void initializeItems(Context context) {
         try {
@@ -37,20 +37,25 @@ public class EventContent implements Serializable {
     }
 
     public static void addEvent(Context context, Event event) {
+        ITEMS.add(0, event);
+        saveItems(context);
+    }
+
+    public static void saveItems(Context context) {
         try {
             File file = new File(context.getFilesDir(), EVENTS_FILE);
             if (!file.isFile()) {
                 file.createNewFile();
             }
-            ITEMS.add(0,event);
+
             FileOutputStream fout = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fout);
             oos.writeObject(EventContent.ITEMS);
             oos.close();
-
         } catch (Exception e) {
             e.printStackTrace();
         }
+
     }
 
     public static List<Event> getItems(Context context) {
@@ -101,14 +106,15 @@ public class EventContent implements Serializable {
                 return "Re-plant";
             }
         },
-        SOW {
-            public String toString() {
-                return "Sow";
-            }
-        },
         WATER {
             public String toString() {
                 return "Water";
+            }
+        },
+        SOW {                                           // Keep this last activity
+
+            public String toString() {
+                return "Sow";
             }
         }
 
