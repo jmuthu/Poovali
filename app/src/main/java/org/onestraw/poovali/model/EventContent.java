@@ -65,7 +65,7 @@ public class EventContent implements Serializable {
         return ITEMS;
     }
 
-    public enum EventType {
+    public enum BatchActivityType {
         DEWEED {
             public String toString() {
                 return "DeWeed";
@@ -110,23 +110,15 @@ public class EventContent implements Serializable {
             public String toString() {
                 return "Water";
             }
-        },
-        SOW {                                           // Keep this last activity
-
-            public String toString() {
-                return "Sow";
-            }
         }
-
     }
 
-    public static class Event implements Serializable, Helper.DisplayableItem {
+    public static abstract class Event implements Serializable, Helper.DisplayableItem {
         private static final long serialVersionUID = 1L;
 
         private String id;
         private Date createdDate;
-        private EventType type;
-        private String batchId;
+        private String batchId;  // For serialization only
         transient private BatchContent.Batch batch;
         private String description;
 
@@ -136,6 +128,14 @@ public class EventContent implements Serializable {
 
         public void setId(String eventId) {
             this.id = eventId;
+        }
+
+        public Date getCreatedDate() {
+            return createdDate;
+        }
+
+        public void setCreatedDate(Date createdDate) {
+            this.createdDate = createdDate;
         }
 
         public BatchContent.Batch getBatch(Context context) {
@@ -150,26 +150,6 @@ public class EventContent implements Serializable {
             this.batchId = batch.getId();
         }
 
-        public void setBatchId(String batchId) {
-            this.batchId = batchId;
-        }
-
-        public Date getCreatedDate() {
-            return createdDate;
-        }
-
-        public void setCreatedDate(Date createdDate) {
-            this.createdDate = createdDate;
-        }
-
-        public EventType getType() {
-            return type;
-        }
-
-        public void setType(EventType type) {
-            this.type = type;
-        }
-
         public String getDescription() {
             return description;
         }
@@ -178,17 +158,44 @@ public class EventContent implements Serializable {
             this.description = description;
         }
 
+        @Override
+        public String toString() {
+            return getName();
+        }
+    }
+
+    public static class SowBatchEvent extends Event implements Serializable {
+        private static final long serialVersionUID = 1L;
+        private final String NAME = "Sow";
+
         public String getName() {
-            return type.toString();
+            return NAME;
+        }
+
+        public String getImageName() {
+            return Helper.getImageFileName(NAME);
+        }
+    }
+
+    public static class BatchActivityEvent extends Event implements Serializable {
+        private static final long serialVersionUID = 1L;
+        private BatchActivityType type;
+
+        public String getName() {
+            return type.name();
         }
 
         public String getImageName() {
             return Helper.getImageFileName(type.name());
         }
 
-        @Override
-        public String toString() {
-            return description;
+        public BatchActivityType getType() {
+            return type;
         }
+
+        public void setType(BatchActivityType type) {
+            this.type = type;
+        }
+
     }
 }

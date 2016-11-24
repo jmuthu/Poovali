@@ -73,8 +73,8 @@ public class AddEventActivity extends AppCompatActivity {
                     (ArrayList<PlantContent.Plant>) PlantContent.getItems());
         } else {
 
-            ArrayList<EventContent.EventType> batchActivityList =
-                    new ArrayList<EventContent.EventType>(Arrays.asList(EventContent.EventType.values()));
+            ArrayList<EventContent.BatchActivityType> batchActivityList =
+                    new ArrayList<EventContent.BatchActivityType>(Arrays.asList(EventContent.BatchActivityType.values()));
 
             SpinnerAdapter eventSpinnerAdapter = new EventTypeSpinnerAdapter(this, batchActivityList);
             eventSpinner.setAdapter(eventSpinnerAdapter);
@@ -83,7 +83,6 @@ public class AddEventActivity extends AppCompatActivity {
             plantSpinnerAdapter = new CustomSpinnerAdapter<BatchContent.Batch>(this,
                     (ArrayList<BatchContent.Batch>) BatchContent.getItems(this));
 
-            batchActivityList.remove(EventContent.EventType.SOW.ordinal());
         }
 
         Spinner plantSpinner = (Spinner) findViewById(R.id.plant_type_spinner);
@@ -96,7 +95,7 @@ public class AddEventActivity extends AppCompatActivity {
         String description = null;
         if (event != null) {
             date = event.getCreatedDate();
-            eventSpinner.setSelection(event.getType().ordinal());
+            eventSpinner.setSelection(((EventContent.BatchActivityEvent) event).getType().ordinal());
             plantSpinner.setSelection(BatchContent.getItems(this).indexOf(event.getBatch(this)));
             description = event.getDescription();
         } else {
@@ -116,7 +115,11 @@ public class AddEventActivity extends AppCompatActivity {
     public void saveEvent(View v) {
         boolean isNewEvent = false;
         if (event == null) {
-            event = new EventContent.Event();
+            if (isSowActivity) {
+                event = new EventContent.SowBatchEvent();
+            } else {
+                event = new EventContent.BatchActivityEvent();
+            }
             event.setId(UUID.randomUUID().toString());
             isNewEvent = true;
         }
@@ -129,12 +132,11 @@ public class AddEventActivity extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        EventContent.EventType eventType = EventContent.EventType.SOW;
         if (!isSowActivity) {
             Spinner spinner = (Spinner) findViewById(R.id.event_type_spinner);
-            eventType = (EventContent.EventType) spinner.getSelectedItem();
+            EventContent.BatchActivityType batchActivityType = (EventContent.BatchActivityType) spinner.getSelectedItem();
+            ((EventContent.BatchActivityEvent) event).setType(batchActivityType);
         }
-        event.setType(eventType);
 
         Spinner spinner = (Spinner) findViewById(R.id.plant_type_spinner);
         if (isSowActivity) {
@@ -236,15 +238,15 @@ public class AddEventActivity extends AppCompatActivity {
         }
     }
 
-    public class EventTypeSpinnerAdapter extends ArrayAdapter<EventContent.EventType> {
+    public class EventTypeSpinnerAdapter extends ArrayAdapter<EventContent.BatchActivityType> {
 
-        EventTypeSpinnerAdapter(Activity context, ArrayList<EventContent.EventType> list) {
+        EventTypeSpinnerAdapter(Activity context, ArrayList<EventContent.BatchActivityType> list) {
             super(context, 0, list);
         }
 
         @NonNull
         public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-            EventContent.EventType item = getItem(position);
+            EventContent.BatchActivityType item = getItem(position);
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext()).inflate(R.layout.spinner_item, parent, false);
             }
