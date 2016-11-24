@@ -9,6 +9,7 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -80,15 +81,18 @@ public class EventsFragment extends Fragment {
             SimpleDateFormat format = new SimpleDateFormat("dd MMM yy");
             String date = format.format(holder.mItem.getCreatedDate());
             holder.mEventCreatedDateView.setText(date);
-            holder.mEventDescriptionView.setText(holder.mItem.getDescription());
-            holder.mEventTypeView.setText(batch.getName());
-            String imageName;
-            if (batch.getPlant() == null) {
-                imageName = batch.getImageName();
+            String description = holder.mItem.getDescription();
+            if (description.isEmpty()) {
+                holder.mEventDescriptionView.setVisibility(View.GONE);
+                MarginLayoutParams params = (MarginLayoutParams) holder.mEventTypeView.getLayoutParams();
+                params.setMargins(0, 0, 0, 20);
             } else {
-                imageName = batch.getPlant().getImageName();
+                holder.mEventDescriptionView.setText(holder.mItem.getDescription());
             }
-            holder.mPlantIconView.setImageResource(getResources().getIdentifier(imageName,
+            holder.mEventTypeView.setText(holder.mItem.getName());
+            holder.mBatchNameView.setText(batch.getName());
+
+            holder.mPlantIconView.setImageResource(getResources().getIdentifier(batch.getImageName(),
                     "drawable",
                     holder.mPlantIconView.getContext().getPackageName()));
             holder.mEventIconView.setImageResource(getResources().getIdentifier(holder.mItem.getImageName(),
@@ -97,10 +101,12 @@ public class EventsFragment extends Fragment {
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    Context context = v.getContext();
-                    Intent intent = new Intent(context, ViewEventActivity.class);
-                    intent.putExtra(ViewEventActivity.ARG_EVENT_ID, eventId);
-                    context.startActivity(intent);
+                    if (holder.mItem.getClass() == EventContent.BatchActivityEvent.class) {
+                        Context context = v.getContext();
+                        Intent intent = new Intent(context, ViewEventActivity.class);
+                        intent.putExtra(ViewEventActivity.ARG_EVENT_ID, eventId);
+                        context.startActivity(intent);
+                    }
                 }
             });
         }
@@ -112,6 +118,7 @@ public class EventsFragment extends Fragment {
 
         class ViewHolder extends RecyclerView.ViewHolder {
             final View mView;
+            final TextView mBatchNameView;
             final TextView mEventTypeView;
             final TextView mEventCreatedDateView;
             final TextView mEventDescriptionView;
@@ -122,6 +129,7 @@ public class EventsFragment extends Fragment {
             ViewHolder(View view) {
                 super(view);
                 mView = view;
+                mBatchNameView = (TextView) view.findViewById(R.id.batch);
                 mEventTypeView = (TextView) view.findViewById(R.id.event_type);
                 mEventCreatedDateView = (TextView) view.findViewById(R.id.event_created_date);
                 mEventDescriptionView = (TextView) view.findViewById(R.id.event_description);

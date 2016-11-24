@@ -182,7 +182,7 @@ public class EventContent implements Serializable {
         private BatchActivityType type;
 
         public String getName() {
-            return type.name();
+            return type.toString();
         }
 
         public String getImageName() {
