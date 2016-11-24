@@ -227,6 +227,12 @@ public class PlantContent {
             return GrowthStage.DORMANT;
         }
 
+        public int getProgress(Date date) {
+            long diff = Calendar.getInstance().getTimeInMillis() - date.getTime();
+            long dayCount = (long) diff / (24 * 60 * 60 * 1000);
+            return (int) dayCount * 100 / getCropDuration();
+        }
+
         public Date getNextSowingDate(Date createdDate) {
             Calendar c = Calendar.getInstance();
             try {

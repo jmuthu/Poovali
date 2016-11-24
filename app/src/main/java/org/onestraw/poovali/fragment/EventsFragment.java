@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.onestraw.poovali.R;
@@ -90,6 +91,7 @@ public class EventsFragment extends Fragment {
             holder.mBatchNameView.setText(batch.getName());
             if (batch.getPlant() != null) {
                 holder.mBatchStatusView.setText(batch.getPlant().getStage(batch.getCreatedDate()).toString());
+                holder.mProgressBar.setProgress(batch.getPlant().getProgress(batch.getCreatedDate()));
             }
 
             holder.mPlantIconView.setImageResource(getResources().getIdentifier(batch.getImageName(),
@@ -124,6 +126,7 @@ public class EventsFragment extends Fragment {
             final TextView mBatchStatusView;
             final ImageView mPlantIconView;
             final ImageView mEventIconView;
+            final ProgressBar mProgressBar;
             EventContent.Event mItem;
 
             ViewHolder(View view) {
@@ -135,6 +138,7 @@ public class EventsFragment extends Fragment {
                 mBatchStatusView = (TextView) view.findViewById(R.id.batch_status);
                 mEventIconView = (ImageView) view.findViewById(R.id.event_type_icon);
                 mPlantIconView = (ImageView) view.findViewById(R.id.plant_type_icon);
+                mProgressBar = (ProgressBar) view.findViewById(R.id.batch_status_progress);
             }
 
             @Override

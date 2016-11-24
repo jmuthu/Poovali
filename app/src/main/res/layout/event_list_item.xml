@@ -16,6 +16,17 @@
         android:layout_marginStart="10dp"
         android:scaleType="centerCrop" />
 
+    <ProgressBar
+        android:id="@+id/batch_status_progress"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:scaleY="1.5"
+        style="@android:style/Widget.Material.ProgressBar.Horizontal"
+        android:progressTint="@android:color/holo_green_dark"
+        android:progressBackgroundTint="@android:color/holo_green_light"
+        android:layout_below="@id/plant_type_icon"
+        android:layout_marginStart="10dp" />
+
     <TextView
         android:id="@+id/batch"
         style="@android:style/TextAppearance.Material.Title"
@@ -31,6 +42,7 @@
         android:layout_alignBaseline="@+id/batch"
         android:layout_alignBottom="@+id/batch"
         android:layout_alignParentEnd="true" />
+
 
     <ImageView
         android:id="@+id/event_type_icon"
