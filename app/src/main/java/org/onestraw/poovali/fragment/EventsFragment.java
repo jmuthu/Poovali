@@ -9,7 +9,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.MarginLayoutParams;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -18,7 +17,7 @@ import org.onestraw.poovali.ViewEventActivity;
 import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.EventContent;
 
-import java.text.SimpleDateFormat;
+import java.text.DateFormat;
 import java.util.List;
 
 public class EventsFragment extends Fragment {
@@ -78,19 +77,20 @@ public class EventsFragment extends Fragment {
             final int eventId = position;
             BatchContent.Batch batch = holder.mItem.getBatch(getActivity());
 
-            SimpleDateFormat format = new SimpleDateFormat("dd MMM yy");
+            DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
             String date = format.format(holder.mItem.getCreatedDate());
             holder.mEventCreatedDateView.setText(date);
             String description = holder.mItem.getDescription();
             if (description.isEmpty()) {
-                holder.mEventDescriptionView.setVisibility(View.GONE);
-                MarginLayoutParams params = (MarginLayoutParams) holder.mEventTypeView.getLayoutParams();
-                params.setMargins(0, 0, 0, 20);
+                holder.mEventDescriptionView.setText(holder.mItem.getName());
             } else {
-                holder.mEventDescriptionView.setText(holder.mItem.getDescription());
+                holder.mEventDescriptionView.setText(description);
             }
-            holder.mEventTypeView.setText(holder.mItem.getName());
+
             holder.mBatchNameView.setText(batch.getName());
+            if (batch.getPlant() != null) {
+                holder.mBatchStatusView.setText(batch.getPlant().getStage(batch.getCreatedDate()).toString());
+            }
 
             holder.mPlantIconView.setImageResource(getResources().getIdentifier(batch.getImageName(),
                     "drawable",
@@ -119,9 +119,9 @@ public class EventsFragment extends Fragment {
         class ViewHolder extends RecyclerView.ViewHolder {
             final View mView;
             final TextView mBatchNameView;
-            final TextView mEventTypeView;
             final TextView mEventCreatedDateView;
             final TextView mEventDescriptionView;
+            final TextView mBatchStatusView;
             final ImageView mPlantIconView;
             final ImageView mEventIconView;
             EventContent.Event mItem;
@@ -130,9 +130,9 @@ public class EventsFragment extends Fragment {
                 super(view);
                 mView = view;
                 mBatchNameView = (TextView) view.findViewById(R.id.batch);
-                mEventTypeView = (TextView) view.findViewById(R.id.event_type);
                 mEventCreatedDateView = (TextView) view.findViewById(R.id.event_created_date);
                 mEventDescriptionView = (TextView) view.findViewById(R.id.event_description);
+                mBatchStatusView = (TextView) view.findViewById(R.id.batch_status);
                 mEventIconView = (ImageView) view.findViewById(R.id.event_type_icon);
                 mPlantIconView = (ImageView) view.findViewById(R.id.plant_type_icon);
             }

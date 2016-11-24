@@ -81,26 +81,30 @@ public class PlantContent {
     }
 
     public enum GrowthStage {
-        SOWING_TO_PLANT {
+        SEEDLING {
             public String toString() {
-                return "Sowing";
+                return "Seedling";
             }
         },
-        FLOWERING_INITIATION_TO_FLOWERING {
+        FLOWERING {
             public String toString() {
                 return "Flowering";
             }
         },
-        FLOWERING_TO_FRUIT {
+        FRUITING {
             public String toString() {
                 return "Fruiting";
             }
         },
-        HARVESTING {
+        RIPENING {
             public String toString() {
-                return "Harvesting";
+                return "Ripening";
             }
-
+        },
+        DORMANT {
+            public String toString() {
+                return "Dormant";
+            }
         }
     }
 
@@ -122,19 +126,19 @@ public class PlantContent {
                      String soil,
                      String sowingSeason,
                      String seedTreatment,
-                     Integer SowingToPlant,
-                     Integer FlowerInitiationToFlowering,
-                     Integer FloweringToFruit,
-                     Integer Harvesting) {
+                     Integer seedling,
+                     Integer flowering,
+                     Integer fruiting,
+                     Integer ripening) {
             this.id = id;
             this.name = name;
             this.soil = soil;
             this.sowingSeason = sowingSeason;
             this.seedTreatment = seedTreatment;
-            this.growthStageMap.put(GrowthStage.SOWING_TO_PLANT, SowingToPlant);
-            this.growthStageMap.put(GrowthStage.FLOWERING_INITIATION_TO_FLOWERING, FlowerInitiationToFlowering);
-            this.growthStageMap.put(GrowthStage.FLOWERING_TO_FRUIT, FloweringToFruit);
-            this.growthStageMap.put(GrowthStage.HARVESTING, Harvesting);
+            this.growthStageMap.put(GrowthStage.SEEDLING, seedling);
+            this.growthStageMap.put(GrowthStage.FLOWERING, flowering);
+            this.growthStageMap.put(GrowthStage.FRUITING, fruiting);
+            this.growthStageMap.put(GrowthStage.RIPENING, ripening);
         }
 
         public String getId() {
@@ -205,17 +209,22 @@ public class PlantContent {
         public GrowthStage getStage(Date date) {
             long diff = Calendar.getInstance().getTimeInMillis() - date.getTime();
             long dayCount = (long) diff / (24 * 60 * 60 * 1000);
-            if (dayCount <= growthStageMap.get(GrowthStage.SOWING_TO_PLANT)) {
-                return GrowthStage.SOWING_TO_PLANT;
-            } else if (dayCount <= growthStageMap.get(GrowthStage.SOWING_TO_PLANT) +
-                    growthStageMap.get(GrowthStage.FLOWERING_INITIATION_TO_FLOWERING)) {
-                return GrowthStage.FLOWERING_INITIATION_TO_FLOWERING;
-            } else if (dayCount <= growthStageMap.get(GrowthStage.SOWING_TO_PLANT) +
-                    growthStageMap.get(GrowthStage.FLOWERING_INITIATION_TO_FLOWERING) +
-                    growthStageMap.get(GrowthStage.FLOWERING_TO_FRUIT)) {
-                return GrowthStage.FLOWERING_TO_FRUIT;
+            if (dayCount <= growthStageMap.get(GrowthStage.SEEDLING)) {
+                return GrowthStage.SEEDLING;
+            } else if (dayCount <= growthStageMap.get(GrowthStage.SEEDLING) +
+                    growthStageMap.get(GrowthStage.FLOWERING)) {
+                return GrowthStage.FLOWERING;
+            } else if (dayCount <= growthStageMap.get(GrowthStage.SEEDLING) +
+                    growthStageMap.get(GrowthStage.FLOWERING) +
+                    growthStageMap.get(GrowthStage.FRUITING)) {
+                return GrowthStage.FRUITING;
+            } else if (dayCount <= growthStageMap.get(GrowthStage.SEEDLING) +
+                    growthStageMap.get(GrowthStage.FLOWERING) +
+                    growthStageMap.get(GrowthStage.FRUITING) +
+                    growthStageMap.get(GrowthStage.RIPENING)) {
+                return GrowthStage.RIPENING;
             }
-            return GrowthStage.HARVESTING;
+            return GrowthStage.DORMANT;
         }
 
         public Date getNextSowingDate(Date createdDate) {
@@ -225,11 +234,8 @@ public class PlantContent {
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            c.add(Calendar.DATE, growthStageMap.get(GrowthStage.HARVESTING));
+            c.add(Calendar.DATE, growthStageMap.get(GrowthStage.RIPENING));
             return c.getTime();
         }
-
-
     }
-
 }

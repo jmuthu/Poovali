@@ -4,12 +4,13 @@
     android:layout_height="wrap_content"
     android:background="?android:attr/selectableItemBackground"
     android:orientation="horizontal"
+    android:layout_marginTop="5dp"
     android:padding="5dip">
 
     <ImageView
         android:id="@+id/plant_type_icon"
-        android:layout_width="36dp"
-        android:layout_height="36dp"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
         android:layout_alignParentStart="true"
         android:layout_marginEnd="15dp"
         android:layout_marginStart="10dp"
@@ -22,47 +23,50 @@
         android:layout_height="wrap_content"
         android:layout_toEndOf="@id/plant_type_icon" />
 
+    <TextView
+        android:id="@+id/batch_status"
+        style="@android:style/TextAppearance.Material.Body1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/batch"
+        android:layout_alignBottom="@+id/batch"
+        android:layout_alignParentEnd="true" />
+
     <ImageView
         android:id="@+id/event_type_icon"
-        android:layout_width="20dp"
-        android:layout_height="20dp"
-        android:layout_marginEnd="5dip"
-        android:layout_toEndOf="@id/plant_type_icon"
+        android:layout_width="12dp"
+        android:layout_height="12dp"
         android:layout_below="@id/batch"
-        android:scaleType="centerCrop" />
+        android:layout_marginEnd="5dip"
+        android:layout_marginTop="10dp"
+        android:layout_toEndOf="@id/plant_type_icon"
+        android:scaleType="fitCenter" />
 
     <TextView
-        android:id="@+id/event_type"
-        style="@android:style/TextAppearance.Material.Subhead"
+        android:id="@+id/event_description"
+        style="@android:style/TextAppearance.Material.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/batch"
+        android:layout_marginTop="5dp"
+        android:layout_marginBottom="20dp"
         android:layout_toEndOf="@id/event_type_icon" />
 
     <TextView
         android:id="@+id/event_created_date"
-        style="@android:style/TextAppearance.Material.Small"
+        style="@android:style/TextAppearance.Material.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/event_type"
-        android:layout_alignBottom="@+id/event_type"
+        android:layout_marginTop="5dp"
+        android:layout_alignBaseline="@+id/event_description"
+        android:layout_alignBottom="@+id/event_description"
         android:layout_alignParentEnd="true" />
 
-    <TextView
-        android:id="@+id/event_description"
-        style="@android:style/TextAppearance.Material.Small"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/event_type"
-        android:layout_marginBottom="10dip"
-        android:layout_toEndOf="@+id/event_type_icon"
-        android:ellipsize="end"
-        android:maxLines="1" />
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"
         android:layout_alignEnd="@+id/event_created_date"
-        android:layout_alignStart="@+id/batch"
         android:layout_alignParentBottom="true"
+        android:layout_alignStart="@+id/batch"
         android:background="@color/lineDivider" />
 </RelativeLayout>
