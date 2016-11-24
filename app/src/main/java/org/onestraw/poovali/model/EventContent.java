@@ -17,7 +17,7 @@ import java.util.List;
 
 public class EventContent implements Serializable {
     public static final DateFormat DATE_FORMAT = DateFormat.getDateInstance(DateFormat.MEDIUM);
-    public static final DateFormat TIME_FORMAT = DateFormat.getTimeInstance(DateFormat.MEDIUM);
+    public static final DateFormat TIME_FORMAT = DateFormat.getTimeInstance(DateFormat.SHORT);
     private static final String EVENTS_FILE = "poovali_events.json";
     private static List<Event> ITEMS = new ArrayList<Event>();
 

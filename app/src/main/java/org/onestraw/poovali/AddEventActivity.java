@@ -125,7 +125,7 @@ public class AddEventActivity extends AppCompatActivity {
         }
         TextView dateView = (TextView) findViewById(R.id.date);
         TextView timeView = (TextView) findViewById(R.id.time);
-        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.MEDIUM);
+        DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
         try {
             Date date = df.parse(dateView.getText().toString() + " " + timeView.getText().toString());
             event.setCreatedDate(date);
