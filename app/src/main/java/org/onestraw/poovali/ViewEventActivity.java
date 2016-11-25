@@ -18,7 +18,6 @@ import org.onestraw.poovali.model.EventContent;
 import org.onestraw.poovali.utility.Helper;
 
 public class ViewEventActivity extends AppCompatActivity {
-    public static final String ARG_EVENT_ID = "ARG_EVENT";
     EventContent.Event event;
     static int eventId;
 
@@ -30,7 +29,7 @@ public class ViewEventActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            eventId = getIntent().getIntExtra(ARG_EVENT_ID, 0);
+            eventId = getIntent().getIntExtra(Helper.ARG_EVENT_ID, 0);
             event = EventContent.getItems(this).get(eventId);
         }
         toolbar.setTitle("   " + event.getName()); // Hack

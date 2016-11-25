@@ -17,6 +17,7 @@ import org.onestraw.poovali.R;
 import org.onestraw.poovali.ViewEventActivity;
 import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.EventContent;
+import org.onestraw.poovali.utility.Helper;
 
 import java.text.DateFormat;
 import java.util.List;
@@ -106,7 +107,7 @@ public class EventsFragment extends Fragment {
                     if (holder.mItem.getClass() == EventContent.BatchActivityEvent.class) {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, ViewEventActivity.class);
-                        intent.putExtra(ViewEventActivity.ARG_EVENT_ID, eventId);
+                        intent.putExtra(Helper.ARG_EVENT_ID, eventId);
                         context.startActivity(intent);
                     }
                 }
