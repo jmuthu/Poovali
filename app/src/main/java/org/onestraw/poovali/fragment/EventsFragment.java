@@ -91,8 +91,11 @@ public class EventsFragment extends Fragment {
 
             holder.mBatchNameView.setText(batch.getName());
             if (batch.getPlant() != null) {
+                holder.mProgressBar.setVisibility(View.VISIBLE);
                 holder.mBatchStatusView.setText(batch.getPlant().getStage(batch.getCreatedDate()).toString());
                 holder.mProgressBar.setProgress(batch.getPlant().getProgress(batch.getCreatedDate()));
+            } else {
+                holder.mProgressBar.setVisibility(View.GONE);
             }
 
             holder.mPlantIconView.setImageResource(getResources().getIdentifier(batch.getImageName(),
