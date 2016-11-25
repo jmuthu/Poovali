@@ -18,6 +18,7 @@ import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.PlantContent;
 import org.onestraw.poovali.utility.Helper;
 
+import java.text.DateFormat;
 import java.util.List;
 
 public class PlantsFragment extends Fragment {
@@ -81,18 +82,24 @@ public class PlantsFragment extends Fragment {
 
             holder.mNameView.setText(name);
             String days = String.format(getResources().getString(R.string.days), holder.mItem.getCropDuration().toString());
-            holder.mContentView.setText("Crop duration : " + days);
+            holder.mContentView.setText("Duration : " + days);
 
             Integer overDue = BatchContent.pendingSowDays(holder.mItem.getId());
+            BatchContent.Batch lastBatch = BatchContent.getLastBatch(holder.mItem.getId());
+            if (lastBatch != null) {
+                DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
+                holder.mLastBatchDateView.setText("Last sowed : " +
+                        format.format(lastBatch.getCreatedDate()));
+            }
             if (overDue != null) {
                 if (overDue == 0) {
-                    holder.mBatchesView.setText("Sow today");
+                    holder.mNextBatchDueView.setText("Sow today");
                 } else if (overDue > 0) {
                     String text = overDue == 1 ? overDue + " day overdue" : overDue + " days overdue";
-                    holder.mBatchesView.setText(text);
-                    holder.mBatchesView.setTextColor(getResources().getColor(R.color.textWarn));
+                    holder.mNextBatchDueView.setText(text);
+                    holder.mNextBatchDueView.setTextColor(getResources().getColor(R.color.textWarn));
                 } else {
-                    holder.mBatchesView.setText("Sow in " + overDue * -1 + " days");
+                    holder.mNextBatchDueView.setText("Sow in " + overDue * -1 + " days");
                 }
             }
 
@@ -121,7 +128,8 @@ public class PlantsFragment extends Fragment {
             final View mView;
             final TextView mNameView;
             final TextView mContentView;
-            final TextView mBatchesView;
+            final TextView mNextBatchDueView;
+            final TextView mLastBatchDateView;
             final ImageView mIconView;
             PlantContent.Plant mItem;
 
@@ -130,7 +138,8 @@ public class PlantsFragment extends Fragment {
                 mView = view;
                 mNameView = (TextView) view.findViewById(R.id.name);
                 mContentView = (TextView) view.findViewById(R.id.content);
-                mBatchesView = (TextView) view.findViewById(R.id.batches);
+                mNextBatchDueView = (TextView) view.findViewById(R.id.next_batch_due);
+                mLastBatchDateView = (TextView) view.findViewById(R.id.last_batch_date);
                 mIconView = (ImageView) view.findViewById(R.id.image_icon);
             }
 

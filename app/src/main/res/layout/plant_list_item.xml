@@ -26,6 +26,15 @@
         android:layout_toEndOf="@id/image_icon" />
 
     <TextView
+        android:id="@+id/next_batch_due"
+        style="@android:style/TextAppearance.Material.Small"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/name"
+        android:layout_alignBottom="@+id/name"
+        android:layout_alignParentEnd="true" />
+
+    <TextView
         android:id="@+id/content"
         style="@android:style/TextAppearance.Material.Small"
         android:layout_width="wrap_content"
@@ -34,18 +43,19 @@
         android:layout_toEndOf="@id/image_icon" />
 
     <TextView
-        android:id="@+id/batches"
+        android:id="@+id/last_batch_date"
         style="@android:style/TextAppearance.Material.Small"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_alignBaseline="@+id/name"
-        android:layout_alignBottom="@+id/name"
+        android:layout_below="@id/name"
+        android:layout_alignBaseline="@+id/content"
+        android:layout_alignBottom="@+id/content"
         android:layout_alignParentEnd="true" />
 
     <View
         android:layout_width="0dp"
         android:layout_height="1dp"
-        android:layout_alignEnd="@+id/batches"
+        android:layout_alignEnd="@+id/next_batch_due"
         android:layout_alignStart="@+id/name"
         android:layout_below="@+id/content"
         android:layout_marginTop="15dp"

@@ -94,12 +94,20 @@ public class BatchContent implements Serializable {
         return notification;
     }
 
-    public static Integer pendingSowDays(String plantId) {
+    public static Batch getLastBatch(String plantId) {
         LinkedList<Batch> list = PLANT_MAP.get(plantId);
         if (list == null) {
             return null;
         }
-        return pendingSowDays(list.getLast());
+        return list.getLast();
+    }
+
+    public static Integer pendingSowDays(String plantId) {
+        Batch lastBatch = getLastBatch(plantId);
+        if (lastBatch == null) {
+            return null;
+        }
+        return pendingSowDays(lastBatch);
     }
 
     public static Integer pendingSowDays(Batch batch) {
