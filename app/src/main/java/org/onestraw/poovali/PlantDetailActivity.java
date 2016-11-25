@@ -7,6 +7,7 @@ import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,14 +15,15 @@ import org.onestraw.poovali.model.PlantContent;
 import org.onestraw.poovali.utility.Helper;
 
 public class PlantDetailActivity extends AppCompatActivity {
+    static int plantId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_plant_detail);
 
-        String itemId = getIntent().getStringExtra(PlantContent.ARG_ITEM_ID);
-        PlantContent.Plant plant = PlantContent.getItemMap().get(itemId);
+        plantId = getIntent().getIntExtra(Helper.ARG_PLANT_ID, -1);
+        PlantContent.Plant plant = PlantContent.getItems().get(plantId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
@@ -44,6 +46,17 @@ public class PlantDetailActivity extends AppCompatActivity {
         seedTreatment.setText(plant.getSeedTreatment());
         TextView sowingSeason = (TextView) findViewById(R.id.sowing_season);
         sowingSeason.setText(plant.getSowingSeason());
+
+        ImageView addImageView = (ImageView) findViewById(R.id.add_action);
+        addImageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(view.getContext(), AddEventActivity.class);
+                intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, true);
+                intent.putExtra(Helper.ARG_PLANT_ID, plantId);
+                startActivity(intent);
+            }
+        });
     }
 
     @Override

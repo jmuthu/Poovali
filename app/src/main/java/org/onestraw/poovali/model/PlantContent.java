@@ -12,7 +12,6 @@ import java.util.Map;
 
 public class PlantContent {
 
-    public static final String ARG_ITEM_ID = "item_id";
     private static final List<Plant> ITEMS = new ArrayList<Plant>();
     private static final Map<String, Plant> ITEM_MAP = new HashMap<String, Plant>();
 

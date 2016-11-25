@@ -16,6 +16,7 @@ import android.widget.ImageView;
 
 import org.onestraw.poovali.fragment.EventsFragment;
 import org.onestraw.poovali.fragment.PlantsFragment;
+import org.onestraw.poovali.utility.Helper;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -47,7 +48,7 @@ public class PlantListActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), AddEventActivity.class);
                 boolean isSowActivity = viewPager.getCurrentItem() == 0;
-                intent.putExtra(AddEventActivity.ARG_IS_SOW_ACTIVITY, isSowActivity);
+                intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, isSowActivity);
                 startActivity(intent);
             }
         });

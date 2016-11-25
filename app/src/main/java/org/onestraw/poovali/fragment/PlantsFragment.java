@@ -16,6 +16,7 @@ import org.onestraw.poovali.PlantDetailActivity;
 import org.onestraw.poovali.R;
 import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.PlantContent;
+import org.onestraw.poovali.utility.Helper;
 
 import java.util.List;
 
@@ -69,6 +70,7 @@ public class PlantsFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
+            final int plantId = position;
             holder.mItem = mValues.get(position);
 
             Integer batchCount = BatchContent.getNoOfItems(getActivity(), holder.mItem.getId());
@@ -104,7 +106,7 @@ public class PlantsFragment extends Fragment {
                 public void onClick(View v) {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, PlantDetailActivity.class);
-                    intent.putExtra(PlantContent.ARG_ITEM_ID, holder.mItem.getId());
+                    intent.putExtra(Helper.ARG_PLANT_ID, plantId);
                     context.startActivity(intent);
                 }
             });

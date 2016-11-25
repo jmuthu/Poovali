@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.onestraw.poovali.model.EventContent;
+import org.onestraw.poovali.utility.Helper;
 
 public class ViewEventActivity extends AppCompatActivity {
     public static final String ARG_EVENT_ID = "ARG_EVENT";
@@ -72,8 +73,8 @@ public class ViewEventActivity extends AppCompatActivity {
                 return true;
             case R.id.edit:
                 Intent intent = new Intent(this, AddEventActivity.class);
-                intent.putExtra(AddEventActivity.ARG_EVENT_ID, eventId);
-                intent.putExtra(AddEventActivity.ARG_IS_SOW_ACTIVITY, false);
+                intent.putExtra(Helper.ARG_EVENT_ID, eventId);
+                intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, false);
                 startActivity(intent);
                 finish();
                 return true;

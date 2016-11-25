@@ -35,19 +35,19 @@ import java.util.Date;
 import java.util.UUID;
 
 public class AddEventActivity extends AppCompatActivity {
-    public static final String ARG_IS_SOW_ACTIVITY = "PAGE_ID";
-    public static final String ARG_EVENT_ID = "EVENT_ID";
+
     EventContent.Event event = null;
     boolean isSowActivity = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
+        int plantId = -1;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            isSowActivity = extras.getBoolean(ARG_IS_SOW_ACTIVITY);
-            int eventId = extras.getInt(ARG_EVENT_ID, -1);
+            isSowActivity = extras.getBoolean(Helper.ARG_IS_SOW_ACTIVITY);
+            int eventId = extras.getInt(Helper.ARG_EVENT_ID, -1);
+            plantId = extras.getInt(Helper.ARG_PLANT_ID, -1);
             if (eventId > -1) {
                 event = EventContent.getItems(this).get(eventId);
             }
@@ -100,6 +100,10 @@ public class AddEventActivity extends AppCompatActivity {
             description = event.getDescription();
         } else {
             date = Calendar.getInstance().getTime();
+        }
+
+        if (plantId > -1) {
+            plantSpinner.setSelection(plantId);
         }
 
         TextView dateView = (TextView) findViewById(R.id.date);
