@@ -107,10 +107,10 @@ public class AddEventActivity extends AppCompatActivity {
         }
 
         TextView dateView = (TextView) findViewById(R.id.date);
-        dateView.setText(EventContent.DATE_FORMAT.format(date));
+        dateView.setText(Helper.DATE_FORMAT.format(date));
 
         TextView timeView = (TextView) findViewById(R.id.time);
-        timeView.setText(EventContent.TIME_FORMAT.format(date));
+        timeView.setText(Helper.TIME_FORMAT.format(date));
 
         TextView eventDescription = (TextView) findViewById(R.id.event_description);
         eventDescription.setText(description);
@@ -192,7 +192,7 @@ public class AddEventActivity extends AppCompatActivity {
             TextView dateView = (TextView) getActivity().findViewById(R.id.date);
             Calendar calendar = Calendar.getInstance();
             try {
-                calendar.setTime(EventContent.DATE_FORMAT.parse(dateView.getText().toString()));
+                calendar.setTime(Helper.DATE_FORMAT.parse(dateView.getText().toString()));
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -208,7 +208,7 @@ public class AddEventActivity extends AppCompatActivity {
             Calendar calendar = Calendar.getInstance();
             calendar.set(year, month, day);
 
-            dateView.setText(EventContent.DATE_FORMAT.format(calendar.getTime()));
+            dateView.setText(Helper.DATE_FORMAT.format(calendar.getTime()));
         }
     }
 
@@ -221,7 +221,7 @@ public class AddEventActivity extends AppCompatActivity {
             TextView timeView = (TextView) getActivity().findViewById(R.id.time);
             Calendar calendar = Calendar.getInstance();
             try {
-                calendar.setTime(EventContent.TIME_FORMAT.parse(timeView.getText().toString()));
+                calendar.setTime(Helper.TIME_FORMAT.parse(timeView.getText().toString()));
 
             } catch (Exception e) {
                 e.printStackTrace();
@@ -238,7 +238,7 @@ public class AddEventActivity extends AppCompatActivity {
             final Calendar calendar = Calendar.getInstance();
             calendar.set(Calendar.HOUR, hourOfDay);
             calendar.set(Calendar.MINUTE, minute);
-            dateView.setText(EventContent.TIME_FORMAT.format(calendar.getTime()));
+            dateView.setText(Helper.TIME_FORMAT.format(calendar.getTime()));
         }
     }
 

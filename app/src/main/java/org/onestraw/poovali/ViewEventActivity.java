@@ -50,9 +50,9 @@ public class ViewEventActivity extends AppCompatActivity {
                 "drawable",
                 getPackageName()));
         TextView dateView = (TextView) findViewById(R.id.date);
-        dateView.setText(EventContent.DATE_FORMAT.format(event.getCreatedDate()));
+        dateView.setText(Helper.DATE_FORMAT.format(event.getCreatedDate()));
         TextView timeView = (TextView) findViewById(R.id.time);
-        timeView.setText(EventContent.TIME_FORMAT.format(event.getCreatedDate()));
+        timeView.setText(Helper.TIME_FORMAT.format(event.getCreatedDate()));
         TextView descriptionView = (TextView) findViewById(R.id.event_description);
         descriptionView.setText(event.getDescription());
     }
