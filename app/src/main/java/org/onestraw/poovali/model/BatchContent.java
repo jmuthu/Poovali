@@ -178,7 +178,7 @@ public class BatchContent implements Serializable {
 
         public Plant getPlant() {
             if (plant == null && plantId != null) {
-                plant = PlantContent.getItemMap().get(plantId);
+                plant = PlantContent.getItem(plantId);
             }
             return plant;
         }

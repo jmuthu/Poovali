@@ -6,15 +6,11 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.EnumMap;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class PlantContent {
 
     private static final List<Plant> ITEMS = new ArrayList<Plant>();
-    private static final Map<String, Plant> ITEM_MAP = new HashMap<String, Plant>();
-
 
     private static void initializeItems() {
         addItem(
@@ -67,16 +63,20 @@ public class PlantContent {
         return ITEMS;
     }
 
-    public static Map<String, Plant> getItemMap() {
-        if (ITEM_MAP.isEmpty()) {
-            initializeItems();
+    public static Plant getItem(String plantId) {
+        // Small list size, hash map would be an overkill
+        // so using list to traverse
+        List<Plant> list = getItems();
+        for (Plant plant : list) {
+            if (plant.getId().equals(plantId)) {
+                return plant;
+            }
         }
-        return ITEM_MAP;
+        return null;
     }
 
     private static void addItem(Plant item) {
         ITEMS.add(item);
-        ITEM_MAP.put(item.id, item);
     }
 
     public enum GrowthStage {
