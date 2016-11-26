@@ -14,8 +14,6 @@ import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.PlantContent;
 import org.onestraw.poovali.utility.Helper;
 
-import java.util.List;
-
 import static org.onestraw.poovali.R.id.batch;
 
 
@@ -43,7 +41,7 @@ public class BatchFragment extends Fragment {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.batch_list);
         assert recyclerView != null;
 
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(BatchContent.getBatchList(plant.getId())));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(plant.getId()));
         return rootView;
     }
 
@@ -56,11 +54,10 @@ public class BatchFragment extends Fragment {
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
+        final String plantId;
 
-        private final List<BatchContent.Batch> mValues;
-
-        SimpleItemRecyclerViewAdapter(List<BatchContent.Batch> items) {
-            mValues = items;
+        SimpleItemRecyclerViewAdapter(String plantId) {
+            this.plantId = plantId;
         }
 
         @Override
@@ -72,8 +69,7 @@ public class BatchFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(final SimpleItemRecyclerViewAdapter.ViewHolder holder, int position) {
-            final int plantId = position;
-            holder.mItem = mValues.get(position);
+            holder.mItem = BatchContent.getBatchList(plantId).get(position);
 
             holder.mNameView.setText(Helper.DATE_FORMAT.format(holder.mItem.getCreatedDate()));
 
@@ -95,10 +91,7 @@ public class BatchFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            if (mValues == null) {
-                return 0;
-            }
-            return mValues.size();
+            return BatchContent.getNoOfItems(plantId);
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
