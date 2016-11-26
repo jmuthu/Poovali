@@ -30,8 +30,8 @@
                     android:id="@+id/add_action"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="15dp"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="15dp"
                     android:src="@drawable/seeds" />
             </android.support.v7.widget.Toolbar>
 
@@ -64,39 +64,36 @@
 
             <TextView
                 style="@style/DetailName"
+                android:gravity="center"
                 android:text="@string/plant_crop_duration" />
 
-            <TextView
-                android:id="@+id/crop_duration"
-                style="@style/DetailValue" />
+            <com.github.mikephil.charting.charts.PieChart
+                android:id="@+id/chart"
+                android:layout_gravity="center"
+                android:layout_width="match_parent"
+                android:layout_height="250dp" />
+
+            <View
+                android:layout_marginTop="5dp"
+                android:layout_width="match_parent"
+                android:layout_height="1dp"
+                android:background="@color/lineDivider" />
 
             <TextView
                 style="@style/DetailName"
-                android:text="@string/plant_soil" />
+                android:gravity="center"
+                android:text="@string/batches" />
 
-            <TextView
-                android:id="@+id/soil"
-                style="@style/DetailValue" />
+            <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                xmlns:app="http://schemas.android.com/apk/res-auto"
+                xmlns:tools="http://schemas.android.com/tools"
+                android:id="@+id/batch_list_container"
+                android:layout_marginTop="10dp"
+                android:layout_width="250dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
-            <TextView
-                style="@style/DetailName"
-                android:text="@string/seed_treatment" />
-
-            <TextView
-                android:id="@+id/seed_treatment"
-                style="@style/DetailValue" />
-
-            <TextView
-                style="@style/DetailName"
-                android:text="@string/sowing_season" />
-
-            <TextView
-                android:id="@+id/sowing_season"
-                style="@style/DetailValue" />
-
-            <TextView
-                style="@style/DetailValue"
-                android:text="Plough the land to fine tilth. Thoroughly prepare the field with the addition of FYM @ 25 t/ ha and form ridges and furrows at a spacing of 60 cm. Apply 2 kg/ha of Azospirillum and 2 kg/ha of Phosphobacteria by mixing with 50 kg of FYM. Irrigate the furrows and transplant 25 days old seedlings on the sides of ridges. Life irrigation to be given on 3rd day of planting. " />
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>
 </android.support.design.widget.CoordinatorLayout>

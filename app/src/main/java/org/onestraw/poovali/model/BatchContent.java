@@ -65,11 +65,15 @@ public class BatchContent implements Serializable {
         return ITEM_MAP;
     }
 
-    public static Integer getNoOfItems(Context context, String plantId) {
+    public static List<Batch> getBatchList(Context context, String plantId) {
         if (ITEMS.isEmpty()) {  // Check items as batch can be empty
             initializeItems(context);
         }
-        List<Batch> list = PLANT_MAP.get(plantId);
+        return PLANT_MAP.get(plantId);
+    }
+
+    public static Integer getNoOfItems(Context context, String plantId) {
+        List<Batch> list = getBatchList(context, plantId);
         if (list != null) {
             return list.size();
         }
@@ -221,7 +225,7 @@ public class BatchContent implements Serializable {
 
         @Override
         public int compare(Batch b1, Batch b2) {
-            return b1.getCreatedDate().compareTo(b2.getCreatedDate());
+            return b2.getCreatedDate().compareTo(b1.getCreatedDate());
         }
     }
 }
