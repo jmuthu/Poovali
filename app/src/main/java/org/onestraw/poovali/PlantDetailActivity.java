@@ -4,13 +4,13 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
@@ -23,6 +23,7 @@ import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import org.onestraw.poovali.fragment.BatchFragment;
+import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.PlantContent;
 import org.onestraw.poovali.utility.Helper;
 
@@ -47,19 +48,23 @@ public class PlantDetailActivity extends AppCompatActivity {
         PlantContent.Plant plant = PlantContent.getItems().get(plantId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        toolbar.setTitle(" " + plant.getName());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-
-        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        getSupportActionBar().setIcon(getResources().getIdentifier(
+                plant.getImageName(),
+                "drawable",
+                getPackageName()));
+       /* CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         if (appBarLayout != null) {
             appBarLayout.setTitle(plant.getName());
         }
         ImageView imageBar = (ImageView) findViewById(R.id.image_id);
         imageBar.setImageResource(getResources().getIdentifier(plant.getImageName() + Helper.DETAIL_IMAGE_SUFFIX,
-                "drawable",
-                getPackageName()));
+              "drawable",
+            getPackageName()));
 
-        /*TextView soil = (TextView) findViewById(R.id.soil);
+        TextView soil = (TextView) findViewById(R.id.soil);
         soil.setText(plant.getSoil());
         TextView seedTreatment = (TextView) findViewById(R.id.seed_treatment);
         seedTreatment.setText(plant.getSeedTreatment());
@@ -76,6 +81,12 @@ public class PlantDetailActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
+
+        Integer batchCount = BatchContent.getNoOfItems(plant.getId());
+        if (batchCount > 0) {
+            TextView batchLabel = (TextView) findViewById(R.id.batch_label);
+            batchLabel.setText(batchLabel.getText() + " (" + batchCount + ")");
+        }
 
         pieChart = (PieChart) findViewById(chart);
         List<PieEntry> entries = new ArrayList<>();
@@ -101,9 +112,7 @@ public class PlantDetailActivity extends AppCompatActivity {
         data.setValueTextSize(16);
         data.setValueTypeface(Typeface.DEFAULT);
 
-
         pieChart.setData(data);
-
         pieChart.setHoleRadius(40);
         pieChart.setTransparentCircleRadius(45);
 
@@ -111,7 +120,7 @@ public class PlantDetailActivity extends AppCompatActivity {
         pieChart.setDrawCenterText(true);
         pieChart.setCenterText(days);
         pieChart.setCenterTextTypeface(Typeface.DEFAULT);
-        pieChart.setCenterTextSize(24);
+        pieChart.setCenterTextSize(16);
 
         pieChart.setExtraOffsets(0.f, 5.f, 0.f, 5.f);
         pieChart.setDrawEntryLabels(false);

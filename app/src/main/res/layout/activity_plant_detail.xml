@@ -9,44 +9,24 @@
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
         android:layout_width="match_parent"
-        android:layout_height="@dimen/app_bar_height"
+        android:layout_height="wrap_content"
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
-        <android.support.design.widget.CollapsingToolbarLayout
-            android:id="@+id/toolbar_layout"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            app:contentScrim="?attr/colorPrimary"
-            app:layout_scrollFlags="scroll|exitUntilCollapsed|snap">
-
-            <android.support.v7.widget.Toolbar
+        <android.support.v7.widget.Toolbar
                 android:id="@+id/detail_toolbar"
                 android:layout_width="match_parent"
                 android:layout_height="?attr/actionBarSize"
-                app:layout_collapseMode="pin"
                 app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-
                 <ImageView
                     android:id="@+id/add_action"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="end"
+                    android:background="?attr/selectableItemBackgroundBorderless"
+                    android:clickable="true"
                     android:layout_marginEnd="15dp"
                     android:src="@drawable/seeds" />
             </android.support.v7.widget.Toolbar>
-
-            <ImageView
-                android:id="@+id/image_id"
-                android:layout_width="match_parent"
-                android:layout_height="144dp"
-                android:layout_gravity="bottom"
-                android:scaleType="centerCrop"
-                android:src="@drawable/tomato_detail"
-                app:layout_collapseMode="parallax"
-                app:layout_collapseParallaxMultiplier="1" />
-
-
-        </android.support.design.widget.CollapsingToolbarLayout>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -69,17 +49,18 @@
 
             <com.github.mikephil.charting.charts.PieChart
                 android:id="@+id/chart"
-                android:layout_gravity="center"
                 android:layout_width="match_parent"
-                android:layout_height="250dp" />
+                android:layout_height="250dp"
+                android:layout_gravity="center" />
 
             <View
-                android:layout_marginTop="5dp"
                 android:layout_width="match_parent"
                 android:layout_height="1dp"
+                android:layout_marginTop="5dp"
                 android:background="@color/lineDivider" />
 
             <TextView
+                android:id="@+id/batch_label"
                 style="@style/DetailName"
                 android:gravity="center"
                 android:text="@string/batches" />
@@ -88,10 +69,10 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/batch_list_container"
-                android:layout_marginTop="10dp"
                 android:layout_width="250dp"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center_horizontal"
+                android:layout_marginTop="10dp"
                 app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
         </LinearLayout>
