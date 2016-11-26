@@ -80,6 +80,18 @@ public class BatchContent implements Serializable {
         return 0;
     }
 
+    public static boolean isDuplicateBatch(Context context, Plant plant, Date date) {
+        date = Helper.getZeroTimeDate(date);
+        List<Batch> list = getBatchList(context, plant.getId());
+        for (Batch batch : list) {
+            if (date.compareTo(Helper.getZeroTimeDate(batch.getCreatedDate())) == 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+
     public static List<NotificationContent> pendingActivities() {
         List<NotificationContent> notification = new ArrayList<>();
         for (LinkedList<Batch> list : PLANT_MAP.values()) {

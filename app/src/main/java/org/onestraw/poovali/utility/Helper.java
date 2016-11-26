@@ -1,6 +1,8 @@
 package org.onestraw.poovali.utility;
 
 import java.text.DateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 public class Helper {
     public static final String DETAIL_IMAGE_SUFFIX = "_detail";
@@ -19,5 +21,17 @@ public class Helper {
         String getId();
         String getName();
         String getImageName();
+    }
+
+    public static Date getZeroTimeDate(Date date) {
+        Calendar calendar = Calendar.getInstance();
+
+        calendar.setTime(date);
+        calendar.set(Calendar.HOUR_OF_DAY, 0);
+        calendar.set(Calendar.MINUTE, 0);
+        calendar.set(Calendar.SECOND, 0);
+        calendar.set(Calendar.MILLISECOND, 0);
+
+        return calendar.getTime();
     }
 }

@@ -7,6 +7,7 @@ import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
@@ -36,8 +37,8 @@ import java.util.UUID;
 
 public class AddEventActivity extends AppCompatActivity {
 
+    static boolean isSowActivity = true;
     EventContent.Event event = null;
-    boolean isSowActivity = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -118,20 +119,23 @@ public class AddEventActivity extends AppCompatActivity {
 
     public void saveEvent(View v) {
         boolean isNewEvent = false;
-        if (event == null) {
-            if (isSowActivity) {
-                event = new EventContent.SowBatchEvent();
-            } else {
-                event = new EventContent.BatchActivityEvent();
-            }
-            event.setId(UUID.randomUUID().toString());
-            isNewEvent = true;
-        }
         TextView dateView = (TextView) findViewById(R.id.date);
         TextView timeView = (TextView) findViewById(R.id.time);
         DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
         try {
             Date date = df.parse(dateView.getText().toString() + " " + timeView.getText().toString());
+            if (!validateDate(date)) {
+                return;
+            }
+            if (event == null) {
+                if (isSowActivity) {
+                    event = new EventContent.SowBatchEvent();
+                } else {
+                    event = new EventContent.BatchActivityEvent();
+                }
+                event.setId(UUID.randomUUID().toString());
+                isNewEvent = true;
+            }
             event.setCreatedDate(date);
         } catch (Exception e) {
             e.printStackTrace();
@@ -183,6 +187,25 @@ public class AddEventActivity extends AppCompatActivity {
         newFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
+    public boolean validateDate(Date date) {
+        if (isSowActivity) {
+            Spinner spinner = (Spinner) findViewById(R.id.plant_type_spinner);
+            PlantContent.Plant plant = (PlantContent.Plant) spinner.getSelectedItem();
+
+            if (BatchContent.isDuplicateBatch(this, plant, date)) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(this,
+                        android.R.style.Theme_Material_Dialog_Alert);
+                builder.setMessage("Batch already exists for the given date, select another date!");
+                builder.setTitle("Save failed");
+                builder.setPositiveButton(android.R.string.ok, null);
+
+                builder.show();
+                return false;
+            }
+        }
+        return true;
+    }
+
     public static class DatePickerFragment extends DialogFragment
             implements DatePickerDialog.OnDateSetListener {
 
@@ -207,7 +230,6 @@ public class AddEventActivity extends AppCompatActivity {
             TextView dateView = (TextView) getActivity().findViewById(R.id.date);
             Calendar calendar = Calendar.getInstance();
             calendar.set(year, month, day);
-
             dateView.setText(Helper.DATE_FORMAT.format(calendar.getTime()));
         }
     }
