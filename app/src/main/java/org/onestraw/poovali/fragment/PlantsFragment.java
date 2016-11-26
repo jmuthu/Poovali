@@ -74,7 +74,7 @@ public class PlantsFragment extends Fragment {
             final int plantId = position;
             holder.mItem = mValues.get(position);
 
-            Integer batchCount = BatchContent.getNoOfItems(getActivity(), holder.mItem.getId());
+            Integer batchCount = BatchContent.getNoOfItems(holder.mItem.getId());
             String name = holder.mItem.getName();
             if (batchCount > 0) {
                 name += " (" + batchCount + ")";

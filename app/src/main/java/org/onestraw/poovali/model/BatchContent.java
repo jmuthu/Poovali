@@ -28,7 +28,7 @@ public class BatchContent implements Serializable {
     private static final Map<String, LinkedList<Batch>> PLANT_MAP = new HashMap<String, LinkedList<Batch>>();
     private static List<Batch> ITEMS = new ArrayList<Batch>();
 
-    private static void initializeItems(Context context) {
+    public static void initialize(Context context) {
         try {
             File file = new File(context.getFilesDir(), BATCH_FILE);
 
@@ -51,38 +51,29 @@ public class BatchContent implements Serializable {
         }
     }
 
-    public static List<Batch> getItems(Context context) {
-        if (ITEMS.isEmpty()) {
-            initializeItems(context);
-        }
+    public static List<Batch> getItems() {
         return ITEMS;
     }
 
-    public static Map<String, Batch> getItemMap(Context context) {
-        if (ITEM_MAP.isEmpty()) {
-            initializeItems(context);
-        }
+    public static Map<String, Batch> getItemMap() {
         return ITEM_MAP;
     }
 
-    public static List<Batch> getBatchList(Context context, String plantId) {
-        if (ITEMS.isEmpty()) {  // Check items as batch can be empty
-            initializeItems(context);
-        }
+    public static List<Batch> getBatchList(String plantId) {
         return PLANT_MAP.get(plantId);
     }
 
-    public static Integer getNoOfItems(Context context, String plantId) {
-        List<Batch> list = getBatchList(context, plantId);
+    public static Integer getNoOfItems(String plantId) {
+        List<Batch> list = getBatchList(plantId);
         if (list != null) {
             return list.size();
         }
         return 0;
     }
 
-    public static boolean isDuplicateBatch(Context context, Plant plant, Date date) {
+    public static boolean isDuplicateBatch(Plant plant, Date date) {
         date = Helper.getZeroTimeDate(date);
-        List<Batch> list = getBatchList(context, plant.getId());
+        List<Batch> list = getBatchList(plant.getId());
         if (list == null) {
             return false;
         }

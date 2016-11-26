@@ -41,11 +41,11 @@ public class ViewEventActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView batchView = (TextView) findViewById(R.id.batch);
-        batchView.setText(event.getBatch(this).getName());
+        batchView.setText(event.getBatch().getName());
 
         ImageView imageView = (ImageView) findViewById(R.id.plant_type_icon);
         imageView.setImageResource(getResources().getIdentifier(
-                event.getBatch(this).getImageName(),
+                event.getBatch().getImageName(),
                 "drawable",
                 getPackageName()));
         TextView dateView = (TextView) findViewById(R.id.date);

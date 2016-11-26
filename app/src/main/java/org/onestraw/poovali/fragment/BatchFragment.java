@@ -43,7 +43,7 @@ public class BatchFragment extends Fragment {
         recyclerView = (RecyclerView) rootView.findViewById(R.id.batch_list);
         assert recyclerView != null;
 
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(BatchContent.getBatchList(getActivity(), plant.getId())));
+        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(BatchContent.getBatchList(plant.getId())));
         return rootView;
     }
 

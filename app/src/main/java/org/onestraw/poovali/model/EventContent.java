@@ -135,9 +135,9 @@ public class EventContent implements Serializable {
             this.createdDate = createdDate;
         }
 
-        public BatchContent.Batch getBatch(Context context) {
+        public BatchContent.Batch getBatch() {
             if (batch == null && batchId != null) {
-                batch = BatchContent.getItemMap(context).get(batchId);
+                batch = BatchContent.getItemMap().get(batchId);
             }
             return batch;
         }

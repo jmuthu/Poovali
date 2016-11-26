@@ -82,7 +82,7 @@ public class AddEventActivity extends AppCompatActivity {
 
             label = getResources().getString(R.string.batch_label);
             plantSpinnerAdapter = new CustomSpinnerAdapter<BatchContent.Batch>(this,
-                    (ArrayList<BatchContent.Batch>) BatchContent.getItems(this));
+                    (ArrayList<BatchContent.Batch>) BatchContent.getItems());
 
         }
 
@@ -97,7 +97,7 @@ public class AddEventActivity extends AppCompatActivity {
         if (event != null) {
             date = event.getCreatedDate();
             eventSpinner.setSelection(((EventContent.BatchActivityEvent) event).getType().ordinal());
-            plantSpinner.setSelection(BatchContent.getItems(this).indexOf(event.getBatch(this)));
+            plantSpinner.setSelection(BatchContent.getItems().indexOf(event.getBatch()));
             description = event.getDescription();
         } else {
             date = Calendar.getInstance().getTime();
@@ -192,7 +192,7 @@ public class AddEventActivity extends AppCompatActivity {
             Spinner spinner = (Spinner) findViewById(R.id.plant_type_spinner);
             PlantContent.Plant plant = (PlantContent.Plant) spinner.getSelectedItem();
 
-            if (BatchContent.isDuplicateBatch(this, plant, date)) {
+            if (BatchContent.isDuplicateBatch(plant, date)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this,
                         android.R.style.Theme_Material_Dialog_Alert);
                 builder.setMessage("Batch already exists for the given date, select another date!");

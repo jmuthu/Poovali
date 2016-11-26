@@ -77,7 +77,7 @@ public class EventsFragment extends Fragment {
         public void onBindViewHolder(final EventsFragment.SimpleItemRecyclerViewAdapter.ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
             final int eventId = position;
-            BatchContent.Batch batch = holder.mItem.getBatch(getActivity());
+            BatchContent.Batch batch = holder.mItem.getBatch();
 
             DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
             String date = format.format(holder.mItem.getCreatedDate());
