@@ -16,6 +16,7 @@ import android.widget.TextView;
 
 import org.onestraw.poovali.model.EventContent;
 import org.onestraw.poovali.utility.Helper;
+import org.onestraw.poovali.utility.MyExceptionHandler;
 
 public class ViewEventActivity extends AppCompatActivity {
     EventContent.Event event;
@@ -24,6 +25,8 @@ public class ViewEventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
+
         setContentView(R.layout.activity_view);
         Toolbar toolbar = (Toolbar) findViewById(R.id.view_event_toolbar);
 

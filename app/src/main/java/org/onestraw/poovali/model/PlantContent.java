@@ -234,11 +234,7 @@ public class PlantContent {
 
         public Date getNextSowingDate(Date createdDate) {
             Calendar c = Calendar.getInstance();
-            try {
-                c.setTime(createdDate);
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
+            c.setTime(createdDate);
             c.add(Calendar.DATE, growthStageMap.get(GrowthStage.RIPENING));
             return c.getTime();
         }

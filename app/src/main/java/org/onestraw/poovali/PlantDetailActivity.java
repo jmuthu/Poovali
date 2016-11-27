@@ -26,6 +26,7 @@ import org.onestraw.poovali.fragment.BatchFragment;
 import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.PlantContent;
 import org.onestraw.poovali.utility.Helper;
+import org.onestraw.poovali.utility.MyExceptionHandler;
 
 import java.text.DecimalFormat;
 import java.util.ArrayList;
@@ -42,6 +43,7 @@ public class PlantDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
         setContentView(R.layout.activity_plant_detail);
 
         plantId = getIntent().getIntExtra(Helper.ARG_PLANT_ID, -1);

@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import org.onestraw.poovali.fragment.EventsFragment;
 import org.onestraw.poovali.fragment.PlantsFragment;
 import org.onestraw.poovali.utility.Helper;
+import org.onestraw.poovali.utility.MyExceptionHandler;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,6 +29,7 @@ public class PlantListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
 
         setContentView(R.layout.activity_plant_list);
 

@@ -10,6 +10,7 @@ import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -26,8 +27,10 @@ import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.EventContent;
 import org.onestraw.poovali.model.PlantContent;
 import org.onestraw.poovali.utility.Helper;
+import org.onestraw.poovali.utility.MyExceptionHandler;
 
 import java.text.DateFormat;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -43,6 +46,8 @@ public class AddEventActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
+
         int plantId = -1;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -122,8 +127,9 @@ public class AddEventActivity extends AppCompatActivity {
         TextView dateView = (TextView) findViewById(R.id.date);
         TextView timeView = (TextView) findViewById(R.id.time);
         DateFormat df = DateFormat.getDateTimeInstance(DateFormat.MEDIUM, DateFormat.SHORT);
+        String dateString = dateView.getText().toString() + " " + timeView.getText().toString();
         try {
-            Date date = df.parse(dateView.getText().toString() + " " + timeView.getText().toString());
+            Date date = df.parse(dateString);
             if (!validateDate(date)) {
                 return;
             }
@@ -137,8 +143,15 @@ public class AddEventActivity extends AppCompatActivity {
                 isNewEvent = true;
             }
             event.setCreatedDate(date);
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (ParseException e) {
+            Log.e(this.getClass().getName(), "Unable to parse date : " + dateString, e);
+            AlertDialog.Builder builder = new AlertDialog.Builder(this,
+                    android.R.style.Theme_Material_Dialog_Alert);
+            builder.setMessage("Invalid date, try again!");
+            builder.setTitle("Save failed");
+            builder.setPositiveButton(android.R.string.ok, null);
+            builder.show();
+            return;
         }
         if (!isSowActivity) {
             Spinner spinner = (Spinner) findViewById(R.id.event_type_spinner);
@@ -216,8 +229,9 @@ public class AddEventActivity extends AppCompatActivity {
             Calendar calendar = Calendar.getInstance();
             try {
                 calendar.setTime(Helper.DATE_FORMAT.parse(dateView.getText().toString()));
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (ParseException e) {
+                Log.e(this.getClass().getName(), "Unable to parse date : " + dateView.getText(), e);
+                return new DatePickerDialog(getActivity(), this, 2016, 1, 1);
             }
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
@@ -244,9 +258,9 @@ public class AddEventActivity extends AppCompatActivity {
             Calendar calendar = Calendar.getInstance();
             try {
                 calendar.setTime(Helper.TIME_FORMAT.parse(timeView.getText().toString()));
-
-            } catch (Exception e) {
-                e.printStackTrace();
+            } catch (ParseException e) {
+                Log.e(this.getClass().getName(), "Unable to parse time : " + timeView.getText(), e);
+                return new TimePickerDialog(getActivity(), this, 0, 0, false);
             }
             int hour = calendar.get(Calendar.HOUR_OF_DAY);
             int minute = calendar.get(Calendar.MINUTE);

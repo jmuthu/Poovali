@@ -1,12 +1,15 @@
 package org.onestraw.poovali.model;
 
 import android.content.Context;
+import android.util.Log;
 
 import org.onestraw.poovali.utility.Helper;
+import org.onestraw.poovali.utility.MyExceptionHandler;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.Serializable;
@@ -28,8 +31,9 @@ public class EventContent implements Serializable {
                 ITEMS = (List<Event>) ois.readObject();
                 ois.close();
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException | ClassNotFoundException e) {
+            Log.e(EventContent.class.getName(), "Unable to read event file", e);
+            MyExceptionHandler.alertAndCloseApp(context, null);
         }
     }
 
@@ -49,10 +53,10 @@ public class EventContent implements Serializable {
             ObjectOutputStream oos = new ObjectOutputStream(fout);
             oos.writeObject(EventContent.ITEMS);
             oos.close();
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (IOException e) {
+            Log.e(EventContent.class.getName(), "Unable to save event to file", e);
+            MyExceptionHandler.alertAndCloseApp(context, null);
         }
-
     }
 
     public static List<Event> getItems(Context context) {
