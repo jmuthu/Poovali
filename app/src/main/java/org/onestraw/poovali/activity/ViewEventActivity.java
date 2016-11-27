@@ -15,6 +15,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import org.onestraw.poovali.R;
+import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.EventContent;
 import org.onestraw.poovali.utility.Helper;
 import org.onestraw.poovali.utility.MyExceptionHandler;
@@ -22,6 +23,7 @@ import org.onestraw.poovali.utility.MyExceptionHandler;
 public class ViewEventActivity extends AppCompatActivity {
     EventContent.Event event;
     static int eventId;
+    static int batchId;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,8 +35,9 @@ public class ViewEventActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
+            batchId = getIntent().getIntExtra(Helper.ARG_BATCH_ID, 0);
             eventId = getIntent().getIntExtra(Helper.ARG_EVENT_ID, 0);
-            event = EventContent.getItems(this).get(eventId);
+            event = BatchContent.getItems().get(batchId).getEvents().get(eventId);
         }
         toolbar.setTitle("   " + event.getName()); // Hack
         setSupportActionBar(toolbar);
@@ -77,6 +80,7 @@ public class ViewEventActivity extends AppCompatActivity {
             case R.id.edit:
                 Intent intent = new Intent(this, AddEventActivity.class);
                 intent.putExtra(Helper.ARG_EVENT_ID, eventId);
+                intent.putExtra(Helper.ARG_BATCH_ID, batchId);
                 intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, false);
                 startActivity(intent);
                 finish();
@@ -98,8 +102,8 @@ public class ViewEventActivity extends AppCompatActivity {
             builder.setTitle(R.string.delete_alert);
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    EventContent.getItems(getActivity()).remove(eventId);
-                    EventContent.saveItems(getActivity());
+                    BatchContent.getItems().get(batchId).getEvents().remove(eventId);
+                    BatchContent.saveItems(getActivity());
                     (getActivity()).finish();
                 }
             });

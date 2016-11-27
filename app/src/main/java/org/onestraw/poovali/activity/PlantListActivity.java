@@ -16,7 +16,7 @@ import android.widget.ImageView;
 
 import org.onestraw.poovali.AlarmReceiver;
 import org.onestraw.poovali.R;
-import org.onestraw.poovali.fragment.EventsFragment;
+import org.onestraw.poovali.fragment.BatchFragment;
 import org.onestraw.poovali.fragment.PlantsFragment;
 import org.onestraw.poovali.utility.Helper;
 import org.onestraw.poovali.utility.MyExceptionHandler;
@@ -82,7 +82,7 @@ public class PlantListActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new PlantsFragment(), "Plants");
-        adapter.addFragment(new EventsFragment(), "Activities");
+        adapter.addFragment(new BatchFragment(), "Activities");
         viewPager.setAdapter(adapter);
     }
 

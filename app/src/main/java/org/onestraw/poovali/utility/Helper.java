@@ -9,6 +9,7 @@ public class Helper {
     public static final String ARG_IS_SOW_ACTIVITY = "IS_SOW_ACTIVITY";
     public static final String ARG_EVENT_ID = "EVENT_ID";
     public static final String ARG_PLANT_ID = "PLANT_ID";
+    public static final String ARG_BATCH_ID = "BATCH_ID";
     public static final DateFormat DATE_FORMAT = DateFormat.getDateInstance(DateFormat.MEDIUM);
     public static final DateFormat TIME_FORMAT = DateFormat.getTimeInstance(DateFormat.SHORT);
 

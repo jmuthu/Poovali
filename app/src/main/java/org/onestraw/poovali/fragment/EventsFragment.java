@@ -23,7 +23,7 @@ import java.text.DateFormat;
 import java.util.List;
 
 public class EventsFragment extends Fragment {
-
+    BatchContent.Batch batch = null;
     RecyclerView recyclerView;
 
     public EventsFragment() {
@@ -33,6 +33,10 @@ public class EventsFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        if (getArguments() != null) {
+            int batchId = getArguments().getInt(Helper.ARG_PLANT_ID);
+            batch = BatchContent.getItems().get(batchId);
+        }
     }
 
     @Override
@@ -54,7 +58,7 @@ public class EventsFragment extends Fragment {
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new EventsFragment.SimpleItemRecyclerViewAdapter(EventContent.getItems(getActivity())));
+        recyclerView.setAdapter(new EventsFragment.SimpleItemRecyclerViewAdapter(batch.getEvents()));
     }
 
     public class SimpleItemRecyclerViewAdapter

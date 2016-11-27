@@ -30,6 +30,7 @@ public class BatchContent implements Serializable {
     private static final Map<String, Batch> ITEM_MAP = new HashMap<String, Batch>();
     private static final Map<String, LinkedList<Batch>> PLANT_MAP = new HashMap<String, LinkedList<Batch>>();
     private static List<Batch> ITEMS = new ArrayList<Batch>();
+    private static List<Batch> EVENTS = new LinkedList<>();
 
     public static void initialize(Context context) {
         try {
@@ -147,13 +148,17 @@ public class BatchContent implements Serializable {
     }
 
     public static void addBatch(Context context, Batch batch) {
+        ITEMS.add(0, batch);
+        addBatchToMap(batch);
+        saveItems(context);
+    }
+
+    public static void saveItems(Context context) {
         try {
             File file = new File(context.getFilesDir(), BATCH_FILE);
             if (!file.isFile()) {
                 file.createNewFile();
             }
-            ITEMS.add(0, batch);
-            addBatchToMap(batch);
             FileOutputStream fout = new FileOutputStream(file);
             ObjectOutputStream oos = new ObjectOutputStream(fout);
             oos.writeObject(ITEMS);
@@ -172,6 +177,7 @@ public class BatchContent implements Serializable {
         private String plantId;
         private String name;
         private Date createdDate;
+        private List<EventContent.Event> eventsList;
 
         public Batch() {
         }
@@ -206,6 +212,22 @@ public class BatchContent implements Serializable {
             this.plantId = plant.getId();
         }
 
+        public List<EventContent.Event> getEvents() {
+            return eventsList;
+        }
+
+        public void setEvents(List<EventContent.Event> eventsList) {
+            this.eventsList = eventsList;
+        }
+
+        public void addEvent(Context context, EventContent.Event event) {
+            if (eventsList == null) {
+                eventsList = new LinkedList<EventContent.Event>();
+            }
+            eventsList.add(0, event);
+            saveItems(context);
+        }
+
         public String getName() {
             return name;
         }
@@ -236,7 +258,6 @@ public class BatchContent implements Serializable {
     }
 
     static class BatchComparator implements Comparator<Batch> {
-
         @Override
         public int compare(Batch b1, Batch b2) {
             return b2.getCreatedDate().compareTo(b1.getCreatedDate());
