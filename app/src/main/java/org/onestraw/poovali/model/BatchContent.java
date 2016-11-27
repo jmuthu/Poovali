@@ -46,7 +46,7 @@ public class BatchContent implements Serializable {
                 }
             } else {
                 // Adding the garden batch to account for all plants
-                Batch garden = new Batch("0", "Garden", new Date(), null);
+                Batch garden = new Batch("0", "Garden", null, null);
                 ITEMS.add(garden);
                 ITEM_MAP.put(garden.id, garden);
             }

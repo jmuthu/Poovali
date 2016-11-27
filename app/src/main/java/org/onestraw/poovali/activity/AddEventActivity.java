@@ -240,8 +240,16 @@ public class AddEventActivity extends AppCompatActivity {
             int year = calendar.get(Calendar.YEAR);
             int month = calendar.get(Calendar.MONTH);
             int day = calendar.get(Calendar.DAY_OF_MONTH);
-            // Create a new instance of DatePickerDialog and return it
-            return new DatePickerDialog(getActivity(), this, year, month, day);
+
+            DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, year, month, day);
+            if (!isSowActivity) {
+                Spinner spinner = (Spinner) getActivity().findViewById(R.id.plant_type_spinner);
+                BatchContent.Batch batch = (BatchContent.Batch) spinner.getSelectedItem();
+                if (batch.getCreatedDate() != null) {
+                    dialog.getDatePicker().setMinDate(batch.getCreatedDate().getTime());
+                }
+            }
+            return dialog;
         }
 
         public void onDateSet(DatePicker view, int year, int month, int day) {
