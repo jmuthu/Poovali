@@ -1,4 +1,4 @@
-package org.onestraw.poovali;
+package org.onestraw.poovali.activity;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -14,6 +14,7 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import org.onestraw.poovali.R;
 import org.onestraw.poovali.model.EventContent;
 import org.onestraw.poovali.utility.Helper;
 import org.onestraw.poovali.utility.MyExceptionHandler;

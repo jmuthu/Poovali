@@ -12,8 +12,8 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.onestraw.poovali.PlantDetailActivity;
 import org.onestraw.poovali.R;
+import org.onestraw.poovali.activity.PlantDetailActivity;
 import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.PlantContent;
 import org.onestraw.poovali.utility.Helper;

@@ -1,4 +1,4 @@
-package org.onestraw.poovali;
+package org.onestraw.poovali.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -22,6 +22,7 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
+import org.onestraw.poovali.R;
 import org.onestraw.poovali.fragment.BatchFragment;
 import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.PlantContent;

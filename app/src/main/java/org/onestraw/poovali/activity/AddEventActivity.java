@@ -1,4 +1,4 @@
-package org.onestraw.poovali;
+package org.onestraw.poovali.activity;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -23,6 +23,7 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import org.onestraw.poovali.R;
 import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.EventContent;
 import org.onestraw.poovali.model.PlantContent;

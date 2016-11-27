@@ -1,4 +1,4 @@
-package org.onestraw.poovali;
+package org.onestraw.poovali.activity;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -14,6 +14,8 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 
+import org.onestraw.poovali.AlarmReceiver;
+import org.onestraw.poovali.R;
 import org.onestraw.poovali.fragment.EventsFragment;
 import org.onestraw.poovali.fragment.PlantsFragment;
 import org.onestraw.poovali.utility.Helper;

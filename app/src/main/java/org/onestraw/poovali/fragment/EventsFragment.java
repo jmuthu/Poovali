@@ -14,7 +14,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import org.onestraw.poovali.R;
-import org.onestraw.poovali.ViewEventActivity;
+import org.onestraw.poovali.activity.ViewEventActivity;
 import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.EventContent;
 import org.onestraw.poovali.utility.Helper;

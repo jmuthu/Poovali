@@ -12,31 +12,31 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme"
         android:launchMode="singleTop">
-        <activity android:name=".PlantListActivity">
+        <activity android:name=".activity.PlantListActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
         <activity
-            android:name=".PlantDetailActivity"
+            android:name=".activity.PlantDetailActivity"
             android:label="@string/title_activity_plant_detail"
-            android:parentActivityName=".PlantListActivity">
+            android:parentActivityName=".activity.PlantListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.onestraw.poovali.PlantListActivity" />
+                android:value="org.onestraw.poovali.activity.PlantListActivity" />
         </activity>
         <activity
-            android:name=".AddEventActivity"
+            android:name=".activity.AddEventActivity"
             android:label="@string/title_activity_add_event"
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".ViewEventActivity"
-            android:parentActivityName=".PlantListActivity">
+            android:name=".activity.ViewEventActivity"
+            android:parentActivityName=".activity.PlantListActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="org.onestraw.poovali.PlantListActivity" />
+                android:value="org.onestraw.poovali.activity.PlantListActivity" />
         </activity>
 
         <receiver android:name=".AlarmReceiver" />
