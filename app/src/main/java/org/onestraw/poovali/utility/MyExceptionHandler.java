@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Build;
 import android.support.v7.app.AlertDialog;
+import android.util.Log;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -52,6 +53,7 @@ public class MyExceptionHandler implements
         errorReport.append("Incremental: ");
         errorReport.append(Build.VERSION.INCREMENTAL);
         errorReport.append(LINE_SEPARATOR);
+        Log.e(myContext.getPackageName(), exception.getMessage(), exception);
         alertAndCloseApp(myContext,
                 "Please check phone data storage and contact Poovali for further help!");
     }
