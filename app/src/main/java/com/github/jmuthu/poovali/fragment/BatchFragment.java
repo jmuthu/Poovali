@@ -46,7 +46,7 @@ public class BatchFragment extends Fragment {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.batch_list);
         assert mRecyclerView != null;
         if (mPlant == null) {
-            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(BatchContent.getBatchList()));
+            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(BatchContent.getBatchList(true)));
         } else {
             mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(mPlant.getBatchList()));
         }
@@ -60,7 +60,7 @@ public class BatchFragment extends Fragment {
         if (mPlant != null) {
             mRecyclerView.getAdapter().notifyDataSetChanged(); // For adding activity
         } else {
-            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(BatchContent.getBatchList()));
+            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(BatchContent.getBatchList(true)));
         }
     }
 
@@ -163,7 +163,5 @@ public class BatchFragment extends Fragment {
             }
         }
     }
-
-
 }
 

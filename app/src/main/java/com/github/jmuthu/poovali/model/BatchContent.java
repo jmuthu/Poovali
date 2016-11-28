@@ -40,8 +40,17 @@ public class BatchContent {
     }
 
     public static List<Batch> getBatchList() {
-        return Collections.unmodifiableList(new ArrayList<Batch>(batchMap.values()));
+        return getBatchList(false);
     }
+
+    public static List<Batch> getBatchList(boolean sortByEvents) {
+        ArrayList<Batch> result = new ArrayList<>(batchMap.values());
+        if (sortByEvents) {
+            Collections.sort(result, new Batch.BatchModifiedDescendingComparator());
+        }
+        return Collections.unmodifiableList(result);
+    }
+
 
     public static class Batch implements Serializable, Helper.DisplayableItem {
         private static final long serialVersionUID = 1L;
@@ -161,6 +170,13 @@ public class BatchContent {
             @Override
             public int compare(Batch b1, Batch b2) {
                 return b2.getCreatedDate().compareTo(b1.getCreatedDate());
+            }
+        }
+
+        static class BatchModifiedDescendingComparator implements Comparator<Batch> {
+            @Override
+            public int compare(Batch b1, Batch b2) {
+                return b2.eventsList.get(0).getCreatedDate().compareTo(b1.eventsList.get(0).getCreatedDate());
             }
         }
     }
