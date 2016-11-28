@@ -70,7 +70,7 @@ public class PlantsFragment extends Fragment {
             holder.mPlant = mValues.get(position);
 
             String name = holder.mPlant.getName();
-            if (holder.mPlant.getBatchList() != null) {
+            if (!holder.mPlant.getBatchList().isEmpty()) {
                 name += " (" + holder.mPlant.getBatchList().size() + ")";
             }
 

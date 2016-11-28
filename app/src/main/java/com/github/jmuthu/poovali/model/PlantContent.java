@@ -140,7 +140,7 @@ public class PlantContent {
             return notification;
         }
         for (Plant plant : getItems()) {
-            if (plant.getBatchList() == null) {
+            if (plant.getBatchList().isEmpty()) {
                 continue;
             }
             Integer dayCount = plant.pendingSowDays();
@@ -160,7 +160,7 @@ public class PlantContent {
     public static List<BatchContent.Batch> getBatchList() {
         LinkedList<BatchContent.Batch> batches = new LinkedList<>();
         for (Plant plant : getItems()) {
-            if (plant.getBatchList() != null) {
+            if (!plant.getBatchList().isEmpty()) {
                 batches.addAll(plant.getBatchList());
             }
         }
@@ -204,7 +204,7 @@ public class PlantContent {
         private String seedTreatment;
         private String soil;
         private EnumMap<GrowthStage, Integer> growthStageMap = new EnumMap<GrowthStage, Integer>(GrowthStage.class);
-        private List<BatchContent.Batch> batchList;
+        private List<BatchContent.Batch> batchList = new LinkedList<>();
         //public final String spacingRequirements;
         //public final Map fertilizerSchedule;
 
@@ -288,9 +288,6 @@ public class PlantContent {
         }
 
         public List<BatchContent.Batch> getBatchList() {
-            if (batchList == null) {
-                return null;
-            }
             return Collections.unmodifiableList(batchList);
         }
 
@@ -315,9 +312,6 @@ public class PlantContent {
         }
 
         public boolean isDuplicateBatch(Date newBatchdate) {
-            if (batchList == null) {
-                return false;
-            }
             Date date = Helper.getZeroTimeDate(newBatchdate);
             for (BatchContent.Batch batch : batchList) {
                 if (date.compareTo(Helper.getZeroTimeDate(batch.getCreatedDate())) == 0) {
@@ -328,7 +322,7 @@ public class PlantContent {
         }
 
         public BatchContent.Batch getLatestBatch() {
-            if (batchList == null) {
+            if (batchList.isEmpty()) {
                 return null;
             }
             return batchList.get(0);
@@ -344,9 +338,6 @@ public class PlantContent {
         }
 
         public void addBatch(Context context, BatchContent.Batch batch) {
-            if (batchList == null) {
-                batchList = new LinkedList<>();
-            }
             batchList.add(0, batch);
             BatchContent.addToBatchMap(batch);
             Collections.sort(batchList, new BatchContent.Batch.BatchDescendingComparator());
