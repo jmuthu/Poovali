@@ -1,173 +1,46 @@
 package org.onestraw.poovali.model;
 
 import android.content.Context;
-import android.util.Log;
 
 import org.onestraw.poovali.model.PlantContent.Plant;
 import org.onestraw.poovali.utility.Helper;
-import org.onestraw.poovali.utility.MyExceptionHandler;
 
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.EnumMap;
 import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-public class BatchContent implements Serializable {
+public class BatchContent {
 
-    private static final String BATCH_FILE = "poovali_batch.json";
-    private static final Map<String, Batch> ITEM_MAP = new HashMap<String, Batch>();
-    private static final Map<String, LinkedList<Batch>> PLANT_MAP = new HashMap<String, LinkedList<Batch>>();
-    private static List<Batch> ITEMS = new ArrayList<Batch>();
-    private static List<Batch> EVENTS = new LinkedList<>();
+    private static Map<String, Batch> batchMap = new HashMap<>();
 
-    public static void initialize(Context context) {
-        try {
-            File file = new File(context.getFilesDir(), BATCH_FILE);
+    public static Batch getBatch(String batchId) {
+        return batchMap.get(batchId);
+    }
 
-            if (file.isFile()) {
-                FileInputStream fin = new FileInputStream(file);
-                ObjectInputStream ois = new ObjectInputStream(fin);
-                ITEMS = (List<Batch>) ois.readObject();
-                ois.close();
-                for (Batch batch : ITEMS) {
-                    addBatchToMap(batch);
-                }
-            } else {
-                // Adding the garden batch to account for all plants
-                Batch garden = new Batch("0", "Garden", null, null);
-                ITEMS.add(garden);
-                ITEM_MAP.put(garden.id, garden);
-            }
-        } catch (IOException | ClassNotFoundException e) {
-            Log.e(BatchContent.class.getName(), "Unable to read batch file", e);
-            MyExceptionHandler.alertAndCloseApp(context, null);
+    public static void addToBatchMap(Batch batch) {
+        batchMap.put(batch.getId(), batch);
+        if (batch.getEvents() == null) {
+            return;
+        }
+        for (EventContent.Event event : batch.getEvents()) {
+            EventContent.addToEventMap(event);
         }
     }
 
-    public static List<Batch> getItems() {
-        return ITEMS;
+    public static void removeFromBatchMap(Batch batch) {
+        batchMap.remove(batch.getId());
     }
 
-    public static Map<String, Batch> getItemMap() {
-        return ITEM_MAP;
-    }
-
-    public static List<Batch> getBatchList(String plantId) {
-        return PLANT_MAP.get(plantId);
-    }
-
-    public static Integer getNoOfItems(String plantId) {
-        List<Batch> list = getBatchList(plantId);
-        if (list != null) {
-            return list.size();
-        }
-        return 0;
-    }
-
-    public static boolean isDuplicateBatch(Plant plant, Date date) {
-        date = Helper.getZeroTimeDate(date);
-        List<Batch> list = getBatchList(plant.getId());
-        if (list == null) {
-            return false;
-        }
-        for (Batch batch : list) {
-            if (date.compareTo(Helper.getZeroTimeDate(batch.getCreatedDate())) == 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
-
-    public static List<NotificationContent> pendingActivities() {
-        List<NotificationContent> notification = new ArrayList<>();
-        if (PLANT_MAP.size() == 0) {
-            return notification;
-        }
-        for (LinkedList<Batch> list : PLANT_MAP.values()) {
-            Batch latestBatch = list.getLast();
-            Integer dayCount = pendingSowDays(latestBatch);
-            if (dayCount > 0) {
-                notification.add(new NotificationContent(
-                        "Sow " + latestBatch.getPlant().getName() + "!",
-                        dayCount + (dayCount > 1 ? " days " : " day ") + "overdue"));
-            } else if (dayCount == 0) {
-                notification.add(new NotificationContent(
-                        "Sow " + latestBatch.getPlant().getName() + " today!",
-                        ""));
-            }
-        }
-        return notification;
-    }
-
-    public static Batch getLastBatch(String plantId) {
-        LinkedList<Batch> list = PLANT_MAP.get(plantId);
-        if (list == null) {
-            return null;
-        }
-        return list.getLast();
-    }
-
-    public static Integer pendingSowDays(String plantId) {
-        Batch lastBatch = getLastBatch(plantId);
-        if (lastBatch == null) {
-            return null;
-        }
-        return pendingSowDays(lastBatch);
-    }
-
-    public static Integer pendingSowDays(Batch batch) {
-        Long diff = (Calendar.getInstance().getTimeInMillis() -
-                batch.getPlant().getNextSowingDate(batch.getCreatedDate()).getTime()) / (24 * 60 * 60 * 1000);
-        return diff.intValue();
-    }
-
-    private static void addBatchToMap(Batch batch) {
-        ITEM_MAP.put(batch.getId(), batch);
-        if (batch.getPlant() != null) {
-            LinkedList<Batch> list = PLANT_MAP.get(batch.getPlant().getId());
-            if (list == null) {
-                list = new LinkedList<Batch>();
-            }
-            list.add(batch);
-            Collections.sort(list, new BatchComparator());
-            PLANT_MAP.put(batch.getPlant().getId(), list);
-        }
-    }
-
-    public static void addBatch(Context context, Batch batch) {
-        ITEMS.add(0, batch);
-        addBatchToMap(batch);
-        saveItems(context);
-    }
-
-    public static void saveItems(Context context) {
-        try {
-            File file = new File(context.getFilesDir(), BATCH_FILE);
-            if (!file.isFile()) {
-                file.createNewFile();
-            }
-            FileOutputStream fout = new FileOutputStream(file);
-            ObjectOutputStream oos = new ObjectOutputStream(fout);
-            oos.writeObject(ITEMS);
-            oos.close();
-
-        } catch (IOException e) {
-            Log.e(BatchContent.class.getName(), "Unable to save batch to file", e);
-            MyExceptionHandler.alertAndCloseApp(context, null);
-        }
+    public static List<Batch> getBatchList() {
+        return Collections.unmodifiableList(new ArrayList<Batch>(batchMap.values()));
     }
 
     public static class Batch implements Serializable, Helper.DisplayableItem {
@@ -182,16 +55,6 @@ public class BatchContent implements Serializable {
         public Batch() {
         }
 
-        public Batch(String id, String name, Date createdDate, Plant plant) {
-            this.id = id;
-            this.plant = plant;
-            if (plant != null) {
-                this.plantId = plant.getId();
-            }
-            this.name = name;
-            this.createdDate = createdDate;
-        }
-
         public String getId() {
             return id;
         }
@@ -202,7 +65,7 @@ public class BatchContent implements Serializable {
 
         public Plant getPlant() {
             if (plant == null && plantId != null) {
-                plant = PlantContent.getItem(plantId);
+                plant = PlantContent.getPlant(plantId);
             }
             return plant;
         }
@@ -213,7 +76,10 @@ public class BatchContent implements Serializable {
         }
 
         public List<EventContent.Event> getEvents() {
-            return eventsList;
+            if (eventsList == null) {
+                return null;
+            }
+            return Collections.unmodifiableList(eventsList);
         }
 
         public void setEvents(List<EventContent.Event> eventsList) {
@@ -225,7 +91,14 @@ public class BatchContent implements Serializable {
                 eventsList = new LinkedList<EventContent.Event>();
             }
             eventsList.add(0, event);
-            saveItems(context);
+            EventContent.addToEventMap(event);
+            PlantContent.saveItems(context);
+        }
+
+        public void deleteEvent(Context context, EventContent.Event event) {
+            eventsList.remove(event);
+            EventContent.removeFromEventMap(event);
+            PlantContent.saveItems(context);
         }
 
         public String getName() {
@@ -251,16 +124,44 @@ public class BatchContent implements Serializable {
             return Helper.getImageFileName(getPlant().getName());
         }
 
+        public int getProgress() {
+            long diff = Calendar.getInstance().getTimeInMillis() - createdDate.getTime();
+            long dayCount = (long) diff / (24 * 60 * 60 * 1000);
+            return (int) dayCount * 100 / getPlant().getCropDuration();
+        }
+
+        public PlantContent.GrowthStage getStage() {
+            long diff = Calendar.getInstance().getTimeInMillis() - createdDate.getTime();
+            long dayCount = (long) diff / (24 * 60 * 60 * 1000);
+            EnumMap<PlantContent.GrowthStage, Integer> growthStageMap = getPlant().getGrowthStageMap();
+            if (dayCount <= growthStageMap.get(PlantContent.GrowthStage.SEEDLING)) {
+                return PlantContent.GrowthStage.SEEDLING;
+            } else if (dayCount <= growthStageMap.get(PlantContent.GrowthStage.SEEDLING) +
+                    growthStageMap.get(PlantContent.GrowthStage.FLOWERING)) {
+                return PlantContent.GrowthStage.FLOWERING;
+            } else if (dayCount <= growthStageMap.get(PlantContent.GrowthStage.SEEDLING) +
+                    growthStageMap.get(PlantContent.GrowthStage.FLOWERING) +
+                    growthStageMap.get(PlantContent.GrowthStage.FRUITING)) {
+                return PlantContent.GrowthStage.FRUITING;
+            } else if (dayCount <= growthStageMap.get(PlantContent.GrowthStage.SEEDLING) +
+                    growthStageMap.get(PlantContent.GrowthStage.FLOWERING) +
+                    growthStageMap.get(PlantContent.GrowthStage.FRUITING) +
+                    growthStageMap.get(PlantContent.GrowthStage.RIPENING)) {
+                return PlantContent.GrowthStage.RIPENING;
+            }
+            return PlantContent.GrowthStage.DORMANT;
+        }
+
         @Override
         public String toString() {
             return name;
         }
-    }
 
-    static class BatchComparator implements Comparator<Batch> {
-        @Override
-        public int compare(Batch b1, Batch b2) {
-            return b2.getCreatedDate().compareTo(b1.getCreatedDate());
+        static class BatchDescendingComparator implements Comparator<Batch> {
+            @Override
+            public int compare(Batch b1, Batch b2) {
+                return b2.getCreatedDate().compareTo(b1.getCreatedDate());
+            }
         }
     }
 }

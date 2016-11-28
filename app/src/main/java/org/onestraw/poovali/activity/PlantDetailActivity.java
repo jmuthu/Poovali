@@ -24,7 +24,6 @@ import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import org.onestraw.poovali.R;
 import org.onestraw.poovali.fragment.BatchFragment;
-import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.PlantContent;
 import org.onestraw.poovali.utility.Helper;
 import org.onestraw.poovali.utility.MyExceptionHandler;
@@ -38,8 +37,7 @@ import java.util.List;
 import static org.onestraw.poovali.R.id.chart;
 
 public class PlantDetailActivity extends AppCompatActivity {
-    static int plantId;
-    PieChart pieChart;
+    PlantContent.Plant mPlant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,15 +45,15 @@ public class PlantDetailActivity extends AppCompatActivity {
         Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
         setContentView(R.layout.activity_plant_detail);
 
-        plantId = getIntent().getIntExtra(Helper.ARG_PLANT_ID, -1);
-        PlantContent.Plant plant = PlantContent.getItems().get(plantId);
+        String plantId = getIntent().getStringExtra(Helper.ARG_PLANT_ID);
+        mPlant = PlantContent.getPlant(plantId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
-        toolbar.setTitle(" " + plant.getName());
+        toolbar.setTitle(" " + mPlant.getName());
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         getSupportActionBar().setIcon(getResources().getIdentifier(
-                plant.getImageName(),
+                mPlant.getImageName(),
                 "drawable",
                 getPackageName()));
        /* CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
@@ -80,27 +78,27 @@ public class PlantDetailActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(view.getContext(), AddEventActivity.class);
                 intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, true);
-                intent.putExtra(Helper.ARG_PLANT_ID, plantId);
+                intent.putExtra(Helper.ARG_PLANT_ID, mPlant.getId());
                 startActivity(intent);
             }
         });
 
-        Integer batchCount = BatchContent.getNoOfItems(plant.getId());
-        if (batchCount > 0) {
+        if (mPlant.getBatchList() != null) {
             TextView batchLabel = (TextView) findViewById(R.id.batch_label);
-            batchLabel.setText(batchLabel.getText() + " (" + batchCount + ")");
+            batchLabel.setText(getString(R.string.batch_label) + " ("
+                    + mPlant.getBatchList().size() + ")");
         }
 
-        pieChart = (PieChart) findViewById(chart);
+        PieChart pieChart = (PieChart) findViewById(chart);
         List<PieEntry> entries = new ArrayList<>();
-        EnumMap<PlantContent.GrowthStage, Integer> growthStages = plant.getGrowthStagesValues();
+        EnumMap<PlantContent.GrowthStage, Integer> growthStages = mPlant.getGrowthStageMap();
         Iterator<PlantContent.GrowthStage> enumKeySet = growthStages.keySet().iterator();
         while (enumKeySet.hasNext()) {
             PlantContent.GrowthStage currentStage = enumKeySet.next();
             entries.add(new PieEntry(growthStages.get(currentStage), currentStage.toString()));
         }
 
-        String days = String.format(getResources().getString(R.string.days), plant.getCropDuration().toString());
+        String days = String.format(getResources().getString(R.string.days), mPlant.getCropDuration().toString());
         PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setColors(new int[]{android.R.color.holo_red_light,
                 android.R.color.holo_orange_light,
@@ -150,7 +148,7 @@ public class PlantDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putInt(Helper.ARG_PLANT_ID, plantId);
+            arguments.putString(Helper.ARG_PLANT_ID, plantId);
             BatchFragment fragment = new BatchFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
@@ -159,6 +157,15 @@ public class PlantDetailActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (mPlant.getBatchList() != null) {
+            TextView batchLabel = (TextView) findViewById(R.id.batch_label);
+            batchLabel.setText(getString(R.string.batch_label) + " ("
+                    + mPlant.getBatchList().size() + ")");
+        }
+    }
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -182,13 +189,12 @@ public class PlantDetailActivity extends AppCompatActivity {
         private DecimalFormat mFormat;
 
         public MyValueFormatter() {
-            mFormat = new DecimalFormat("###"); // use one decimal
+            mFormat = new DecimalFormat("###");
         }
 
         @Override
         public String getFormattedValue(float value, Entry entry, int dataSetIndex, ViewPortHandler viewPortHandler) {
-            // write your logic here
-            return mFormat.format(value); // e.g. append a dollar-sign
+            return mFormat.format(value);
         }
     }
 }

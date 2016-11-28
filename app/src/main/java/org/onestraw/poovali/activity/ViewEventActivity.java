@@ -16,14 +16,14 @@ import android.widget.TextView;
 
 import org.onestraw.poovali.R;
 import org.onestraw.poovali.model.BatchContent;
+import org.onestraw.poovali.model.BatchContent.Batch;
 import org.onestraw.poovali.model.EventContent;
 import org.onestraw.poovali.utility.Helper;
 import org.onestraw.poovali.utility.MyExceptionHandler;
 
 public class ViewEventActivity extends AppCompatActivity {
-    EventContent.Event event;
-    static int eventId;
-    static int batchId;
+    static Batch batch;
+    static EventContent.Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,9 +35,10 @@ public class ViewEventActivity extends AppCompatActivity {
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            batchId = getIntent().getIntExtra(Helper.ARG_BATCH_ID, 0);
-            eventId = getIntent().getIntExtra(Helper.ARG_EVENT_ID, 0);
-            event = BatchContent.getItems().get(batchId).getEvents().get(eventId);
+            String batchId = getIntent().getStringExtra(Helper.ARG_BATCH_ID);
+            String eventId = getIntent().getStringExtra(Helper.ARG_EVENT_ID);
+            batch = BatchContent.getBatch(batchId);
+            event = EventContent.getEvent(eventId);
         }
         toolbar.setTitle("   " + event.getName()); // Hack
         setSupportActionBar(toolbar);
@@ -48,11 +49,11 @@ public class ViewEventActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView batchView = (TextView) findViewById(R.id.batch);
-        batchView.setText(event.getBatch().getName());
+        batchView.setText(batch.getName());
 
         ImageView imageView = (ImageView) findViewById(R.id.plant_type_icon);
         imageView.setImageResource(getResources().getIdentifier(
-                event.getBatch().getImageName(),
+                batch.getImageName(),
                 "drawable",
                 getPackageName()));
         TextView dateView = (TextView) findViewById(R.id.date);
@@ -79,8 +80,8 @@ public class ViewEventActivity extends AppCompatActivity {
                 return true;
             case R.id.edit:
                 Intent intent = new Intent(this, AddEventActivity.class);
-                intent.putExtra(Helper.ARG_EVENT_ID, eventId);
-                intent.putExtra(Helper.ARG_BATCH_ID, batchId);
+                intent.putExtra(Helper.ARG_EVENT_ID, event.getId());
+                intent.putExtra(Helper.ARG_BATCH_ID, batch.getId());
                 intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, false);
                 startActivity(intent);
                 finish();
@@ -102,8 +103,7 @@ public class ViewEventActivity extends AppCompatActivity {
             builder.setTitle(R.string.delete_alert);
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    BatchContent.getItems().get(batchId).getEvents().remove(eventId);
-                    BatchContent.saveItems(getActivity());
+                    batch.deleteEvent(getActivity(), event);
                     (getActivity()).finish();
                 }
             });

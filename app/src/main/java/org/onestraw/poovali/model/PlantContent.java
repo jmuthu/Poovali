@@ -1,18 +1,70 @@
 package org.onestraw.poovali.model;
 
-import org.onestraw.poovali.utility.Helper;
+import android.content.Context;
+import android.util.Log;
 
+import org.onestraw.poovali.model.BatchContent.Batch;
+import org.onestraw.poovali.utility.Helper;
+import org.onestraw.poovali.utility.MyExceptionHandler;
+
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.Collections;
 import java.util.Date;
 import java.util.EnumMap;
+import java.util.LinkedList;
 import java.util.List;
 
 public class PlantContent {
+    private static final String BATCH_FILE = "poovali_batch.dat";
 
-    private static final List<Plant> ITEMS = new ArrayList<Plant>();
+    private static List<Plant> plantList = new ArrayList<Plant>();
 
-    private static void initializeItems() {
+    public static void initialize(Context context) {
+        try {
+            File file = new File(context.getFilesDir(), BATCH_FILE);
+            if (file.isFile()) {
+                FileInputStream fin = new FileInputStream(file);
+                ObjectInputStream ois = new ObjectInputStream(fin);
+                plantList = (List<Plant>) ois.readObject();
+                ois.close();
+            } else {
+                initializeDefaultItems();
+            }
+        } catch (IOException | ClassNotFoundException e) {
+            Log.e(PlantContent.class.getName(), "Unable to read data file", e);
+            MyExceptionHandler.alertAndCloseApp(context, null);
+        }
+        initializeMaps();
+    }
+
+    public static List<Plant> getItems() {
+        return Collections.unmodifiableList(plantList);
+    }
+
+    private static void initializeMaps() {
+        for (Plant plant : getItems()) {
+            if (plant.getBatchList() == null) {
+                continue;
+            }
+            for (Batch batch : plant.getBatchList()) {
+                BatchContent.addToBatchMap(batch);
+            }
+        }
+    }
+
+    private static void addItem(Plant item) {
+        plantList.add(item);
+    }
+
+    private static void initializeDefaultItems() {
         addItem(
                 new Plant(
                         "1",
@@ -56,18 +108,10 @@ public class PlantContent {
 
     }
 
-    public static List<Plant> getItems() {
-        if (ITEMS.isEmpty()) {
-            initializeItems();
-        }
-        return ITEMS;
-    }
-
-    public static Plant getItem(String plantId) {
+    public static Plant getPlant(String plantId) {
         // Small list size, hash map would be an overkill
         // so using list to traverse
-        List<Plant> list = getItems();
-        for (Plant plant : list) {
+        for (Plant plant : getItems()) {
             if (plant.getId().equals(plantId)) {
                 return plant;
             }
@@ -75,8 +119,54 @@ public class PlantContent {
         return null;
     }
 
-    private static void addItem(Plant item) {
-        ITEMS.add(item);
+    public static void saveItems(Context context) {
+        try {
+            File file = new File(context.getFilesDir(), BATCH_FILE);
+            if (!file.isFile()) {
+                file.createNewFile();
+            }
+            FileOutputStream fout = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fout);
+            oos.writeObject(plantList);
+            oos.close();
+        } catch (IOException e) {
+            Log.e(PlantContent.class.getName(), "Unable to save data to file", e);
+            MyExceptionHandler.alertAndCloseApp(context, null);
+        }
+    }
+
+    public static List<NotificationContent> pendingActivities() {
+        List<NotificationContent> notification = new ArrayList<>();
+        if (getItems().size() == 0) {
+            return notification;
+        }
+        for (Plant plant : getItems()) {
+            if (plant.getBatchList() == null) {
+                continue;
+            }
+            Integer dayCount = plant.pendingSowDays();
+            if (dayCount > 0) {
+                notification.add(new NotificationContent(
+                        "Sow " + plant.getName() + "!",
+                        dayCount + (dayCount > 1 ? " days " : " day ") + "overdue"));
+            } else if (dayCount == 0) {
+                notification.add(new NotificationContent(
+                        "Sow " + plant.getName() + " today!",
+                        ""));
+            }
+        }
+        return notification;
+    }
+
+    public static List<Batch> getBatchList() {
+        LinkedList<Batch> batches = new LinkedList<>();
+        for (Plant plant : getItems()) {
+            if (plant.getBatchList() != null) {
+                batches.addAll(plant.getBatchList());
+            }
+        }
+        Collections.sort(batches, new Batch.BatchDescendingComparator());
+        return Collections.unmodifiableList(batches);
     }
 
     public enum GrowthStage {
@@ -107,13 +197,15 @@ public class PlantContent {
         }
     }
 
-    public static class Plant implements Helper.DisplayableItem {
+    public static class Plant implements Serializable, Helper.DisplayableItem {
+        private static final long serialVersionUID = 1L;
         private String id;
         private String name;
         private String sowingSeason;
         private String seedTreatment;
         private String soil;
         private EnumMap<GrowthStage, Integer> growthStageMap = new EnumMap<GrowthStage, Integer>(GrowthStage.class);
+        private List<Batch> batchList;
         //public final String spacingRequirements;
         //public final Map fertilizerSchedule;
 
@@ -188,12 +280,23 @@ public class PlantContent {
             this.soil = soil;
         }
 
-        public EnumMap<GrowthStage, Integer> getGrowthStagesValues() {
+        public EnumMap<GrowthStage, Integer> getGrowthStageMap() {
             return growthStageMap;
         }
 
-        public void setGrowthStagesValues(EnumMap<GrowthStage, Integer> growthStageMap) {
+        public void setGrowthStageMap(EnumMap<GrowthStage, Integer> growthStageMap) {
             this.growthStageMap = growthStageMap;
+        }
+
+        public List<Batch> getBatchList() {
+            if (batchList == null) {
+                return null;
+            }
+            return Collections.unmodifiableList(batchList);
+        }
+
+        public void setBatchList(List<Batch> batchList) {
+            this.batchList = batchList;
         }
 
         public String getImageName() {
@@ -205,38 +308,57 @@ public class PlantContent {
             return name;
         }
 
-        public GrowthStage getStage(Date date) {
-            long diff = Calendar.getInstance().getTimeInMillis() - date.getTime();
-            long dayCount = (long) diff / (24 * 60 * 60 * 1000);
-            if (dayCount <= growthStageMap.get(GrowthStage.SEEDLING)) {
-                return GrowthStage.SEEDLING;
-            } else if (dayCount <= growthStageMap.get(GrowthStage.SEEDLING) +
-                    growthStageMap.get(GrowthStage.FLOWERING)) {
-                return GrowthStage.FLOWERING;
-            } else if (dayCount <= growthStageMap.get(GrowthStage.SEEDLING) +
-                    growthStageMap.get(GrowthStage.FLOWERING) +
-                    growthStageMap.get(GrowthStage.FRUITING)) {
-                return GrowthStage.FRUITING;
-            } else if (dayCount <= growthStageMap.get(GrowthStage.SEEDLING) +
-                    growthStageMap.get(GrowthStage.FLOWERING) +
-                    growthStageMap.get(GrowthStage.FRUITING) +
-                    growthStageMap.get(GrowthStage.RIPENING)) {
-                return GrowthStage.RIPENING;
-            }
-            return GrowthStage.DORMANT;
-        }
-
-        public int getProgress(Date date) {
-            long diff = Calendar.getInstance().getTimeInMillis() - date.getTime();
-            long dayCount = (long) diff / (24 * 60 * 60 * 1000);
-            return (int) dayCount * 100 / getCropDuration();
-        }
-
         public Date getNextSowingDate(Date createdDate) {
             Calendar c = Calendar.getInstance();
             c.setTime(createdDate);
             c.add(Calendar.DATE, growthStageMap.get(GrowthStage.RIPENING));
             return c.getTime();
+        }
+
+        public boolean isDuplicateBatch(Date newBatchdate) {
+            if (batchList == null) {
+                return false;
+            }
+            Date date = Helper.getZeroTimeDate(newBatchdate);
+            for (Batch batch : batchList) {
+                if (date.compareTo(Helper.getZeroTimeDate(batch.getCreatedDate())) == 0) {
+                    return true;
+                }
+            }
+            return false;
+        }
+
+        public Batch getLatestBatch() {
+            if (batchList == null) {
+                return null;
+            }
+            return batchList.get(0);
+        }
+
+        public Integer pendingSowDays() {
+            if (getLatestBatch() == null) {
+                return null;
+            }
+            Long diff = (Calendar.getInstance().getTimeInMillis() -
+                    getNextSowingDate(getLatestBatch().getCreatedDate()).getTime()) / (24 * 60 * 60 * 1000);
+            return diff.intValue();
+        }
+
+        public void addBatch(Context context, Batch batch) {
+            if (batchList == null) {
+                batchList = new LinkedList<>();
+            }
+            batchList.add(0, batch);
+            BatchContent.addToBatchMap(batch);
+            Collections.sort(batchList, new Batch.BatchDescendingComparator());
+            saveItems(context);
+        }
+
+        public void deleteBatch(Context context, int position) {
+            Batch batch = batchList.get(position);
+            BatchContent.removeFromBatchMap(batch);
+            batchList.remove(position);
+            saveItems(context);
         }
     }
 }

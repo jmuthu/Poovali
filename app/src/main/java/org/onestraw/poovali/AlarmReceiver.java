@@ -9,8 +9,8 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
-import org.onestraw.poovali.model.BatchContent;
 import org.onestraw.poovali.model.NotificationContent;
+import org.onestraw.poovali.model.PlantContent;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
@@ -61,7 +61,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             notificationManager.notify(++notificationID, builder.build());
         }*/
 
-        for (NotificationContent content : BatchContent.pendingActivities()) {
+        for (NotificationContent content : PlantContent.pendingActivities()) {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
             builder.setSmallIcon(R.mipmap.notification);
             builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.watering_can));

@@ -3,7 +3,6 @@ package org.onestraw.poovali.fragment;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -14,7 +13,7 @@ import android.widget.TextView;
 
 import org.onestraw.poovali.R;
 import org.onestraw.poovali.activity.PlantDetailActivity;
-import org.onestraw.poovali.model.BatchContent;
+import org.onestraw.poovali.model.BatchContent.Batch;
 import org.onestraw.poovali.model.PlantContent;
 import org.onestraw.poovali.utility.Helper;
 
@@ -22,7 +21,8 @@ import java.text.DateFormat;
 import java.util.List;
 
 public class PlantsFragment extends Fragment {
-    RecyclerView recyclerView;
+    RecyclerView mRecyclerView;
+
     public PlantsFragment() {
         // Required empty public constructor
     }
@@ -37,20 +37,16 @@ public class PlantsFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.plants_fragment, container, false);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.plant_list);
-        assert recyclerView != null;
-        setupRecyclerView(recyclerView);
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.plant_list);
+        assert mRecyclerView != null;
+        mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(PlantContent.getItems()));
         return rootView;
-    }
-
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
-        recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(PlantContent.getItems()));
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        recyclerView.getAdapter().notifyDataSetChanged(); // For adding activity
+        mRecyclerView.getAdapter().notifyDataSetChanged(); // For adding activity
     }
 
     public class SimpleItemRecyclerViewAdapter
@@ -71,31 +67,31 @@ public class PlantsFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(final ViewHolder holder, int position) {
-            final int plantId = position;
-            holder.mItem = mValues.get(position);
+            holder.mPlant = mValues.get(position);
 
-            Integer batchCount = BatchContent.getNoOfItems(holder.mItem.getId());
-            String name = holder.mItem.getName();
-            if (batchCount > 0) {
-                name += " (" + batchCount + ")";
+            String name = holder.mPlant.getName();
+            if (holder.mPlant.getBatchList() != null) {
+                name += " (" + holder.mPlant.getBatchList().size() + ")";
             }
 
             holder.mNameView.setText(name);
-            String days = String.format(getResources().getString(R.string.days), holder.mItem.getCropDuration().toString());
+            String days = String.format(getResources().getString(R.string.days),
+                    holder.mPlant.getCropDuration().toString());
             holder.mContentView.setText("Duration : " + days);
 
-            Integer overDue = BatchContent.pendingSowDays(holder.mItem.getId());
-            BatchContent.Batch lastBatch = BatchContent.getLastBatch(holder.mItem.getId());
-            if (lastBatch != null) {
+            Integer overDue = holder.mPlant.pendingSowDays();
+            Batch latestBatch = holder.mPlant.getLatestBatch();
+            if (latestBatch != null) {
                 DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
                 holder.mLastBatchDateView.setText("Last sowed : " +
-                        format.format(lastBatch.getCreatedDate()));
+                        format.format(latestBatch.getCreatedDate()));
             }
             if (overDue != null) {
                 if (overDue == 0) {
                     holder.mNextBatchDueView.setText("Sow today");
                 } else if (overDue > 0) {
-                    String text = overDue == 1 ? overDue + " day overdue" : overDue + " days overdue";
+                    String text = overDue == 1 ?
+                            overDue + " day overdue" : overDue + " days overdue";
                     holder.mNextBatchDueView.setText(text);
                     holder.mNextBatchDueView.setTextColor(getResources().getColor(R.color.textWarn));
                 } else {
@@ -103,9 +99,8 @@ public class PlantsFragment extends Fragment {
                 }
             }
 
-
             holder.mIconView.setImageResource(getResources().getIdentifier(
-                    holder.mItem.getImageName(),
+                    holder.mPlant.getImageName(),
                     "drawable",
                     holder.mIconView.getContext().getPackageName()));
             holder.mView.setOnClickListener(new View.OnClickListener() {
@@ -113,7 +108,7 @@ public class PlantsFragment extends Fragment {
                 public void onClick(View v) {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, PlantDetailActivity.class);
-                    intent.putExtra(Helper.ARG_PLANT_ID, plantId);
+                    intent.putExtra(Helper.ARG_PLANT_ID, holder.mPlant.getId());
                     context.startActivity(intent);
                 }
             });
@@ -131,7 +126,7 @@ public class PlantsFragment extends Fragment {
             final TextView mNextBatchDueView;
             final TextView mLastBatchDateView;
             final ImageView mIconView;
-            PlantContent.Plant mItem;
+            PlantContent.Plant mPlant;
 
             ViewHolder(View view) {
                 super(view);

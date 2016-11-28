@@ -16,6 +16,7 @@ import android.widget.TextView;
 import org.onestraw.poovali.R;
 import org.onestraw.poovali.activity.ViewEventActivity;
 import org.onestraw.poovali.model.BatchContent;
+import org.onestraw.poovali.model.BatchContent.Batch;
 import org.onestraw.poovali.model.EventContent;
 import org.onestraw.poovali.utility.Helper;
 
@@ -23,7 +24,7 @@ import java.text.DateFormat;
 import java.util.List;
 
 public class EventsFragment extends Fragment {
-    BatchContent.Batch batch = null;
+    Batch batch = null;
     RecyclerView recyclerView;
 
     public EventsFragment() {
@@ -34,8 +35,8 @@ public class EventsFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            int batchId = getArguments().getInt(Helper.ARG_PLANT_ID);
-            batch = BatchContent.getItems().get(batchId);
+            String batchId = getArguments().getString(Helper.ARG_BATCH_ID);
+            batch = BatchContent.getBatch(batchId);
         }
     }
 
@@ -80,8 +81,6 @@ public class EventsFragment extends Fragment {
         @Override
         public void onBindViewHolder(final EventsFragment.SimpleItemRecyclerViewAdapter.ViewHolder holder, int position) {
             holder.mItem = mValues.get(position);
-            final int eventId = position;
-            BatchContent.Batch batch = holder.mItem.getBatch();
 
             DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
             String date = format.format(holder.mItem.getCreatedDate());
@@ -96,8 +95,8 @@ public class EventsFragment extends Fragment {
             holder.mBatchNameView.setText(batch.getName());
             if (batch.getPlant() != null) {
                 holder.mProgressBar.setVisibility(View.VISIBLE);
-                holder.mBatchStatusView.setText(batch.getPlant().getStage(batch.getCreatedDate()).toString());
-                holder.mProgressBar.setProgress(batch.getPlant().getProgress(batch.getCreatedDate()));
+                holder.mBatchStatusView.setText(batch.getStage().toString());
+                holder.mProgressBar.setProgress(batch.getProgress());
             } else {
                 holder.mProgressBar.setVisibility(View.GONE);
             }
@@ -114,7 +113,7 @@ public class EventsFragment extends Fragment {
                     if (holder.mItem.getClass() == EventContent.BatchActivityEvent.class) {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, ViewEventActivity.class);
-                        intent.putExtra(Helper.ARG_EVENT_ID, eventId);
+                        intent.putExtra(Helper.ARG_EVENT_ID, holder.mItem.getId());
                         context.startActivity(intent);
                     }
                 }

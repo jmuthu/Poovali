@@ -4,55 +4,22 @@ import org.onestraw.poovali.utility.Helper;
 
 import java.io.Serializable;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
-public class EventContent implements Serializable {
+public class EventContent {
+    private static Map<String, Event> eventMap = new HashMap<>();
 
-    public enum BatchActivityType {
-        DEWEED {
-            public String toString() {
-                return "DeWeed";
-            }
-        },
-        FERTILIZER {
-            public String toString() {
-                return "Fertilizer";
-            }
-        },
-        HARVEST {
-            public String toString() {
-                return "Harvest";
-            }
-        },
-        MICRO_NUTRIENTS {
-            public String toString() {
-                return "Micro nutrients";
-            }
-        },
-        MULCH {
-            public String toString() {
-                return "Mulch";
-            }
-        },
-        PESTICIDE {
-            public String toString() {
-                return "Pesticide";
-            }
-        },
-        PRUNE {
-            public String toString() {
-                return "Prune";
-            }
-        },
-        REPLANT {
-            public String toString() {
-                return "Re-plant";
-            }
-        },
-        WATER {
-            public String toString() {
-                return "Water";
-            }
-        }
+    public static void addToEventMap(Event event) {
+        eventMap.put(event.getId(), event);
+    }
+
+    public static EventContent.Event getEvent(String eventId) {
+        return eventMap.get(eventId);
+    }
+
+    public static void removeFromEventMap(Event event) {
+        eventMap.remove(event.getId());
     }
 
     public static abstract class Event implements Serializable, Helper.DisplayableItem {
@@ -60,8 +27,6 @@ public class EventContent implements Serializable {
 
         private String id;
         private Date createdDate;
-        private String batchId;  // For serialization only
-        transient private BatchContent.Batch batch;
         private String description;
 
         public String getId() {
@@ -78,18 +43,6 @@ public class EventContent implements Serializable {
 
         public void setCreatedDate(Date createdDate) {
             this.createdDate = createdDate;
-        }
-
-        public BatchContent.Batch getBatch() {
-            if (batch == null && batchId != null) {
-                batch = BatchContent.getItemMap().get(batchId);
-            }
-            return batch;
-        }
-
-        public void setBatch(BatchContent.Batch batch) {
-            this.batch = batch;
-            this.batchId = batch.getId();
         }
 
         public String getDescription() {
@@ -121,7 +74,7 @@ public class EventContent implements Serializable {
 
     public static class BatchActivityEvent extends Event implements Serializable {
         private static final long serialVersionUID = 1L;
-        private BatchActivityType type;
+        private Type type;
 
         public String getName() {
             return type.toString();
@@ -131,13 +84,60 @@ public class EventContent implements Serializable {
             return Helper.getImageFileName(type.name());
         }
 
-        public BatchActivityType getType() {
+        public Type getType() {
             return type;
         }
 
-        public void setType(BatchActivityType type) {
+        public void setType(Type type) {
             this.type = type;
         }
 
+        public enum Type {
+            DEWEED {
+                public String toString() {
+                    return "DeWeed";
+                }
+            },
+            FERTILIZER {
+                public String toString() {
+                    return "Fertilizer";
+                }
+            },
+            HARVEST {
+                public String toString() {
+                    return "Harvest";
+                }
+            },
+            MICRO_NUTRIENTS {
+                public String toString() {
+                    return "Micro nutrients";
+                }
+            },
+            MULCH {
+                public String toString() {
+                    return "Mulch";
+                }
+            },
+            PESTICIDE {
+                public String toString() {
+                    return "Pesticide";
+                }
+            },
+            PRUNE {
+                public String toString() {
+                    return "Prune";
+                }
+            },
+            REPLANT {
+                public String toString() {
+                    return "Re-plant";
+                }
+            },
+            WATER {
+                public String toString() {
+                    return "Water";
+                }
+            }
+        }
     }
 }

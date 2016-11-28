@@ -15,18 +15,17 @@ import android.widget.TextView;
 import org.onestraw.poovali.R;
 import org.onestraw.poovali.activity.ViewEventActivity;
 import org.onestraw.poovali.model.BatchContent;
+import org.onestraw.poovali.model.BatchContent.Batch;
 import org.onestraw.poovali.model.EventContent;
 import org.onestraw.poovali.model.PlantContent;
 import org.onestraw.poovali.utility.Helper;
 
 import java.text.DateFormat;
-
-import static org.onestraw.poovali.R.id.batch;
-
+import java.util.List;
 
 public class BatchFragment extends Fragment {
-    PlantContent.Plant plant = null;
-    RecyclerView recyclerView;
+    PlantContent.Plant mPlant = null;
+    RecyclerView mRecyclerView;
 
     public BatchFragment() {
     }
@@ -35,8 +34,8 @@ public class BatchFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            int plantId = getArguments().getInt(Helper.ARG_PLANT_ID);
-            plant = PlantContent.getItems().get(plantId);
+            String plantId = getArguments().getString(Helper.ARG_PLANT_ID);
+            mPlant = PlantContent.getPlant(plantId);
         }
     }
 
@@ -45,14 +44,13 @@ public class BatchFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.batch_fragment, container, false);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.batch_list);
-        assert recyclerView != null;
-        if (plant != null) {
-            recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(plant.getId()));
+        mRecyclerView = (RecyclerView) rootView.findViewById(R.id.batch_list);
+        assert mRecyclerView != null;
+        if (mPlant == null) {
+            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(BatchContent.getBatchList()));
         } else {
-            recyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(null));
+            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(mPlant.getBatchList()));
         }
-
         return rootView;
     }
 
@@ -60,15 +58,19 @@ public class BatchFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        recyclerView.getAdapter().notifyDataSetChanged(); // For adding activity
+        if (mPlant != null) {
+            mRecyclerView.getAdapter().notifyDataSetChanged(); // For adding activity
+        } else {
+            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(BatchContent.getBatchList()));
+        }
     }
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
-        final String plantId;
+        final List<Batch> mValues;
 
-        SimpleItemRecyclerViewAdapter(String plantId) {
-            this.plantId = plantId;
+        SimpleItemRecyclerViewAdapter(List<Batch> values) {
+            this.mValues = values;
         }
 
         @Override
@@ -79,70 +81,58 @@ public class BatchFragment extends Fragment {
         }
 
         @Override
-        public void onBindViewHolder(final SimpleItemRecyclerViewAdapter.ViewHolder holder, final int position) {
-            if (plantId == null) {
-                holder.mItem = BatchContent.getItems().get(position);
+        public void onBindViewHolder(final SimpleItemRecyclerViewAdapter.ViewHolder holder, int batchPosition) {
+            holder.mBatch = mValues.get(batchPosition);
+            if (mPlant == null) {
                 holder.mPlantIconView.setVisibility(View.VISIBLE);
                 holder.mPlantIconView.setImageResource(getResources().getIdentifier(
-                        holder.mItem.getImageName(),
+                        holder.mBatch.getImageName(),
                         "drawable",
                         holder.mPlantIconView.getContext().getPackageName()));
-                holder.mNameView.setText(holder.mItem.getName());
+                holder.mNameView.setText(holder.mBatch.getName());
             } else {
                 holder.mPlantIconView.setVisibility(View.GONE);
-                holder.mItem = BatchContent.getBatchList(plantId).get(position);
-                holder.mNameView.setText(Helper.DATE_FORMAT.format(holder.mItem.getCreatedDate()));
+                holder.mNameView.setText(Helper.DATE_FORMAT.format(holder.mBatch.getCreatedDate()));
             }
 
-            if (holder.mItem.getPlant() != null) {
-                holder.mProgressBar.setVisibility(View.VISIBLE);
-                holder.mBatchStatusView.setText(holder.mItem.getPlant().getStage(holder.mItem.getCreatedDate()).toString());
-                holder.mProgressBar.setProgress(holder.mItem.getPlant().getProgress(holder.mItem.getCreatedDate()));
+            holder.mBatchStatusView.setText(holder.mBatch.getStage().toString());
+            holder.mProgressBar.setProgress(holder.mBatch.getProgress());
+
+            final EventContent.Event event = holder.mBatch.getEvents().get(0);
+            holder.mEventIconView.setImageResource(getResources().getIdentifier(event.getImageName(),
+                    "drawable",
+                    holder.mPlantIconView.getContext().getPackageName()));
+
+            DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
+            String date = format.format(event.getCreatedDate());
+            holder.mEventCreatedDateView.setText(date);
+            String description = event.getDescription();
+            if (description == null || description.isEmpty()) {
+                holder.mEventDescriptionView.setText(event.getName());
             } else {
-                holder.mProgressBar.setVisibility(View.GONE);
+                holder.mEventDescriptionView.setText(description);
             }
 
-            if (holder.mItem.getEvents() != null) {
-                final EventContent.Event event = holder.mItem.getEvents().get(0);
-                holder.mEventIconView.setImageResource(getResources().getIdentifier(event.getImageName(),
-                        "drawable",
-                        holder.mPlantIconView.getContext().getPackageName()));
-
-                DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
-                String date = format.format(event.getCreatedDate());
-                holder.mEventCreatedDateView.setText(date);
-                String description = event.getDescription();
-                if (description.isEmpty()) {
-                    holder.mEventDescriptionView.setText(event.getName());
-                } else {
-                    holder.mEventDescriptionView.setText(description);
-                }
-
-                holder.mView.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (event.getClass() == EventContent.BatchActivityEvent.class) {
-                            Context context = v.getContext();
-                            Intent intent = new Intent(context, ViewEventActivity.class);
-                            if (plantId != null) {
-                                intent.putExtra(Helper.ARG_BATCH_ID, BatchContent.getItems().indexOf(holder.mItem));
-                            } else {
-                                intent.putExtra(Helper.ARG_BATCH_ID, position);
-                            }
-                            intent.putExtra(Helper.ARG_EVENT_ID, 0);
-                            context.startActivity(intent);
-                        }
+            holder.mView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if (event.getClass() == EventContent.BatchActivityEvent.class) {
+                        Context context = v.getContext();
+                        Intent intent = new Intent(context, ViewEventActivity.class);
+                        intent.putExtra(Helper.ARG_BATCH_ID, holder.mBatch.getId());
+                        intent.putExtra(Helper.ARG_EVENT_ID, holder.mBatch.getEvents().get(0).getId());
+                        context.startActivity(intent);
                     }
-                });
-            }
+                }
+            });
         }
 
         @Override
         public int getItemCount() {
-            if (plantId == null) {
-                return BatchContent.getItems().size();
+            if (mValues == null) {
+                return 0;
             }
-            return BatchContent.getNoOfItems(plantId);
+            return mValues.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
@@ -154,12 +144,12 @@ public class BatchFragment extends Fragment {
             final TextView mEventDescriptionView;
             final ImageView mPlantIconView;
             final ImageView mEventIconView;
-            BatchContent.Batch mItem;
+            Batch mBatch;
 
             ViewHolder(View view) {
                 super(view);
                 mView = view;
-                mNameView = (TextView) view.findViewById(batch);
+                mNameView = (TextView) view.findViewById(R.id.batch);
                 mBatchStatusView = (TextView) view.findViewById(R.id.batch_status);
                 mProgressBar = (ProgressBar) view.findViewById(R.id.batch_status_progress);
                 mEventCreatedDateView = (TextView) view.findViewById(R.id.event_created_date);
