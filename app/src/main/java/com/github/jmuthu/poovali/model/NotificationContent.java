@@ -1,4 +1,4 @@
-package org.onestraw.poovali.model;
+package com.github.jmuthu.poovali.model;
 
 
 public class NotificationContent {

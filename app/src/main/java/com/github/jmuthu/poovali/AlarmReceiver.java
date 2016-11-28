@@ -1,4 +1,4 @@
-package org.onestraw.poovali;
+package com.github.jmuthu.poovali;
 
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -9,8 +9,8 @@ import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
-import org.onestraw.poovali.model.NotificationContent;
-import org.onestraw.poovali.model.PlantContent;
+import com.github.jmuthu.poovali.model.NotificationContent;
+import com.github.jmuthu.poovali.model.PlantContent;
 
 public class AlarmReceiver extends BroadcastReceiver {
 

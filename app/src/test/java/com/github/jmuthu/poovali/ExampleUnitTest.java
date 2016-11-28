@@ -1,8 +1,8 @@
-package org.onestraw.poovali;
+package com.github.jmuthu.poovali;
 
 import org.junit.Test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
 /**
  * Example local unit test, which will execute on the development machine (host).

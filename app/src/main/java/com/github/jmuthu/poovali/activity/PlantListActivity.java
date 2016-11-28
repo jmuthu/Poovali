@@ -1,4 +1,4 @@
-package org.onestraw.poovali.activity;
+package com.github.jmuthu.poovali.activity;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -14,12 +14,12 @@ import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.widget.ImageView;
 
-import org.onestraw.poovali.AlarmReceiver;
-import org.onestraw.poovali.R;
-import org.onestraw.poovali.fragment.BatchFragment;
-import org.onestraw.poovali.fragment.PlantsFragment;
-import org.onestraw.poovali.utility.Helper;
-import org.onestraw.poovali.utility.MyExceptionHandler;
+import com.github.jmuthu.poovali.AlarmReceiver;
+import com.github.jmuthu.poovali.R;
+import com.github.jmuthu.poovali.fragment.BatchFragment;
+import com.github.jmuthu.poovali.fragment.PlantsFragment;
+import com.github.jmuthu.poovali.utility.Helper;
+import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 
 import java.util.ArrayList;
 import java.util.Calendar;

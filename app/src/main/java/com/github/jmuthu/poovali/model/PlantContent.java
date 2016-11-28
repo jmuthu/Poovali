@@ -1,11 +1,10 @@
-package org.onestraw.poovali.model;
+package com.github.jmuthu.poovali.model;
 
 import android.content.Context;
 import android.util.Log;
 
-import org.onestraw.poovali.model.BatchContent.Batch;
-import org.onestraw.poovali.utility.Helper;
-import org.onestraw.poovali.utility.MyExceptionHandler;
+import com.github.jmuthu.poovali.utility.Helper;
+import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -54,7 +53,7 @@ public class PlantContent {
             if (plant.getBatchList() == null) {
                 continue;
             }
-            for (Batch batch : plant.getBatchList()) {
+            for (BatchContent.Batch batch : plant.getBatchList()) {
                 BatchContent.addToBatchMap(batch);
             }
         }
@@ -158,14 +157,14 @@ public class PlantContent {
         return notification;
     }
 
-    public static List<Batch> getBatchList() {
-        LinkedList<Batch> batches = new LinkedList<>();
+    public static List<BatchContent.Batch> getBatchList() {
+        LinkedList<BatchContent.Batch> batches = new LinkedList<>();
         for (Plant plant : getItems()) {
             if (plant.getBatchList() != null) {
                 batches.addAll(plant.getBatchList());
             }
         }
-        Collections.sort(batches, new Batch.BatchDescendingComparator());
+        Collections.sort(batches, new BatchContent.Batch.BatchDescendingComparator());
         return Collections.unmodifiableList(batches);
     }
 
@@ -205,7 +204,7 @@ public class PlantContent {
         private String seedTreatment;
         private String soil;
         private EnumMap<GrowthStage, Integer> growthStageMap = new EnumMap<GrowthStage, Integer>(GrowthStage.class);
-        private List<Batch> batchList;
+        private List<BatchContent.Batch> batchList;
         //public final String spacingRequirements;
         //public final Map fertilizerSchedule;
 
@@ -288,14 +287,14 @@ public class PlantContent {
             this.growthStageMap = growthStageMap;
         }
 
-        public List<Batch> getBatchList() {
+        public List<BatchContent.Batch> getBatchList() {
             if (batchList == null) {
                 return null;
             }
             return Collections.unmodifiableList(batchList);
         }
 
-        public void setBatchList(List<Batch> batchList) {
+        public void setBatchList(List<BatchContent.Batch> batchList) {
             this.batchList = batchList;
         }
 
@@ -320,7 +319,7 @@ public class PlantContent {
                 return false;
             }
             Date date = Helper.getZeroTimeDate(newBatchdate);
-            for (Batch batch : batchList) {
+            for (BatchContent.Batch batch : batchList) {
                 if (date.compareTo(Helper.getZeroTimeDate(batch.getCreatedDate())) == 0) {
                     return true;
                 }
@@ -328,7 +327,7 @@ public class PlantContent {
             return false;
         }
 
-        public Batch getLatestBatch() {
+        public BatchContent.Batch getLatestBatch() {
             if (batchList == null) {
                 return null;
             }
@@ -344,18 +343,18 @@ public class PlantContent {
             return diff.intValue();
         }
 
-        public void addBatch(Context context, Batch batch) {
+        public void addBatch(Context context, BatchContent.Batch batch) {
             if (batchList == null) {
                 batchList = new LinkedList<>();
             }
             batchList.add(0, batch);
             BatchContent.addToBatchMap(batch);
-            Collections.sort(batchList, new Batch.BatchDescendingComparator());
+            Collections.sort(batchList, new BatchContent.Batch.BatchDescendingComparator());
             saveItems(context);
         }
 
         public void deleteBatch(Context context, int position) {
-            Batch batch = batchList.get(position);
+            BatchContent.Batch batch = batchList.get(position);
             BatchContent.removeFromBatchMap(batch);
             batchList.remove(position);
             saveItems(context);

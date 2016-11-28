@@ -1,4 +1,4 @@
-package org.onestraw.poovali.fragment;
+package com.github.jmuthu.poovali.fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,13 +12,12 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.onestraw.poovali.R;
-import org.onestraw.poovali.activity.ViewEventActivity;
-import org.onestraw.poovali.model.BatchContent;
-import org.onestraw.poovali.model.BatchContent.Batch;
-import org.onestraw.poovali.model.EventContent;
-import org.onestraw.poovali.model.PlantContent;
-import org.onestraw.poovali.utility.Helper;
+import com.github.jmuthu.poovali.R;
+import com.github.jmuthu.poovali.activity.ViewEventActivity;
+import com.github.jmuthu.poovali.model.BatchContent;
+import com.github.jmuthu.poovali.model.EventContent;
+import com.github.jmuthu.poovali.model.PlantContent;
+import com.github.jmuthu.poovali.utility.Helper;
 
 import java.text.DateFormat;
 import java.util.List;
@@ -67,9 +66,9 @@ public class BatchFragment extends Fragment {
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
-        final List<Batch> mValues;
+        final List<BatchContent.Batch> mValues;
 
-        SimpleItemRecyclerViewAdapter(List<Batch> values) {
+        SimpleItemRecyclerViewAdapter(List<BatchContent.Batch> values) {
             this.mValues = values;
         }
 
@@ -144,7 +143,7 @@ public class BatchFragment extends Fragment {
             final TextView mEventDescriptionView;
             final ImageView mPlantIconView;
             final ImageView mEventIconView;
-            Batch mBatch;
+            BatchContent.Batch mBatch;
 
             ViewHolder(View view) {
                 super(view);

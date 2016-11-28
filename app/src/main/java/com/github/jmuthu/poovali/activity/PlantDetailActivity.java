@@ -1,4 +1,4 @@
-package org.onestraw.poovali.activity;
+package com.github.jmuthu.poovali.activity;
 
 import android.content.Intent;
 import android.graphics.Color;
@@ -12,6 +12,11 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.jmuthu.poovali.R;
+import com.github.jmuthu.poovali.fragment.BatchFragment;
+import com.github.jmuthu.poovali.model.PlantContent;
+import com.github.jmuthu.poovali.utility.Helper;
+import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 import com.github.mikephil.charting.animation.Easing;
 import com.github.mikephil.charting.charts.PieChart;
 import com.github.mikephil.charting.components.Legend;
@@ -22,19 +27,12 @@ import com.github.mikephil.charting.data.PieEntry;
 import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
-import org.onestraw.poovali.R;
-import org.onestraw.poovali.fragment.BatchFragment;
-import org.onestraw.poovali.model.PlantContent;
-import org.onestraw.poovali.utility.Helper;
-import org.onestraw.poovali.utility.MyExceptionHandler;
-
 import java.text.DecimalFormat;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Iterator;
 import java.util.List;
 
-import static org.onestraw.poovali.R.id.chart;
 
 public class PlantDetailActivity extends AppCompatActivity {
     PlantContent.Plant mPlant;
@@ -89,7 +87,7 @@ public class PlantDetailActivity extends AppCompatActivity {
                     + mPlant.getBatchList().size() + ")");
         }
 
-        PieChart pieChart = (PieChart) findViewById(chart);
+        PieChart pieChart = (PieChart) findViewById(R.id.chart);
         List<PieEntry> entries = new ArrayList<>();
         EnumMap<PlantContent.GrowthStage, Integer> growthStages = mPlant.getGrowthStageMap();
         Iterator<PlantContent.GrowthStage> enumKeySet = growthStages.keySet().iterator();

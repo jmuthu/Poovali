@@ -1,4 +1,4 @@
-package org.onestraw.poovali.utility;
+package com.github.jmuthu.poovali.utility;
 
 import java.text.DateFormat;
 import java.util.Calendar;

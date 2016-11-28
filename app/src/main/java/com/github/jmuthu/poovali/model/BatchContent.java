@@ -1,9 +1,9 @@
-package org.onestraw.poovali.model;
+package com.github.jmuthu.poovali.model;
 
 import android.content.Context;
 
-import org.onestraw.poovali.model.PlantContent.Plant;
-import org.onestraw.poovali.utility.Helper;
+import com.github.jmuthu.poovali.model.PlantContent.Plant;
+import com.github.jmuthu.poovali.utility.Helper;
 
 import java.io.Serializable;
 import java.util.ArrayList;

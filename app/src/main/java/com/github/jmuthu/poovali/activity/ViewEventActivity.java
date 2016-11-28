@@ -1,4 +1,4 @@
-package org.onestraw.poovali.activity;
+package com.github.jmuthu.poovali.activity;
 
 import android.app.Dialog;
 import android.content.DialogInterface;
@@ -14,15 +14,14 @@ import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.onestraw.poovali.R;
-import org.onestraw.poovali.model.BatchContent;
-import org.onestraw.poovali.model.BatchContent.Batch;
-import org.onestraw.poovali.model.EventContent;
-import org.onestraw.poovali.utility.Helper;
-import org.onestraw.poovali.utility.MyExceptionHandler;
+import com.github.jmuthu.poovali.R;
+import com.github.jmuthu.poovali.model.BatchContent;
+import com.github.jmuthu.poovali.model.EventContent;
+import com.github.jmuthu.poovali.utility.Helper;
+import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 
 public class ViewEventActivity extends AppCompatActivity {
-    static Batch batch;
+    static BatchContent.Batch batch;
     static EventContent.Event event;
 
     @Override

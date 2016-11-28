@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="org.onestraw.poovali.activity.PlantListActivity">
+    tools:context="com.github.jmuthu.poovali.activity.PlantListActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"

@@ -1,4 +1,4 @@
-package org.onestraw.poovali.utility;
+package com.github.jmuthu.poovali.utility;
 
 import android.app.Activity;
 import android.content.Context;

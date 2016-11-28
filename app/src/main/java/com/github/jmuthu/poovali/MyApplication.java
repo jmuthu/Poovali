@@ -1,8 +1,8 @@
-package org.onestraw.poovali;
+package com.github.jmuthu.poovali;
 
 import android.app.Application;
 
-import org.onestraw.poovali.model.PlantContent;
+import com.github.jmuthu.poovali.model.PlantContent;
 
 public class MyApplication extends Application {
     @Override

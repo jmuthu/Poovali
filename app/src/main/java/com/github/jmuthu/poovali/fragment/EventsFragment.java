@@ -1,4 +1,4 @@
-package org.onestraw.poovali.fragment;
+package com.github.jmuthu.poovali.fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -13,18 +13,17 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import org.onestraw.poovali.R;
-import org.onestraw.poovali.activity.ViewEventActivity;
-import org.onestraw.poovali.model.BatchContent;
-import org.onestraw.poovali.model.BatchContent.Batch;
-import org.onestraw.poovali.model.EventContent;
-import org.onestraw.poovali.utility.Helper;
+import com.github.jmuthu.poovali.R;
+import com.github.jmuthu.poovali.activity.ViewEventActivity;
+import com.github.jmuthu.poovali.model.BatchContent;
+import com.github.jmuthu.poovali.model.EventContent;
+import com.github.jmuthu.poovali.utility.Helper;
 
 import java.text.DateFormat;
 import java.util.List;
 
 public class EventsFragment extends Fragment {
-    Batch batch = null;
+    BatchContent.Batch batch = null;
     RecyclerView recyclerView;
 
     public EventsFragment() {

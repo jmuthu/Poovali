@@ -1,4 +1,4 @@
-package org.onestraw.poovali.fragment;
+package com.github.jmuthu.poovali.fragment;
 
 import android.content.Context;
 import android.content.Intent;
@@ -11,11 +11,11 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import org.onestraw.poovali.R;
-import org.onestraw.poovali.activity.PlantDetailActivity;
-import org.onestraw.poovali.model.BatchContent.Batch;
-import org.onestraw.poovali.model.PlantContent;
-import org.onestraw.poovali.utility.Helper;
+import com.github.jmuthu.poovali.R;
+import com.github.jmuthu.poovali.activity.PlantDetailActivity;
+import com.github.jmuthu.poovali.model.BatchContent;
+import com.github.jmuthu.poovali.model.PlantContent;
+import com.github.jmuthu.poovali.utility.Helper;
 
 import java.text.DateFormat;
 import java.util.List;
@@ -80,7 +80,7 @@ public class PlantsFragment extends Fragment {
             holder.mContentView.setText("Duration : " + days);
 
             Integer overDue = holder.mPlant.pendingSowDays();
-            Batch latestBatch = holder.mPlant.getLatestBatch();
+            BatchContent.Batch latestBatch = holder.mPlant.getLatestBatch();
             if (latestBatch != null) {
                 DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
                 holder.mLastBatchDateView.setText("Last sowed : " +

@@ -1,6 +1,6 @@
-package org.onestraw.poovali.model;
+package com.github.jmuthu.poovali.model;
 
-import org.onestraw.poovali.utility.Helper;
+import com.github.jmuthu.poovali.utility.Helper;
 
 import java.io.Serializable;
 import java.util.Date;

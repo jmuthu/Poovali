@@ -1,4 +1,4 @@
-package org.onestraw.poovali.activity;
+package com.github.jmuthu.poovali.activity;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
@@ -23,13 +23,12 @@ import android.widget.SpinnerAdapter;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
-import org.onestraw.poovali.R;
-import org.onestraw.poovali.model.BatchContent;
-import org.onestraw.poovali.model.BatchContent.Batch;
-import org.onestraw.poovali.model.EventContent;
-import org.onestraw.poovali.model.PlantContent;
-import org.onestraw.poovali.utility.Helper;
-import org.onestraw.poovali.utility.MyExceptionHandler;
+import com.github.jmuthu.poovali.R;
+import com.github.jmuthu.poovali.model.BatchContent;
+import com.github.jmuthu.poovali.model.EventContent;
+import com.github.jmuthu.poovali.model.PlantContent;
+import com.github.jmuthu.poovali.utility.Helper;
+import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 
 import java.text.DateFormat;
 import java.text.ParseException;
@@ -98,7 +97,7 @@ public class AddEventActivity extends AppCompatActivity {
             eventSpinner.setAdapter(eventSpinnerAdapter);
 
             label = getResources().getString(R.string.batch_label);
-            List<Batch> batchList = BatchContent.getBatchList();
+            List<BatchContent.Batch> batchList = BatchContent.getBatchList();
             plantSpinnerAdapter = new CustomSpinnerAdapter<BatchContent.Batch>(this, batchList);
             plantSpinner.setAdapter(plantSpinnerAdapter);
             if (mEvent != null) {
@@ -166,7 +165,7 @@ public class AddEventActivity extends AppCompatActivity {
         mEvent.setDescription(desc.getText().toString());
 
         Spinner spinner = (Spinner) findViewById(R.id.plant_type_spinner);
-        Batch batch;
+        BatchContent.Batch batch;
         if (isSowActivity) {
             batch = new BatchContent.Batch();
             batch.setId(UUID.randomUUID().toString());
@@ -179,7 +178,7 @@ public class AddEventActivity extends AppCompatActivity {
             plant.addBatch(this, batch);
 
         } else {
-            batch = (Batch) spinner.getSelectedItem();
+            batch = (BatchContent.Batch) spinner.getSelectedItem();
         }
         batch.addEvent(this, mEvent);
 
@@ -240,7 +239,7 @@ public class AddEventActivity extends AppCompatActivity {
             DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, year, month, day);
             if (!isSowActivity) {
                 Spinner spinner = (Spinner) getActivity().findViewById(R.id.plant_type_spinner);
-                Batch batch = (Batch) spinner.getSelectedItem();
+                BatchContent.Batch batch = (BatchContent.Batch) spinner.getSelectedItem();
                 if (batch.getCreatedDate() != null) {
                     dialog.getDatePicker().setMinDate(batch.getCreatedDate().getTime());
                 }
