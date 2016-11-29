@@ -20,7 +20,7 @@
 
             <TextView
                 style="@style/addEventActionButtonText"
-                android:text="@string/cancel_label"
+                android:text="@android:string/cancel"
                 android:onClick="cancelAddEvent"/>
 
             <TextView

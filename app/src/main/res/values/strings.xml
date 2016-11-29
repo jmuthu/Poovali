@@ -1,14 +1,12 @@
 <resources>
     <string name="app_name">Poovali</string>
     <string name="title_activity_plant_detail">PlantDetail</string>
+    <string name="title_activity_add_event">AddEvent</string>
     <string name="plant_crop_duration">Duration</string>
     <string name="batches">Batches</string>
-    <string name="seed_treatment">Seed Treatment</string>
-    <string name="sowing_season">Sowing Season</string>
+    <string name="events">Activities</string>
     <string name="save_label">Save</string>
-    <string name="cancel_label">Cancel</string>
     <string name="days">%s days</string>
-    <string name="title_activity_add_event">AddEvent</string>
     <string name="event_type">Activity</string>
     <string name="created_on">Date</string>
     <string name="event_description">Notes</string>

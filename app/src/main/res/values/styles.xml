@@ -19,16 +19,8 @@
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
-    <style name="DetailName" parent="@android:style/TextAppearance.Material.Title">
+    <style name="Label" parent="@android:style/TextAppearance.Material.Title">
         <item name="android:layout_marginTop">10dp</item>
-        <item name="android:layout_width">fill_parent</item>
-        <item name="android:layout_height">wrap_content</item>
-    </style>
-
-    <style name="DetailValue" parent="@android:style/TextAppearance.Material.Small">
-        <item name="android:layout_marginLeft">10sp</item>
-        <item name="android:layout_marginStart">10sp</item>
-        <item name="android:layout_marginTop">5sp</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
@@ -57,9 +49,4 @@
         <item name="colorControlActivated">@color/underline</item>
         <item name="colorControlHighlight">@color/underline</item-->
     </style>
-
-    <style name="Notes" >
-        <item name="colorAccent">@color/underline</item>
-    </style>
-
 </resources>

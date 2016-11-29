@@ -59,7 +59,8 @@ public class BatchContent {
         private String plantId;
         private String name;
         private Date createdDate;
-        private List<EventContent.Event> eventsList;
+        private String description;
+        private List<EventContent.Event> eventsList = new LinkedList<>();
 
         public Batch() {
         }
@@ -85,9 +86,6 @@ public class BatchContent {
         }
 
         public List<EventContent.Event> getEvents() {
-            if (eventsList == null) {
-                return null;
-            }
             return Collections.unmodifiableList(eventsList);
         }
 
@@ -96,11 +94,10 @@ public class BatchContent {
         }
 
         public void addEvent(Context context, EventContent.Event event) {
-            if (eventsList == null) {
-                eventsList = new LinkedList<EventContent.Event>();
+            if (!eventsList.contains(event)) {
+                eventsList.add(0, event);
+                EventContent.addToEventMap(event);
             }
-            eventsList.add(0, event);
-            EventContent.addToEventMap(event);
             PlantContent.saveItems(context);
         }
 
@@ -124,6 +121,14 @@ public class BatchContent {
 
         public void setCreatedDate(Date createdDate) {
             this.createdDate = createdDate;
+        }
+
+        public String getDescription() {
+            return description;
+        }
+
+        public void setDescription(String description) {
+            this.description = description;
         }
 
         public String getImageName() {

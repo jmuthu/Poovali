@@ -6,6 +6,7 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class EventContent {
     private static Map<String, Event> eventMap = new HashMap<>();
@@ -20,6 +21,17 @@ public class EventContent {
 
     public static void removeFromEventMap(Event event) {
         eventMap.remove(event.getId());
+    }
+
+    public static Event createEvent(boolean isSowActivity) {
+        Event event;
+        if (isSowActivity) {
+            event = new SowBatchEvent();
+        } else {
+            event = new BatchActivityEvent();
+        }
+        event.setId(UUID.randomUUID().toString());
+        return event;
     }
 
     public static abstract class Event implements Serializable, Helper.DisplayableItem {

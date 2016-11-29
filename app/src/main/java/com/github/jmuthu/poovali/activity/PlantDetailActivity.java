@@ -158,10 +158,13 @@ public class PlantDetailActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
-        if (mPlant.getBatchList() != null) {
-            TextView batchLabel = (TextView) findViewById(R.id.batch_label);
+        TextView batchLabel = (TextView) findViewById(R.id.batch_label);
+        if (mPlant.getBatchList().size() > 0) {
+            batchLabel.setVisibility(View.VISIBLE);
             batchLabel.setText(getString(R.string.batch_label) + " ("
                     + mPlant.getBatchList().size() + ")");
+        } else {
+            batchLabel.setVisibility(View.GONE);
         }
     }
 

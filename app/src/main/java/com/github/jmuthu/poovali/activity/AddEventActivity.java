@@ -144,44 +144,34 @@ public class AddEventActivity extends AppCompatActivity {
         if (!validateDate(date)) {
             return;
         }
+        Spinner spinner = (Spinner) findViewById(R.id.plant_type_spinner);
+        Spinner eventTypeSpinner = (Spinner) findViewById(R.id.event_type_spinner);
+        EditText desc = (EditText) findViewById(R.id.event_description);
 
         if (mEvent == null) {
-            if (isSowActivity) {
-                mEvent = new EventContent.SowBatchEvent();
-            } else {
-                mEvent = new EventContent.BatchActivityEvent();
-            }
-            mEvent.setId(UUID.randomUUID().toString());
+            mEvent = EventContent.createEvent(isSowActivity);
         }
         mEvent.setCreatedDate(date);
-
-        if (!isSowActivity) {
-            Spinner spinner = (Spinner) findViewById(R.id.event_type_spinner);
-            ((EventContent.BatchActivityEvent) mEvent).
-                    setType((EventContent.BatchActivityEvent.Type) spinner.getSelectedItem());
-        }
-
-        EditText desc = (EditText) findViewById(R.id.event_description);
         mEvent.setDescription(desc.getText().toString());
 
-        Spinner spinner = (Spinner) findViewById(R.id.plant_type_spinner);
         BatchContent.Batch batch;
         if (isSowActivity) {
             batch = new BatchContent.Batch();
             batch.setId(UUID.randomUUID().toString());
-            batch.setCreatedDate(mEvent.getCreatedDate());
+            batch.setDescription(desc.getText().toString());
+            batch.setCreatedDate(date);
             PlantContent.Plant plant = (PlantContent.Plant) spinner.getSelectedItem();
             batch.setPlant(plant);
             SimpleDateFormat format = new SimpleDateFormat("dd MMM yy");
             batch.setName(batch.getPlant().getName() + " - " +
                     format.format(batch.getCreatedDate()));
             plant.addBatch(this, batch);
-
         } else {
             batch = (BatchContent.Batch) spinner.getSelectedItem();
+            ((EventContent.BatchActivityEvent) mEvent).
+                    setType((EventContent.BatchActivityEvent.Type) eventTypeSpinner.getSelectedItem());
         }
         batch.addEvent(this, mEvent);
-
         finish();
     }
 

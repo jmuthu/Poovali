@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.jmuthu.poovali.R;
-import com.github.jmuthu.poovali.activity.ViewEventActivity;
+import com.github.jmuthu.poovali.activity.BatchViewActivity;
 import com.github.jmuthu.poovali.model.BatchContent;
 import com.github.jmuthu.poovali.model.EventContent;
 import com.github.jmuthu.poovali.model.PlantContent;
@@ -97,7 +97,7 @@ public class BatchFragment extends Fragment {
             holder.mBatchStatusView.setText(holder.mBatch.getStage().toString());
             holder.mProgressBar.setProgress(holder.mBatch.getProgress());
 
-            final EventContent.Event event = holder.mBatch.getEvents().get(0);
+            EventContent.Event event = holder.mBatch.getEvents().get(0);
             holder.mEventIconView.setImageResource(getResources().getIdentifier(event.getImageName(),
                     "drawable",
                     holder.mPlantIconView.getContext().getPackageName()));
@@ -115,13 +115,10 @@ public class BatchFragment extends Fragment {
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (event.getClass() == EventContent.BatchActivityEvent.class) {
-                        Context context = v.getContext();
-                        Intent intent = new Intent(context, ViewEventActivity.class);
-                        intent.putExtra(Helper.ARG_BATCH_ID, holder.mBatch.getId());
-                        intent.putExtra(Helper.ARG_EVENT_ID, holder.mBatch.getEvents().get(0).getId());
-                        context.startActivity(intent);
-                    }
+                    Context context = v.getContext();
+                    Intent intent = new Intent(context, BatchViewActivity.class);
+                    intent.putExtra(Helper.ARG_BATCH_ID, holder.mBatch.getId());
+                    context.startActivity(intent);
                 }
             });
         }
@@ -148,7 +145,7 @@ public class BatchFragment extends Fragment {
             ViewHolder(View view) {
                 super(view);
                 mView = view;
-                mNameView = (TextView) view.findViewById(R.id.batch);
+                mNameView = (TextView) view.findViewById(R.id.name);
                 mBatchStatusView = (TextView) view.findViewById(R.id.batch_status);
                 mProgressBar = (ProgressBar) view.findViewById(R.id.batch_status_progress);
                 mEventCreatedDateView = (TextView) view.findViewById(R.id.event_created_date);

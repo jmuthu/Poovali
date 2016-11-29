@@ -6,7 +6,5 @@
     <color name="lineDivider">#E0E0E0</color>
     <color name="underline">#7CB342</color>
     <color name="windowBackground">#FFFFFF</color>
-    <color name="navigationBarColor">#000000</color>
-    <color name="borderColor">#E0E0E0</color>
-    <color name="textWarn">#BF360C</color>
+    <color name="textWarn">#bf360c</color>
 </resources>

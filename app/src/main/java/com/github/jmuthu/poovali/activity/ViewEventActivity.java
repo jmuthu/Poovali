@@ -47,7 +47,7 @@ public class ViewEventActivity extends AppCompatActivity {
                 getPackageName()));
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        TextView batchView = (TextView) findViewById(R.id.batch);
+        TextView batchView = (TextView) findViewById(R.id.name);
         batchView.setText(batch.getName());
 
         ImageView imageView = (ImageView) findViewById(R.id.plant_type_icon);
