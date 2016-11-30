@@ -11,8 +11,9 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.View;
-import android.widget.ImageView;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 
 import com.github.jmuthu.poovali.AlarmReceiver;
 import com.github.jmuthu.poovali.R;
@@ -37,7 +38,6 @@ public class MainActivity extends AppCompatActivity {
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        getSupportActionBar().setIcon(R.mipmap.watering_can);
         toolbar.setTitle(getTitle());
 
         viewPager = (ViewPager) findViewById(R.id.viewpager);
@@ -46,33 +46,20 @@ public class MainActivity extends AppCompatActivity {
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        ImageView addImageView = (ImageView) findViewById(R.id.add_action);
-        addImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), AddEventActivity.class);
-                boolean isSowActivity = viewPager.getCurrentItem() == 0;
-                intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, isSowActivity);
-                startActivity(intent);
-            }
-        });
-
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
-
             }
 
             @Override
             public void onPageSelected(int position) {
-                ImageView imageView = (ImageView) findViewById(R.id.add_action);
-                int actionImageId = viewPager.getCurrentItem() == 0 ? R.drawable.seeds : R.drawable.batch_activity;
-                imageView.setImageResource(actionImageId);
+                // ImageView imageView = (ImageView) findViewById(R.id.add_action);
+                // int actionImageId = viewPager.getCurrentItem() == 0 ? R.drawable.seeds : R.drawable.batch_activity;
+                // imageView.setImageResource(actionImageId);
             }
 
             @Override
             public void onPageScrollStateChanged(int state) {
-
             }
         });
 
@@ -82,9 +69,36 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new PlantListFragment(), "Plants");
-        adapter.addFragment(new BatchListFragment(), "Batch Activity");
+        adapter.addFragment(new BatchListFragment(), "Recent Activities");
         viewPager.setAdapter(adapter);
     }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.add_batch:
+                intent = new Intent(this, AddEventActivity.class);
+                intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, true);
+                startActivity(intent);
+                return true;
+            case R.id.add_event:
+                intent = new Intent(this, AddEventActivity.class);
+                intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, false);
+                startActivity(intent);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
 
     public void setAlarm() {
         Calendar calendar = Calendar.getInstance();

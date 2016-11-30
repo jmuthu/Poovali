@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:context="com.github.jmuthu.poovali.activity.MainActivity">
+    <item
+        android:id="@+id/add_batch"
+        android:icon="@drawable/seeds_24dp"
+        app:showAsAction="ifRoom"
+        android:title="@string/add_batch" />
+    <item
+        android:id="@+id/add_event"
+        android:icon="@drawable/plant_a_tree_24dp"
+        app:showAsAction="ifRoom"
+        android:title="@string/add_event" />
+    <item
+        android:id="@+id/settings"
+        app:showAsAction="collapseActionView"
+        android:title="@string/settings" />
+</menu>
