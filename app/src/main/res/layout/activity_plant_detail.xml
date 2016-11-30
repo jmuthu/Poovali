@@ -13,21 +13,52 @@
         android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar">
 
         <android.support.v7.widget.Toolbar
-                android:id="@+id/detail_toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
-                <ImageView
-                    android:id="@+id/add_action"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="end"
-                    android:background="?attr/selectableItemBackgroundBorderless"
-                    android:clickable="true"
-                    android:layout_marginEnd="15dp"
-                    android:src="@drawable/seeds" />
-            </android.support.v7.widget.Toolbar>
+            android:id="@+id/detail_toolbar"
+            android:layout_width="match_parent"
+            android:layout_height="?attr/actionBarSize"
+            app:popupTheme="@style/ThemeOverlay.AppCompat.Light">
 
+            <ImageView
+                android:id="@+id/add_action"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="end"
+                android:layout_marginEnd="@dimen/list_text_padding_end"
+                android:background="?attr/selectableItemBackgroundBorderless"
+                android:clickable="true"
+                android:src="@drawable/seeds" />
+        </android.support.v7.widget.Toolbar>
+
+        <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+            android:id="@+id/info_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <ImageView
+                android:id="@+id/plant_type_icon"
+                android:layout_width="64dp"
+                android:layout_height="64dp"
+                android:layout_marginStart="@dimen/list_icon_padding_start"
+                android:padding="8dp"
+                android:scaleType="fitCenter" />
+
+            <TextView
+                android:id="@+id/name"
+                style="@android:style/TextAppearance.Material.Title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="8dp"
+                android:layout_toEndOf="@id/plant_type_icon" />
+
+            <TextView
+                android:id="@+id/next_batch_due"
+                style="@android:style/TextAppearance.Material.Subhead"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignStart="@+id/name"
+                android:layout_below="@id/name" />
+        </RelativeLayout>
     </android.support.design.widget.AppBarLayout>
 
     <android.support.v4.widget.NestedScrollView
@@ -70,11 +101,10 @@
                 xmlns:app="http://schemas.android.com/apk/res-auto"
                 xmlns:tools="http://schemas.android.com/tools"
                 android:id="@+id/batch_list_container"
-                android:layout_width="250dp"
+                android:focusable="false"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:layout_marginTop="10dp"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior" />
+                android:layout_marginTop="@dimen/list_padding_top" />
 
         </LinearLayout>
     </android.support.v4.widget.NestedScrollView>

@@ -41,7 +41,7 @@ public class EventListFragment extends Fragment {
                              Bundle savedInstanceState) {
         View rootView = inflater.inflate(R.layout.fragment_event_list, container, false);
 
-        recyclerView = (RecyclerView) rootView.findViewById(R.id.activities_list);
+        recyclerView = (RecyclerView) rootView.findViewById(R.id.event_list);
         assert recyclerView != null;
         recyclerView.setAdapter(new EventListFragment.SimpleItemRecyclerViewAdapter(mBatch.getEvents()));
 
@@ -118,7 +118,7 @@ public class EventListFragment extends Fragment {
             ViewHolder(View view) {
                 super(view);
                 mView = view;
-                mEventNameView = (TextView) view.findViewById(R.id.event_name);
+                mEventNameView = (TextView) view.findViewById(R.id.name);
                 mEventCreatedDateView = (TextView) view.findViewById(R.id.event_created_date);
                 mEventDescriptionView = (TextView) view.findViewById(R.id.event_description);
                 mEventIconView = (ImageView) view.findViewById(R.id.event_type_icon);

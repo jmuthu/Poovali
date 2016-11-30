@@ -1,54 +1,54 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="?android:attr/selectableItemBackground"
-    android:orientation="horizontal"
-    android:padding="5dip">
+    android:layout_height="@dimen/list_item_height"
+    android:background="?android:attr/selectableItemBackground">
 
     <ImageView
         android:id="@+id/image_icon"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_alignParentStart="true"
-        android:layout_marginLeft="10dp"
-        android:layout_marginRight="10dp"
-        android:layout_marginTop="10dip"
-        android:scaleType="centerCrop" />
+        android:layout_marginStart="@dimen/list_icon_padding_start"
+        android:layout_marginTop="@dimen/list_text_padding_vertical"
+        android:scaleType="fitCenter" />
 
     <TextView
         android:id="@+id/name"
-        style="@android:style/TextAppearance.Material.Title"
+        style="@android:style/TextAppearance.Material.Subhead"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="5dip"
-        android:layout_toEndOf="@id/image_icon" />
+        android:layout_marginTop="@dimen/list_text_padding_vertical"
+        android:paddingStart="@dimen/list_text_padding_start" />
 
     <TextView
         android:id="@+id/next_batch_due"
-        style="@android:style/TextAppearance.Material.Small"
+        style="@android:style/TextAppearance.Material.Body1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignBaseline="@+id/name"
-        android:layout_alignBottom="@+id/name"
+        android:paddingEnd="@dimen/list_text_padding_end"
         android:layout_alignParentEnd="true" />
 
     <TextView
         android:id="@+id/content"
-        style="@android:style/TextAppearance.Material.Small"
+        style="@android:style/TextAppearance.Material.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/name"
-        android:layout_toEndOf="@id/image_icon" />
+        android:layout_marginBottom="@dimen/list_text_padding_vertical"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentStart="true"
+        android:paddingStart="@dimen/list_text_padding_start"
+        android:layout_toEndOf="@+id/image_icon"
+        android:ellipsize="end"
+        android:maxLines="1" />
 
     <TextView
         android:id="@+id/last_batch_date"
-        style="@android:style/TextAppearance.Material.Small"
+        style="@android:style/TextAppearance.Material.Caption"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/name"
+        android:paddingEnd="@dimen/list_text_padding_end"
         android:layout_alignBaseline="@+id/content"
-        android:layout_alignBottom="@+id/content"
         android:layout_alignParentEnd="true" />
 
     <View
@@ -56,7 +56,7 @@
         android:layout_height="1dp"
         android:layout_alignEnd="@+id/next_batch_due"
         android:layout_alignStart="@+id/name"
-        android:layout_below="@+id/content"
-        android:layout_marginTop="15dp"
+        android:layout_marginStart="@dimen/list_text_padding_start"
+        android:layout_alignParentBottom="true"
         android:background="@color/lineDivider" />
 </RelativeLayout>

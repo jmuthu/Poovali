@@ -2,6 +2,7 @@ package com.github.jmuthu.poovali.fragment;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.RecyclerView;
@@ -79,25 +80,14 @@ public class PlantListFragment extends Fragment {
                     holder.mPlant.getCropDuration().toString());
             holder.mContentView.setText("Duration : " + days);
 
-            Integer overDue = holder.mPlant.pendingSowDays();
             BatchContent.Batch latestBatch = holder.mPlant.getLatestBatch();
             if (latestBatch != null) {
                 DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
                 holder.mLastBatchDateView.setText("Last sowed : " +
                         format.format(latestBatch.getCreatedDate()));
             }
-            if (overDue != null) {
-                if (overDue == 0) {
-                    holder.mNextBatchDueView.setText("Sow today");
-                } else if (overDue > 0) {
-                    String text = overDue == 1 ?
-                            overDue + " day overdue" : overDue + " days overdue";
-                    holder.mNextBatchDueView.setText(text);
-                    holder.mNextBatchDueView.setTextColor(getResources().getColor(R.color.textWarn));
-                } else {
-                    holder.mNextBatchDueView.setText("Sow in " + overDue * -1 + " days");
-                }
-            }
+
+            Helper.setOverDueText(holder.mPlant, holder.mNextBatchDueView, Color.rgb(255, 140, 0));
 
             holder.mIconView.setImageResource(getResources().getIdentifier(
                     holder.mPlant.getImageName(),

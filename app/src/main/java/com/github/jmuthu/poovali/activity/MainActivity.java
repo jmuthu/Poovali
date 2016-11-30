@@ -82,7 +82,7 @@ public class MainActivity extends AppCompatActivity {
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
         adapter.addFragment(new PlantListFragment(), "Plants");
-        adapter.addFragment(new BatchListFragment(), "Activities");
+        adapter.addFragment(new BatchListFragment(), "Batch Activity");
         viewPager.setAdapter(adapter);
     }
 

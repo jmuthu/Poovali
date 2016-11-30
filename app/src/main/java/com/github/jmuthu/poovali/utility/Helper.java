@@ -1,5 +1,9 @@
 package com.github.jmuthu.poovali.utility;
 
+import android.widget.TextView;
+
+import com.github.jmuthu.poovali.model.PlantContent;
+
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -34,5 +38,21 @@ public class Helper {
         calendar.set(Calendar.MILLISECOND, 0);
 
         return calendar.getTime();
+    }
+
+    public static void setOverDueText(PlantContent.Plant plant, TextView textView, int warnColor) {
+        Integer overDue = plant.pendingSowDays();
+        if (overDue != null) {
+            if (overDue == 0) {
+                textView.setText("Sow today");
+            } else if (overDue > 0) {
+                String text = overDue == 1 ?
+                        overDue + " day overdue" : overDue + " days overdue";
+                textView.setText(text);
+                textView.setTextColor(warnColor);
+            } else {
+                textView.setText("Sow in " + overDue * -1 + " days");
+            }
+        }
     }
 }

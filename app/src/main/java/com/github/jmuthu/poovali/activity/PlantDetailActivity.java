@@ -47,13 +47,20 @@ public class PlantDetailActivity extends AppCompatActivity {
         mPlant = PlantContent.getPlant(plantId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
-        toolbar.setTitle(" " + mPlant.getName());
+        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        getSupportActionBar().setIcon(getResources().getIdentifier(
+        TextView nameView = (TextView) findViewById(R.id.name);
+        nameView.setText(mPlant.getName());
+        ImageView plantIcon = (ImageView) findViewById(R.id.plant_type_icon);
+        plantIcon.setImageResource(getResources().getIdentifier(
                 mPlant.getImageName(),
                 "drawable",
                 getPackageName()));
+
+        TextView nextBatchDueView = (TextView) findViewById(R.id.next_batch_due);
+        Helper.setOverDueText(mPlant, nextBatchDueView, Color.YELLOW);
+
        /* CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         if (appBarLayout != null) {
             appBarLayout.setTitle(plant.getName());

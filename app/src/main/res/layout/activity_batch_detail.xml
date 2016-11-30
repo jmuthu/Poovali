@@ -16,7 +16,6 @@
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
             android:layout_height="?attr/actionBarSize"
-            android:background="?attr/colorPrimary"
             app:popupTheme="@style/ThemeOverlay.AppCompat.Light" />
 
         <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
@@ -110,7 +109,7 @@
                 android:id="@+id/event_list_container"
                 android:focusable="false"
                 android:layout_below="@id/event_label"
-                android:layout_marginTop="8dp"
+                android:layout_marginTop="@dimen/list_padding_top"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content" />
         </RelativeLayout>
