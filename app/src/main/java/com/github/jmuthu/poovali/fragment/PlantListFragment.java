@@ -20,10 +20,10 @@ import com.github.jmuthu.poovali.utility.Helper;
 import java.text.DateFormat;
 import java.util.List;
 
-public class PlantsFragment extends Fragment {
+public class PlantListFragment extends Fragment {
     RecyclerView mRecyclerView;
 
-    public PlantsFragment() {
+    public PlantListFragment() {
         // Required empty public constructor
     }
 
@@ -35,7 +35,7 @@ public class PlantsFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.plants_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_plant_list, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.plant_list);
         assert mRecyclerView != null;
@@ -61,7 +61,7 @@ public class PlantsFragment extends Fragment {
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.plant_list_item, parent, false);
+                    .inflate(R.layout.list_item_plant, parent, false);
             return new ViewHolder(view);
         }
 

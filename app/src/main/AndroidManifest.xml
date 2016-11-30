@@ -12,7 +12,7 @@
         android:launchMode="singleTop"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.PlantListActivity">
+        <activity android:name=".activity.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -21,10 +21,10 @@
         <activity
             android:name=".activity.PlantDetailActivity"
             android:label="@string/title_activity_plant_detail"
-            android:parentActivityName=".activity.PlantListActivity">
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.github.jmuthu.poovali.activity.PlantListActivity" />
+                android:value="com.github.jmuthu.poovali.activity.MainActivity" />
         </activity>
         <activity
             android:name=".activity.AddEventActivity"
@@ -32,14 +32,14 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
-            android:name=".activity.ViewEventActivity"
-            android:parentActivityName=".activity.PlantListActivity">
+            android:name=".activity.EventDetailActivity"
+            android:parentActivityName=".activity.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.github.jmuthu.poovali.activity.PlantListActivity" />
+                android:value="com.github.jmuthu.poovali.activity.MainActivity" />
         </activity>
         <activity
-            android:name=".activity.BatchViewActivity"
+            android:name=".activity.BatchDetailActivity"
             android:parentActivityName=".activity.PlantDetailActivity"
             android:theme="@style/AppTheme">
             <meta-data

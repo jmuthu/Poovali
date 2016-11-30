@@ -13,7 +13,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.jmuthu.poovali.R;
-import com.github.jmuthu.poovali.activity.BatchViewActivity;
+import com.github.jmuthu.poovali.activity.BatchDetailActivity;
 import com.github.jmuthu.poovali.model.BatchContent;
 import com.github.jmuthu.poovali.model.EventContent;
 import com.github.jmuthu.poovali.model.PlantContent;
@@ -22,11 +22,11 @@ import com.github.jmuthu.poovali.utility.Helper;
 import java.text.DateFormat;
 import java.util.List;
 
-public class BatchFragment extends Fragment {
+public class BatchListFragment extends Fragment {
     PlantContent.Plant mPlant = null;
     RecyclerView mRecyclerView;
 
-    public BatchFragment() {
+    public BatchListFragment() {
     }
 
     @Override
@@ -41,7 +41,7 @@ public class BatchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.batch_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_batch_list, container, false);
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.batch_list);
         assert mRecyclerView != null;
@@ -75,7 +75,7 @@ public class BatchFragment extends Fragment {
         @Override
         public SimpleItemRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.batch_list_item, parent, false);
+                    .inflate(R.layout.list_item_batch, parent, false);
             return new SimpleItemRecyclerViewAdapter.ViewHolder(view);
         }
 
@@ -116,7 +116,7 @@ public class BatchFragment extends Fragment {
                 @Override
                 public void onClick(View v) {
                     Context context = v.getContext();
-                    Intent intent = new Intent(context, BatchViewActivity.class);
+                    Intent intent = new Intent(context, BatchDetailActivity.class);
                     intent.putExtra(Helper.ARG_BATCH_ID, holder.mBatch.getId());
                     context.startActivity(intent);
                 }

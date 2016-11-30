@@ -13,7 +13,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.jmuthu.poovali.R;
-import com.github.jmuthu.poovali.fragment.BatchFragment;
+import com.github.jmuthu.poovali.fragment.BatchListFragment;
 import com.github.jmuthu.poovali.model.PlantContent;
 import com.github.jmuthu.poovali.utility.Helper;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
@@ -147,7 +147,7 @@ public class PlantDetailActivity extends AppCompatActivity {
             // using a fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putString(Helper.ARG_PLANT_ID, plantId);
-            BatchFragment fragment = new BatchFragment();
+            BatchListFragment fragment = new BatchListFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.batch_list_container, fragment)
@@ -179,7 +179,7 @@ public class PlantDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            NavUtils.navigateUpTo(this, new Intent(this, PlantListActivity.class));
+            NavUtils.navigateUpTo(this, new Intent(this, MainActivity.class));
             return true;
         }
         return super.onOptionsItemSelected(item);

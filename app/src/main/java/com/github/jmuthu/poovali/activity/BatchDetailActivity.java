@@ -10,17 +10,17 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import com.github.jmuthu.poovali.R;
-import com.github.jmuthu.poovali.fragment.EventFragment;
+import com.github.jmuthu.poovali.fragment.EventListFragment;
 import com.github.jmuthu.poovali.model.BatchContent;
 import com.github.jmuthu.poovali.utility.Helper;
 
-public class BatchViewActivity extends AppCompatActivity {
+public class BatchDetailActivity extends AppCompatActivity {
     BatchContent.Batch mBatch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_batch_view);
+        setContentView(R.layout.activity_batch_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         toolbar.setTitle("");
         setSupportActionBar(toolbar);
@@ -50,7 +50,7 @@ public class BatchViewActivity extends AppCompatActivity {
             // using a fragment transaction.
             Bundle arguments = new Bundle();
             arguments.putString(Helper.ARG_BATCH_ID, batchId);
-            EventFragment fragment = new EventFragment();
+            EventListFragment fragment = new EventListFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.event_list_container, fragment)
@@ -75,7 +75,7 @@ public class BatchViewActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
         /*    case R.id.delete:
-                DialogFragment dialog = new ViewEventActivity.DeleteEventDialogFragment();
+                DialogFragment dialog = new EventDetailActivity.DeleteEventDialogFragment();
                 dialog.show(getSupportFragmentManager(), "DeleteEvent");
                 return true;
             case R.id.edit:

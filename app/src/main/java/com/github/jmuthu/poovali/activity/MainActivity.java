@@ -16,8 +16,8 @@ import android.widget.ImageView;
 
 import com.github.jmuthu.poovali.AlarmReceiver;
 import com.github.jmuthu.poovali.R;
-import com.github.jmuthu.poovali.fragment.BatchFragment;
-import com.github.jmuthu.poovali.fragment.PlantsFragment;
+import com.github.jmuthu.poovali.fragment.BatchListFragment;
+import com.github.jmuthu.poovali.fragment.PlantListFragment;
 import com.github.jmuthu.poovali.utility.Helper;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 
@@ -25,7 +25,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-public class PlantListActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity {
     private ViewPager viewPager;
 
     @Override
@@ -33,7 +33,7 @@ public class PlantListActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
 
-        setContentView(R.layout.activity_plant_list);
+        setContentView(R.layout.activity_main);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -81,8 +81,8 @@ public class PlantListActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new PlantsFragment(), "Plants");
-        adapter.addFragment(new BatchFragment(), "Activities");
+        adapter.addFragment(new PlantListFragment(), "Plants");
+        adapter.addFragment(new BatchListFragment(), "Activities");
         viewPager.setAdapter(adapter);
     }
 

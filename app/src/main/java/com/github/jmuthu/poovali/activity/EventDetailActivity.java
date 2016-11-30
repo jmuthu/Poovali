@@ -20,7 +20,7 @@ import com.github.jmuthu.poovali.model.EventContent;
 import com.github.jmuthu.poovali.utility.Helper;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 
-public class ViewEventActivity extends AppCompatActivity {
+public class EventDetailActivity extends AppCompatActivity {
     static BatchContent.Batch batch;
     static EventContent.Event event;
 
@@ -29,7 +29,7 @@ public class ViewEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
 
-        setContentView(R.layout.activity_view);
+        setContentView(R.layout.activity_event_detail);
         Toolbar toolbar = (Toolbar) findViewById(R.id.view_event_toolbar);
 
         Bundle extras = getIntent().getExtras();

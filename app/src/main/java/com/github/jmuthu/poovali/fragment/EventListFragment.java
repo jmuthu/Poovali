@@ -12,7 +12,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.jmuthu.poovali.R;
-import com.github.jmuthu.poovali.activity.ViewEventActivity;
+import com.github.jmuthu.poovali.activity.EventDetailActivity;
 import com.github.jmuthu.poovali.model.BatchContent;
 import com.github.jmuthu.poovali.model.EventContent;
 import com.github.jmuthu.poovali.utility.Helper;
@@ -20,11 +20,11 @@ import com.github.jmuthu.poovali.utility.Helper;
 import java.text.DateFormat;
 import java.util.List;
 
-public class EventFragment extends Fragment {
+public class EventListFragment extends Fragment {
     BatchContent.Batch mBatch = null;
     RecyclerView recyclerView;
 
-    public EventFragment() {
+    public EventListFragment() {
     }
 
     @Override
@@ -39,11 +39,11 @@ public class EventFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.events_fragment, container, false);
+        View rootView = inflater.inflate(R.layout.fragment_event_list, container, false);
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.activities_list);
         assert recyclerView != null;
-        recyclerView.setAdapter(new EventFragment.SimpleItemRecyclerViewAdapter(mBatch.getEvents()));
+        recyclerView.setAdapter(new EventListFragment.SimpleItemRecyclerViewAdapter(mBatch.getEvents()));
 
         return rootView;
     }
@@ -55,7 +55,7 @@ public class EventFragment extends Fragment {
     }
 
     public class SimpleItemRecyclerViewAdapter
-            extends RecyclerView.Adapter<EventFragment.SimpleItemRecyclerViewAdapter.ViewHolder> {
+            extends RecyclerView.Adapter<EventListFragment.SimpleItemRecyclerViewAdapter.ViewHolder> {
 
         private final List<EventContent.Event> mValues;
 
@@ -64,14 +64,14 @@ public class EventFragment extends Fragment {
         }
 
         @Override
-        public EventFragment.SimpleItemRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+        public EventListFragment.SimpleItemRecyclerViewAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
             View view = LayoutInflater.from(parent.getContext())
-                    .inflate(R.layout.event_list_item, parent, false);
-            return new EventFragment.SimpleItemRecyclerViewAdapter.ViewHolder(view);
+                    .inflate(R.layout.list_item_event, parent, false);
+            return new EventListFragment.SimpleItemRecyclerViewAdapter.ViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(final EventFragment.SimpleItemRecyclerViewAdapter.ViewHolder holder, int position) {
+        public void onBindViewHolder(final EventListFragment.SimpleItemRecyclerViewAdapter.ViewHolder holder, int position) {
             if (position == mValues.size() - 1) { //ignore the sow activity
                 return;
             }
@@ -93,7 +93,7 @@ public class EventFragment extends Fragment {
                 public void onClick(View v) {
                     if (holder.mItem.getClass() == EventContent.BatchActivityEvent.class) {
                         Context context = v.getContext();
-                        Intent intent = new Intent(context, ViewEventActivity.class);
+                        Intent intent = new Intent(context, EventDetailActivity.class);
                         intent.putExtra(Helper.ARG_EVENT_ID, holder.mItem.getId());
                         intent.putExtra(Helper.ARG_BATCH_ID, mBatch.getId());
                         context.startActivity(intent);
