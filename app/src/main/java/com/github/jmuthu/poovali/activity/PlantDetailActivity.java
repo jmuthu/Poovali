@@ -136,6 +136,17 @@ public class PlantDetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
+        onPrepareOptionsMenu(menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        if (mPlant.getBatchList().size() == 0) {
+            menu.findItem(R.id.add_event).setVisible(false);
+        } else {
+            menu.findItem(R.id.add_event).setVisible(true);
+        }
         return true;
     }
 
@@ -143,6 +154,7 @@ public class PlantDetailActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         setupUpdatableViews();
+        invalidateOptionsMenu();
     }
 
     public void setupUpdatableViews() {
