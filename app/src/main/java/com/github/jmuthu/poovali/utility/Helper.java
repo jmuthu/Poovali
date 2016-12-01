@@ -44,14 +44,17 @@ public class Helper {
         Integer overDue = plant.pendingSowDays();
         if (overDue != null) {
             if (overDue == 0) {
-                textView.setText("Sow today");
+                textView.setText("sow today");
             } else if (overDue > 0) {
                 String text = overDue == 1 ?
                         overDue + " day overdue" : overDue + " days overdue";
                 textView.setText(text);
                 textView.setTextColor(warnColor);
             } else {
-                textView.setText("Sow in " + overDue * -1 + " days");
+                overDue = overDue * -1;
+                String text = overDue == 1 ?
+                        overDue + " day" : overDue + " days";
+                textView.setText("sow in " + text);
             }
         }
     }
