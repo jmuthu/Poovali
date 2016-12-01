@@ -17,6 +17,8 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+import static com.github.jmuthu.poovali.utility.Helper.getZeroTimeDate;
+
 public class BatchContent {
 
     private static Map<String, Batch> batchMap = new HashMap<>();
@@ -139,14 +141,11 @@ public class BatchContent {
         }
 
         public int getProgress() {
-            long diff = Calendar.getInstance().getTimeInMillis() - createdDate.getTime();
-            long dayCount = (long) diff / (24 * 60 * 60 * 1000);
-            return (int) dayCount * 100 / getPlant().getCropDuration();
+            return (int) getDurationInDays() * 100 / getPlant().getCropDuration();
         }
 
         public PlantContent.GrowthStage getStage() {
-            long diff = Calendar.getInstance().getTimeInMillis() - createdDate.getTime();
-            long dayCount = (long) diff / (24 * 60 * 60 * 1000);
+            long dayCount = getDurationInDays();
             EnumMap<PlantContent.GrowthStage, Integer> growthStageMap = getPlant().getGrowthStageMap();
             if (dayCount <= growthStageMap.get(PlantContent.GrowthStage.SEEDLING)) {
                 return PlantContent.GrowthStage.SEEDLING;
@@ -164,6 +163,11 @@ public class BatchContent {
                 return PlantContent.GrowthStage.RIPENING;
             }
             return PlantContent.GrowthStage.DORMANT;
+        }
+
+        public int getDurationInDays() {
+            long diff = getZeroTimeDate(Calendar.getInstance().getTime()).getTime() - getZeroTimeDate(createdDate).getTime();
+            return (int) (diff / (24 * 60 * 60 * 1000));
         }
 
         @Override

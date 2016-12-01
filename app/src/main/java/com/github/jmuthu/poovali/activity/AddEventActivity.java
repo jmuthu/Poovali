@@ -100,12 +100,15 @@ public class AddEventActivity extends AppCompatActivity {
             List<BatchContent.Batch> batchList = BatchContent.getBatchList();
             plantSpinnerAdapter = new CustomSpinnerAdapter<BatchContent.Batch>(this, batchList);
             plantSpinner.setAdapter(plantSpinnerAdapter);
+            if (batchId != null) {
+                plantSpinner.setSelection(batchList.indexOf(BatchContent.getBatch(batchId)));
+                plantSpinner.setEnabled(false);
+            }
             if (mEvent != null) {
                 date = mEvent.getCreatedDate();
                 eventSpinner.setSelection(
                         ((EventContent.BatchActivityEvent) mEvent).getType().ordinal());
-                plantSpinner.setSelection(batchList.indexOf(BatchContent.getBatch(batchId)));
-                plantSpinner.setEnabled(false);
+                eventSpinner.setEnabled(false);
                 description = mEvent.getDescription();
             }
         }
