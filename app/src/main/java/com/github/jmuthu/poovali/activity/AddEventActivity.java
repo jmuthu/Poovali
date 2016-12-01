@@ -219,6 +219,7 @@ public class AddEventActivity extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             TextView dateView = (TextView) getActivity().findViewById(R.id.date);
             Calendar calendar = Calendar.getInstance();
+            Long now = calendar.getTimeInMillis();
             try {
                 calendar.setTime(Helper.DATE_FORMAT.parse(dateView.getText().toString()));
             } catch (ParseException e) {
@@ -237,6 +238,7 @@ public class AddEventActivity extends AppCompatActivity {
                     dialog.getDatePicker().setMinDate(batch.getCreatedDate().getTime());
                 }
             }
+            dialog.getDatePicker().setMaxDate(now);
             return dialog;
         }
 
