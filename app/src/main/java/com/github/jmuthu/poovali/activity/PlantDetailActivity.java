@@ -58,18 +58,9 @@ public class PlantDetailActivity extends AppCompatActivity {
                 "drawable",
                 getPackageName()));
 
-        TextView nextBatchDueView = (TextView) findViewById(R.id.next_batch_due);
-        Helper.setOverDueText(mPlant, nextBatchDueView, Color.YELLOW);
-
         CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         if (appBarLayout != null) {
             appBarLayout.setTitle(mPlant.getName());
-        }
-
-        if (mPlant.getBatchList() != null) {
-            TextView batchLabel = (TextView) findViewById(R.id.batch_label);
-            batchLabel.setText(getString(R.string.batch_label) + " ("
-                    + mPlant.getBatchList().size() + ")");
         }
 
         PieChart pieChart = (PieChart) findViewById(R.id.chart);
@@ -127,6 +118,7 @@ public class PlantDetailActivity extends AppCompatActivity {
 
         pieChart.invalidate();
 
+        setupUpdatableViews();
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
@@ -150,6 +142,10 @@ public class PlantDetailActivity extends AppCompatActivity {
     @Override
     public void onResume() {
         super.onResume();
+        setupUpdatableViews();
+    }
+
+    public void setupUpdatableViews() {
         TextView batchLabel = (TextView) findViewById(R.id.batch_label);
         if (mPlant.getBatchList().size() > 0) {
             batchLabel.setVisibility(View.VISIBLE);
@@ -158,6 +154,8 @@ public class PlantDetailActivity extends AppCompatActivity {
         } else {
             batchLabel.setVisibility(View.GONE);
         }
+        TextView nextBatchDueView = (TextView) findViewById(R.id.next_batch_due);
+        Helper.setOverDueText(mPlant, nextBatchDueView, Color.YELLOW);
     }
 
     @Override
