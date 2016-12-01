@@ -78,6 +78,9 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new BatchListFragment(), "Recent Activities");
         adapter.addFragment(new PlantListFragment(), "Plants");
         viewPager.setAdapter(adapter);
+        if (PlantContent.getBatchList().size() == 0) {
+            viewPager.setCurrentItem(1);
+        }
     }
 
     @Override
