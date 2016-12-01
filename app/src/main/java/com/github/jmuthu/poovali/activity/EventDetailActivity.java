@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -11,6 +12,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -30,7 +32,9 @@ public class EventDetailActivity extends AppCompatActivity {
         Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
 
         setContentView(R.layout.activity_event_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.view_event_toolbar);
+        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
@@ -39,16 +43,25 @@ public class EventDetailActivity extends AppCompatActivity {
             batch = BatchContent.getBatch(batchId);
             event = EventContent.getEvent(eventId);
         }
-        toolbar.setTitle("   " + event.getName()); // Hack
-        setSupportActionBar(toolbar);
-        getSupportActionBar().setIcon(getResources().getIdentifier(
-                event.getImageName(),
+
+        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout)
+                findViewById(R.id.toolbar_layout);
+        collapsingToolbarLayout.setTitle(event.getName());
+        ImageView eventIconView = (ImageView) findViewById(R.id.event_type_icon);
+        eventIconView.setImageResource(getResources().getIdentifier(event.getImageName(),
                 "drawable",
                 getPackageName()));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         TextView batchView = (TextView) findViewById(R.id.name);
         batchView.setText(batch.getName());
+
+        TextView descriptionView = (TextView) findViewById(R.id.event_description);
+        if (event.getDescription() == null || event.getDescription().isEmpty()) {
+            descriptionView.setVisibility(View.GONE);
+            findViewById(R.id.event_description_icon).setVisibility(View.GONE);
+        } else {
+            descriptionView.setText(event.getDescription());
+        }
 
         ImageView imageView = (ImageView) findViewById(R.id.plant_type_icon);
         imageView.setImageResource(getResources().getIdentifier(
@@ -59,8 +72,7 @@ public class EventDetailActivity extends AppCompatActivity {
         dateView.setText(Helper.DATE_FORMAT.format(event.getCreatedDate()));
         TextView timeView = (TextView) findViewById(R.id.time);
         timeView.setText(Helper.TIME_FORMAT.format(event.getCreatedDate()));
-        TextView descriptionView = (TextView) findViewById(R.id.event_description);
-        descriptionView.setText(event.getDescription());
+
     }
 
     @Override
