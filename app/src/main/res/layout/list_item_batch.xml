@@ -30,7 +30,11 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="@dimen/list_text_padding_vertical"
-        android:paddingStart="@dimen/list_text_padding_start" />
+        android:paddingStart="@dimen/list_text_padding_start"
+        android:ellipsize="end"
+        android:maxLines="1"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/batch_status" />
 
     <TextView
         android:id="@+id/batch_status"
