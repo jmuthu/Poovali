@@ -4,9 +4,12 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -47,11 +50,9 @@ public class PlantDetailActivity extends AppCompatActivity {
         mPlant = PlantContent.getPlant(plantId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
-        toolbar.setTitle("");
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
-        TextView nameView = (TextView) findViewById(R.id.name);
-        nameView.setText(mPlant.getName());
+
         ImageView plantIcon = (ImageView) findViewById(R.id.plant_type_icon);
         plantIcon.setImageResource(getResources().getIdentifier(
                 mPlant.getImageName(),
@@ -61,32 +62,10 @@ public class PlantDetailActivity extends AppCompatActivity {
         TextView nextBatchDueView = (TextView) findViewById(R.id.next_batch_due);
         Helper.setOverDueText(mPlant, nextBatchDueView, Color.YELLOW);
 
-       /* CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         if (appBarLayout != null) {
-            appBarLayout.setTitle(plant.getName());
+            appBarLayout.setTitle(mPlant.getName());
         }
-        ImageView imageBar = (ImageView) findViewById(R.id.image_id);
-        imageBar.setImageResource(getResources().getIdentifier(plant.getImageName() + Helper.DETAIL_IMAGE_SUFFIX,
-              "drawable",
-            getPackageName()));
-
-        TextView soil = (TextView) findViewById(R.id.soil);
-        soil.setText(plant.getSoil());
-        TextView seedTreatment = (TextView) findViewById(R.id.seed_treatment);
-        seedTreatment.setText(plant.getSeedTreatment());
-        TextView sowingSeason = (TextView) findViewById(R.id.sowing_season);
-        sowingSeason.setText(plant.getSowingSeason());
-*/
-        ImageView addImageView = (ImageView) findViewById(R.id.add_action);
-        addImageView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(view.getContext(), AddEventActivity.class);
-                intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, true);
-                intent.putExtra(Helper.ARG_PLANT_ID, mPlant.getId());
-                startActivity(intent);
-            }
-        });
 
         if (mPlant.getBatchList() != null) {
             TextView batchLabel = (TextView) findViewById(R.id.batch_label);
@@ -163,6 +142,13 @@ public class PlantDetailActivity extends AppCompatActivity {
     }
 
     @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
         TextView batchLabel = (TextView) findViewById(R.id.batch_label);
@@ -177,19 +163,25 @@ public class PlantDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        int id = item.getItemId();
-        if (id == android.R.id.home) {
-            // This ID represents the Home or Up button. In the case of this
-            // activity, the Up button is shown. Use NavUtils to allow users
-            // to navigate up one level in the application structure. For
-            // more details, see the Navigation pattern on Android Design:
-            //
-            // http://developer.android.com/design/patterns/navigation.html#up-vs-back
-            //
-            NavUtils.navigateUpTo(this, new Intent(this, MainActivity.class));
-            return true;
+        Intent intent;
+        switch (item.getItemId()) {
+            case R.id.add_batch:
+                intent = new Intent(this, AddEventActivity.class);
+                intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, true);
+                intent.putExtra(Helper.ARG_PLANT_ID, mPlant.getId());
+                startActivity(intent);
+                return true;
+            case R.id.add_event:
+                intent = new Intent(this, AddEventActivity.class);
+                intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, false);
+                startActivity(intent);
+                return true;
+            case android.R.id.home:
+                NavUtils.navigateUpTo(this, new Intent(this, MainActivity.class));
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
-        return super.onOptionsItemSelected(item);
     }
 
     public class MyValueFormatter implements IValueFormatter {
