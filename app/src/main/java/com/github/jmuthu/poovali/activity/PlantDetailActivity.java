@@ -5,7 +5,6 @@ import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
-import android.support.v4.app.NavUtils;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -177,7 +176,7 @@ public class PlantDetailActivity extends AppCompatActivity {
                 startActivity(intent);
                 return true;
             case android.R.id.home:
-                NavUtils.navigateUpTo(this, new Intent(this, MainActivity.class));
+                finish();
                 return true;
             default:
                 return super.onOptionsItemSelected(item);
