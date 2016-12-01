@@ -17,7 +17,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             app:contentScrim="?attr/colorPrimary"
-            app:expandedTitleMarginBottom="33dp"
+            app:expandedTitleMarginBottom="38dp"
             app:expandedTitleMarginStart="88dp"
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
@@ -100,7 +100,7 @@
 
                 <TextView
                     android:id="@+id/duration"
-                    style="@android:style/TextAppearance.Material.Body1"
+                    style="@android:style/TextAppearance.Material.Caption"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/batch_status"
@@ -133,7 +133,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_below="@id/batch_status_progress"
-                    android:layout_marginTop="32dp"
+                    android:layout_marginTop="36dp"
                     android:layout_marginBottom="16dp"
                     android:paddingEnd="@dimen/list_text_padding_end"
                     android:paddingStart="@dimen/list_text_padding_start" />
