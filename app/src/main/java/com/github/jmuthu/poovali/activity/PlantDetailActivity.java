@@ -183,6 +183,7 @@ public class PlantDetailActivity extends AppCompatActivity {
             case R.id.add_event:
                 intent = new Intent(this, AddEventActivity.class);
                 intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, false);
+                intent.putExtra(Helper.ARG_PLANT_ID, mPlant.getId());
                 startActivity(intent);
                 return true;
             case android.R.id.home:
