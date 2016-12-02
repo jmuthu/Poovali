@@ -157,17 +157,6 @@ public class PlantContent {
         return notification;
     }
 
-    public static List<BatchContent.Batch> getBatchList() {
-        LinkedList<BatchContent.Batch> batches = new LinkedList<>();
-        for (Plant plant : getItems()) {
-            if (!plant.getBatchList().isEmpty()) {
-                batches.addAll(plant.getBatchList());
-            }
-        }
-        Collections.sort(batches, new BatchContent.Batch.BatchDescendingComparator());
-        return Collections.unmodifiableList(batches);
-    }
-
     public enum GrowthStage {
         SEEDLING {
             public String toString() {

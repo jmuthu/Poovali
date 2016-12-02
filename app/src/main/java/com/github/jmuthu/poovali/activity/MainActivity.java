@@ -19,7 +19,7 @@ import com.github.jmuthu.poovali.AlarmReceiver;
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.fragment.BatchListFragment;
 import com.github.jmuthu.poovali.fragment.PlantListFragment;
-import com.github.jmuthu.poovali.model.PlantContent;
+import com.github.jmuthu.poovali.model.BatchContent;
 import com.github.jmuthu.poovali.utility.Helper;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 
@@ -78,7 +78,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new BatchListFragment(), "Recent Activities");
         adapter.addFragment(new PlantListFragment(), "Plants");
         viewPager.setAdapter(adapter);
-        if (PlantContent.getBatchList().size() == 0) {
+        if (BatchContent.isBatchListEmpty()) {
             viewPager.setCurrentItem(1);
         }
     }
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (PlantContent.getBatchList().size() == 0) {
+        if (BatchContent.isBatchListEmpty()) {
             menu.findItem(R.id.add_event).setVisible(false);
         } else {
             menu.findItem(R.id.add_event).setVisible(true);

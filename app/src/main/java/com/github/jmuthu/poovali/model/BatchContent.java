@@ -45,12 +45,18 @@ public class BatchContent {
         return getBatchList(false);
     }
 
-    public static List<Batch> getBatchList(boolean sortByEvents) {
+    public static List<Batch> getBatchList(boolean sortByModifiedDate) {
         ArrayList<Batch> result = new ArrayList<>(batchMap.values());
-        if (sortByEvents) {
+        if (sortByModifiedDate) {
             Collections.sort(result, new Batch.BatchModifiedDescendingComparator());
+        } else {
+            Collections.sort(result, new Batch.BatchNameComparator());
         }
         return Collections.unmodifiableList(result);
+    }
+
+    public static boolean isBatchListEmpty() {
+        return batchMap.isEmpty();
     }
 
 
@@ -186,6 +192,13 @@ public class BatchContent {
             @Override
             public int compare(Batch b1, Batch b2) {
                 return b2.eventsList.get(0).getCreatedDate().compareTo(b1.eventsList.get(0).getCreatedDate());
+            }
+        }
+
+        static class BatchNameComparator implements Comparator<Batch> {
+            @Override
+            public int compare(Batch b1, Batch b2) {
+                return b1.getName().compareTo(b2.getName());
             }
         }
     }
