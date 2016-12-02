@@ -20,7 +20,7 @@
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
 
     <style name="Label" parent="@android:style/TextAppearance.Material.Title">
-        <item name="android:layout_marginTop">10dp</item>
+        <item name="android:layout_marginTop">@dimen/list_padding_top</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
@@ -35,18 +35,14 @@
         <item name="android:clickable">true</item>
     </style>
 
-    <style name="AddEventLabel" parent="@android:style/TextAppearance.Material.Medium">
+    <style name="AddEventLabel" parent="@android:style/TextAppearance.Material.Body1">
         <item name="android:layout_marginTop">30sp</item>
         <item name="android:layout_marginBottom">10sp</item>
+        <item name="android:paddingStart">@dimen/list_icon_padding_start</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="ThemeSpinner" parent="@android:style/Widget.Material.Spinner">
-        <!--
-        <item name="colorAccent">@color/underline</item>
-        <item name="colorControlNormal">@color/underline</item>
-        <item name="colorControlActivated">@color/underline</item>
-        <item name="colorControlHighlight">@color/underline</item-->
-    </style>
+    <style name="ThemeSpinner" parent="@android:style/Widget.Material.Spinner.Underlined" />
+
 </resources>

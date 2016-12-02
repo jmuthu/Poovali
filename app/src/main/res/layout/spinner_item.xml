@@ -9,13 +9,14 @@
         android:id="@+id/img"
         android:layout_width="40dp"
         android:layout_height="40dp"
-        android:layout_gravity="center_vertical"/>
+        android:scaleType="fitCenter" />
     <TextView
         android:id="@+id/txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:paddingLeft="10dp"
-        style="@android:style/TextAppearance.Material.Medium"
+        android:layout_marginStart="10dp"
+        android:layout_marginEnd="@dimen/list_text_padding_end"
+        style="@android:style/TextAppearance.Material.Subhead"
         android:layout_gravity="center_vertical">
     </TextView>
 </LinearLayout>
