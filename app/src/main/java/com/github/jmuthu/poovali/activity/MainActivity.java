@@ -28,7 +28,6 @@ import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-    private ViewPager viewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,7 +40,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        viewPager = (ViewPager) findViewById(R.id.viewpager);
+        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
         setupViewPager(viewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
@@ -81,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
         if (BatchContent.isBatchListEmpty()) {
             viewPager.setCurrentItem(1);
         }
+        viewPager.setOffscreenPageLimit(1);
     }
 
     @Override
