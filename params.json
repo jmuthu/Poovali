@@ -1,6 +1,6 @@
 {
   "name": "Poovali",
-  "tagline": "Mobile Application for managing your garden",
-  "body": "### Introduction\r\nWith increasing concerns regarding global warming, growing food naturally has become necessary that brings  a lot of joy for home gardeners to eat mindfully and spiritual dieting as Masanobu Fukuoka says \"The ultimate goal of farming is not the growing of crops, but the cultivation and perfection of human beings.\"\r\nThis application enables gardeners to manage their garden schedules and keep track of their activities and provide insights in the long quest for learning\r\n\r\n### About \r\nPoovali is a mobile application to track primarily activities on your vegetables and also provide notifications to schedule sowing new batches.\r\n\r\n",
+  "tagline": "Garden Manager",
+  "body": "### Introduction\r\nWith increasing concerns regarding global warming, growing food naturally has become necessary that brings  a lot of joy for home gardeners to eat mindfully and spiritual dieting as Masanobu Fukuoka says \"The ultimate goal of farming is not the growing of crops, but the cultivation and perfection of human beings.\"\r\nThis application enables gardeners to manage their garden schedules and keep track of their activities and provide insights in the long quest for learning\r\n\r\n### Releases\r\n[0.1-alpha.0](https://github.com/jmuthu/Poovali/releases/download/v0.1-alpha.0/poovali-0.1-alpha.0.apk) : Initial demo release for getting feedback from users\r\n\r\n### About \r\nPoovali is a mobile application to track primarily activities on your vegetables and also provide notifications to schedule sowing new batches.\r\n\r\n",
   "note": "Don't delete this file! It's used internally to help with page regeneration."
 }
