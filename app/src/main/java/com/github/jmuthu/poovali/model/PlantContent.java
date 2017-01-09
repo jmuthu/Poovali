@@ -134,8 +134,8 @@ public class PlantContent {
         }
     }
 
-    public static List<NotificationContent> pendingActivities() {
-        List<NotificationContent> notification = new ArrayList<>();
+    public static List<Notification> pendingActivities() {
+        List<Notification> notification = new ArrayList<>();
         if (getItems().size() == 0) {
             return notification;
         }
@@ -145,11 +145,11 @@ public class PlantContent {
             }
             Integer dayCount = plant.pendingSowDays();
             if (dayCount > 0) {
-                notification.add(new NotificationContent(
+                notification.add(new Notification(
                         "Sow " + plant.getName() + "!",
                         dayCount + (dayCount > 1 ? " days " : " day ") + "overdue"));
             } else if (dayCount == 0) {
-                notification.add(new NotificationContent(
+                notification.add(new Notification(
                         "Sow " + plant.getName() + " today!",
                         ""));
             }
