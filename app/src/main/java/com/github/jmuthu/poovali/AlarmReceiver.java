@@ -10,13 +10,40 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.github.jmuthu.poovali.model.Notification;
-import com.github.jmuthu.poovali.model.PlantContent;
+import com.github.jmuthu.poovali.model.Plant;
+import com.github.jmuthu.poovali.model.PlantRepository;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class AlarmReceiver extends BroadcastReceiver {
 
     private static int notificationID = 1;
 
     final static String ACTIVITY_GROUP = "activity_group";
+
+    public static List<Notification> pendingActivities() {
+        List<Notification> notification = new ArrayList<>();
+        if (PlantRepository.findAll().size() == 0) {
+            return notification;
+        }
+        for (Plant plant : PlantRepository.findAll()) {
+            if (plant.getBatchList().isEmpty()) {
+                continue;
+            }
+            Integer dayCount = plant.pendingSowDays();
+            if (dayCount > 0) {
+                notification.add(new Notification(
+                        "Sow " + plant.getName() + "!",
+                        dayCount + (dayCount > 1 ? " days " : " day ") + "overdue"));
+            } else if (dayCount == 0) {
+                notification.add(new Notification(
+                        "Sow " + plant.getName() + " today!",
+                        ""));
+            }
+        }
+        return notification;
+    }
 
     @Override
     public void onReceive(Context context, Intent intent) {
@@ -61,7 +88,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             notificationManager.notify(++notificationID, builder.build());
         }*/
 
-        for (Notification content : PlantContent.pendingActivities()) {
+        for (Notification content : pendingActivities()) {
             NotificationCompat.Builder builder = new NotificationCompat.Builder(context);
             builder.setSmallIcon(R.mipmap.notification);
             builder.setLargeIcon(BitmapFactory.decodeResource(context.getResources(), R.mipmap.watering_can));
@@ -74,8 +101,6 @@ public class AlarmReceiver extends BroadcastReceiver {
             //builder.setGroup(ACTIVITY_GROUP);
             notificationManager.notify(++notificationID, builder.build());
         }
-
-
     }
 
 }

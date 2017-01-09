@@ -16,7 +16,8 @@ import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.activity.BatchDetailActivity;
 import com.github.jmuthu.poovali.model.Batch;
 import com.github.jmuthu.poovali.model.BatchRepository;
-import com.github.jmuthu.poovali.model.PlantContent;
+import com.github.jmuthu.poovali.model.Plant;
+import com.github.jmuthu.poovali.model.PlantRepository;
 import com.github.jmuthu.poovali.model.event.Event;
 import com.github.jmuthu.poovali.utility.Helper;
 
@@ -24,7 +25,7 @@ import java.text.DateFormat;
 import java.util.List;
 
 public class BatchListFragment extends Fragment {
-    PlantContent.Plant mPlant = null;
+    Plant mPlant = null;
     RecyclerView mRecyclerView;
 
     public BatchListFragment() {
@@ -35,7 +36,7 @@ public class BatchListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             String plantId = getArguments().getString(Helper.ARG_PLANT_ID);
-            mPlant = PlantContent.getPlant(plantId);
+            mPlant = PlantRepository.find(plantId);
         }
     }
 

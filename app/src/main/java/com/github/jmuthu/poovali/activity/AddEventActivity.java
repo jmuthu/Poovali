@@ -26,7 +26,8 @@ import android.widget.TimePicker;
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.model.Batch;
 import com.github.jmuthu.poovali.model.BatchRepository;
-import com.github.jmuthu.poovali.model.PlantContent;
+import com.github.jmuthu.poovali.model.Plant;
+import com.github.jmuthu.poovali.model.PlantRepository;
 import com.github.jmuthu.poovali.model.event.BatchActivityEvent;
 import com.github.jmuthu.poovali.model.event.Event;
 import com.github.jmuthu.poovali.model.event.EventFactory;
@@ -84,12 +85,12 @@ public class AddEventActivity extends AppCompatActivity {
             eventSpinner.setVisibility(View.GONE);
 
             label = getResources().getString(R.string.plant_label);
-            plantSpinnerAdapter = new CustomSpinnerAdapter<PlantContent.Plant>(this,
-                    PlantContent.getItems());
+            plantSpinnerAdapter = new CustomSpinnerAdapter<Plant>(this,
+                    PlantRepository.findAll());
             plantSpinner.setAdapter(plantSpinnerAdapter);
             if (plantId != null) {
-                plantSpinner.setSelection(PlantContent.getItems()
-                        .indexOf(PlantContent.getPlant(plantId)));
+                plantSpinner.setSelection(PlantRepository.findAll()
+                        .indexOf(PlantRepository.find(plantId)));
                 plantSpinner.setEnabled(false);
             }
         } else {
@@ -103,7 +104,7 @@ public class AddEventActivity extends AppCompatActivity {
             label = getResources().getString(R.string.batch_label);
             List<Batch> batchList;
             if (plantId != null) {
-                batchList = PlantContent.getPlant(plantId).getBatchList();
+                batchList = PlantRepository.find(plantId).getBatchList();
             } else {
                 batchList = BatchRepository.findAll();
             }
@@ -172,7 +173,7 @@ public class AddEventActivity extends AppCompatActivity {
             batch.setId(UUID.randomUUID().toString());
             batch.setDescription(desc.getText().toString());
             batch.setCreatedDate(date);
-            PlantContent.Plant plant = (PlantContent.Plant) spinner.getSelectedItem();
+            Plant plant = (Plant) spinner.getSelectedItem();
             batch.setPlant(plant);
             SimpleDateFormat format = new SimpleDateFormat("dd MMM yy");
             batch.setName(batch.getPlant().getName() + " - " +
@@ -204,7 +205,7 @@ public class AddEventActivity extends AppCompatActivity {
     public boolean validateDate(Date date) {
         if (isSowActivity) {
             Spinner spinner = (Spinner) findViewById(R.id.plant_type_spinner);
-            PlantContent.Plant plant = (PlantContent.Plant) spinner.getSelectedItem();
+            Plant plant = (Plant) spinner.getSelectedItem();
 
             if (plant.isDuplicateBatch(date)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this,

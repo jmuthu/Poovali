@@ -20,7 +20,7 @@ import static com.github.jmuthu.poovali.utility.Helper.getZeroTimeDate;
 public class Batch implements Serializable, Helper.DisplayableItem {
     private static final long serialVersionUID = 1L;
     private String id;
-    transient private PlantContent.Plant plant;
+    transient private Plant plant;
     private String plantId;
     private String name;
     private Date createdDate;
@@ -38,14 +38,14 @@ public class Batch implements Serializable, Helper.DisplayableItem {
         this.id = id;
     }
 
-    public PlantContent.Plant getPlant() {
+    public Plant getPlant() {
         if (plant == null && plantId != null) {
-            plant = PlantContent.getPlant(plantId);
+            plant = PlantRepository.find(plantId);
         }
         return plant;
     }
 
-    public void setPlant(PlantContent.Plant plant) {
+    public void setPlant(Plant plant) {
         this.plant = plant;
         this.plantId = plant.getId();
     }
@@ -63,13 +63,13 @@ public class Batch implements Serializable, Helper.DisplayableItem {
             eventsList.add(0, event);
             EventRepository.store(event);
         }
-        PlantContent.saveItems(context);
+        PlantRepository.storeAll(context);
     }
 
     public void deleteEvent(Context context, Event event) {
         eventsList.remove(event);
         EventRepository.delete(event);
-        PlantContent.saveItems(context);
+        PlantRepository.storeAll(context);
     }
 
     public String getName() {
@@ -107,25 +107,25 @@ public class Batch implements Serializable, Helper.DisplayableItem {
         return (int) getDurationInDays() * 100 / getPlant().getCropDuration();
     }
 
-    public PlantContent.GrowthStage getStage() {
+    public Plant.GrowthStage getStage() {
         long dayCount = getDurationInDays();
-        EnumMap<PlantContent.GrowthStage, Integer> growthStageMap = getPlant().getGrowthStageMap();
-        if (dayCount <= growthStageMap.get(PlantContent.GrowthStage.SEEDLING)) {
-            return PlantContent.GrowthStage.SEEDLING;
-        } else if (dayCount <= growthStageMap.get(PlantContent.GrowthStage.SEEDLING) +
-                growthStageMap.get(PlantContent.GrowthStage.FLOWERING)) {
-            return PlantContent.GrowthStage.FLOWERING;
-        } else if (dayCount <= growthStageMap.get(PlantContent.GrowthStage.SEEDLING) +
-                growthStageMap.get(PlantContent.GrowthStage.FLOWERING) +
-                growthStageMap.get(PlantContent.GrowthStage.FRUITING)) {
-            return PlantContent.GrowthStage.FRUITING;
-        } else if (dayCount <= growthStageMap.get(PlantContent.GrowthStage.SEEDLING) +
-                growthStageMap.get(PlantContent.GrowthStage.FLOWERING) +
-                growthStageMap.get(PlantContent.GrowthStage.FRUITING) +
-                growthStageMap.get(PlantContent.GrowthStage.RIPENING)) {
-            return PlantContent.GrowthStage.RIPENING;
+        EnumMap<Plant.GrowthStage, Integer> growthStageMap = getPlant().getGrowthStageMap();
+        if (dayCount <= growthStageMap.get(Plant.GrowthStage.SEEDLING)) {
+            return Plant.GrowthStage.SEEDLING;
+        } else if (dayCount <= growthStageMap.get(Plant.GrowthStage.SEEDLING) +
+                growthStageMap.get(Plant.GrowthStage.FLOWERING)) {
+            return Plant.GrowthStage.FLOWERING;
+        } else if (dayCount <= growthStageMap.get(Plant.GrowthStage.SEEDLING) +
+                growthStageMap.get(Plant.GrowthStage.FLOWERING) +
+                growthStageMap.get(Plant.GrowthStage.FRUITING)) {
+            return Plant.GrowthStage.FRUITING;
+        } else if (dayCount <= growthStageMap.get(Plant.GrowthStage.SEEDLING) +
+                growthStageMap.get(Plant.GrowthStage.FLOWERING) +
+                growthStageMap.get(Plant.GrowthStage.FRUITING) +
+                growthStageMap.get(Plant.GrowthStage.RIPENING)) {
+            return Plant.GrowthStage.RIPENING;
         }
-        return PlantContent.GrowthStage.DORMANT;
+        return Plant.GrowthStage.DORMANT;
     }
 
     public int getDurationInDays() {

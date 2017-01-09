@@ -16,7 +16,8 @@ import android.widget.TextView;
 
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.fragment.BatchListFragment;
-import com.github.jmuthu.poovali.model.PlantContent;
+import com.github.jmuthu.poovali.model.Plant;
+import com.github.jmuthu.poovali.model.PlantRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 import com.github.mikephil.charting.animation.Easing;
@@ -37,7 +38,7 @@ import java.util.List;
 
 
 public class PlantDetailActivity extends AppCompatActivity {
-    PlantContent.Plant mPlant;
+    Plant mPlant;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -46,7 +47,7 @@ public class PlantDetailActivity extends AppCompatActivity {
         setContentView(R.layout.activity_plant_detail);
 
         String plantId = getIntent().getStringExtra(Helper.ARG_PLANT_ID);
-        mPlant = PlantContent.getPlant(plantId);
+        mPlant = PlantRepository.find(plantId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
@@ -65,10 +66,10 @@ public class PlantDetailActivity extends AppCompatActivity {
 
         PieChart pieChart = (PieChart) findViewById(R.id.chart);
         List<PieEntry> entries = new ArrayList<>();
-        EnumMap<PlantContent.GrowthStage, Integer> growthStages = mPlant.getGrowthStageMap();
-        Iterator<PlantContent.GrowthStage> enumKeySet = growthStages.keySet().iterator();
+        EnumMap<Plant.GrowthStage, Integer> growthStages = mPlant.getGrowthStageMap();
+        Iterator<Plant.GrowthStage> enumKeySet = growthStages.keySet().iterator();
         while (enumKeySet.hasNext()) {
-            PlantContent.GrowthStage currentStage = enumKeySet.next();
+            Plant.GrowthStage currentStage = enumKeySet.next();
             entries.add(new PieEntry(growthStages.get(currentStage), currentStage.toString()));
         }
 

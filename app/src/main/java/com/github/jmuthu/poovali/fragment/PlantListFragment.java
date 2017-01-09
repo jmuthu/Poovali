@@ -15,7 +15,8 @@ import android.widget.TextView;
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.activity.PlantDetailActivity;
 import com.github.jmuthu.poovali.model.Batch;
-import com.github.jmuthu.poovali.model.PlantContent;
+import com.github.jmuthu.poovali.model.Plant;
+import com.github.jmuthu.poovali.model.PlantRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 
 import java.text.DateFormat;
@@ -40,7 +41,7 @@ public class PlantListFragment extends Fragment {
 
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.plant_list);
         assert mRecyclerView != null;
-        mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(PlantContent.getItems()));
+        mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(PlantRepository.findAll()));
         return rootView;
     }
 
@@ -53,9 +54,9 @@ public class PlantListFragment extends Fragment {
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<PlantContent.Plant> mValues;
+        private final List<Plant> mValues;
 
-        SimpleItemRecyclerViewAdapter(List<PlantContent.Plant> items) {
+        SimpleItemRecyclerViewAdapter(List<Plant> items) {
             mValues = items;
         }
 
@@ -116,7 +117,7 @@ public class PlantListFragment extends Fragment {
             final TextView mNextBatchDueView;
             final TextView mLastBatchDateView;
             final ImageView mIconView;
-            PlantContent.Plant mPlant;
+            Plant mPlant;
 
             ViewHolder(View view) {
                 super(view);

@@ -2,7 +2,7 @@ package com.github.jmuthu.poovali.utility;
 
 import android.widget.TextView;
 
-import com.github.jmuthu.poovali.model.PlantContent;
+import com.github.jmuthu.poovali.model.Plant;
 
 import java.text.DateFormat;
 import java.util.Calendar;
@@ -40,7 +40,7 @@ public class Helper {
         return calendar.getTime();
     }
 
-    public static void setOverDueText(PlantContent.Plant plant, TextView textView, int warnColor) {
+    public static void setOverDueText(Plant plant, TextView textView, int warnColor) {
         Integer overDue = plant.pendingSowDays();
         if (overDue != null) {
             if (overDue == 0) {
