@@ -28,7 +28,8 @@ import com.github.jmuthu.poovali.model.Batch;
 import com.github.jmuthu.poovali.model.BatchActivityEvent;
 import com.github.jmuthu.poovali.model.BatchRepository;
 import com.github.jmuthu.poovali.model.Event;
-import com.github.jmuthu.poovali.model.EventContent;
+import com.github.jmuthu.poovali.model.EventFactory;
+import com.github.jmuthu.poovali.model.EventRepository;
 import com.github.jmuthu.poovali.model.PlantContent;
 import com.github.jmuthu.poovali.utility.Helper;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
@@ -60,7 +61,7 @@ public class AddEventActivity extends AppCompatActivity {
             String eventId = extras.getString(Helper.ARG_EVENT_ID);
             plantId = extras.getString(Helper.ARG_PLANT_ID);
             if (eventId != null) {
-                mEvent = EventContent.getEvent(eventId);
+                mEvent = EventRepository.find(eventId);
             }
         }
 
@@ -160,7 +161,7 @@ public class AddEventActivity extends AppCompatActivity {
         EditText desc = (EditText) findViewById(R.id.event_description);
 
         if (mEvent == null) {
-            mEvent = EventContent.createEvent(isSowActivity);
+            mEvent = EventFactory.createEvent(isSowActivity);
         }
         mEvent.setCreatedDate(date);
         mEvent.setDescription(desc.getText().toString());

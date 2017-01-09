@@ -20,7 +20,7 @@ public class BatchRepository {
             return;
         }
         for (Event event : batch.getEvents()) {
-            EventContent.addToEventMap(event);
+            EventRepository.store(event);
         }
     }
 

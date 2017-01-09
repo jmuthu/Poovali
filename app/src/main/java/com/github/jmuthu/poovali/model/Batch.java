@@ -59,14 +59,14 @@ public class Batch implements Serializable, Helper.DisplayableItem {
     public void addEvent(Context context, Event event) {
         if (!eventsList.contains(event)) {
             eventsList.add(0, event);
-            EventContent.addToEventMap(event);
+            EventRepository.store(event);
         }
         PlantContent.saveItems(context);
     }
 
     public void deleteEvent(Context context, Event event) {
         eventsList.remove(event);
-        EventContent.removeFromEventMap(event);
+        EventRepository.delete(event);
         PlantContent.saveItems(context);
     }
 
