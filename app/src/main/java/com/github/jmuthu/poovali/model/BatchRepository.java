@@ -19,7 +19,7 @@ public class BatchRepository {
         if (batch.getEvents() == null) {
             return;
         }
-        for (EventContent.Event event : batch.getEvents()) {
+        for (Event event : batch.getEvents()) {
             EventContent.addToEventMap(event);
         }
     }

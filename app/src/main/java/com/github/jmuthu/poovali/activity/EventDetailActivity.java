@@ -19,13 +19,14 @@ import android.widget.TextView;
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.model.Batch;
 import com.github.jmuthu.poovali.model.BatchRepository;
+import com.github.jmuthu.poovali.model.Event;
 import com.github.jmuthu.poovali.model.EventContent;
 import com.github.jmuthu.poovali.utility.Helper;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 
 public class EventDetailActivity extends AppCompatActivity {
     static Batch batch;
-    static EventContent.Event event;
+    static Event event;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

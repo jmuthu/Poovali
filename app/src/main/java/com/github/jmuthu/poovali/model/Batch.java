@@ -23,7 +23,7 @@ public class Batch implements Serializable, Helper.DisplayableItem {
     private String name;
     private Date createdDate;
     private String description;
-    private List<EventContent.Event> eventsList = new LinkedList<>();
+    private List<Event> eventsList = new LinkedList<>();
 
     public Batch() {
     }
@@ -48,15 +48,15 @@ public class Batch implements Serializable, Helper.DisplayableItem {
         this.plantId = plant.getId();
     }
 
-    public List<EventContent.Event> getEvents() {
+    public List<Event> getEvents() {
         return Collections.unmodifiableList(eventsList);
     }
 
-    public void setEvents(List<EventContent.Event> eventsList) {
+    public void setEvents(List<Event> eventsList) {
         this.eventsList = eventsList;
     }
 
-    public void addEvent(Context context, EventContent.Event event) {
+    public void addEvent(Context context, Event event) {
         if (!eventsList.contains(event)) {
             eventsList.add(0, event);
             EventContent.addToEventMap(event);
@@ -64,7 +64,7 @@ public class Batch implements Serializable, Helper.DisplayableItem {
         PlantContent.saveItems(context);
     }
 
-    public void deleteEvent(Context context, EventContent.Event event) {
+    public void deleteEvent(Context context, Event event) {
         eventsList.remove(event);
         EventContent.removeFromEventMap(event);
         PlantContent.saveItems(context);

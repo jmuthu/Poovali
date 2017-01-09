@@ -16,7 +16,7 @@ import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.activity.BatchDetailActivity;
 import com.github.jmuthu.poovali.model.Batch;
 import com.github.jmuthu.poovali.model.BatchRepository;
-import com.github.jmuthu.poovali.model.EventContent;
+import com.github.jmuthu.poovali.model.Event;
 import com.github.jmuthu.poovali.model.PlantContent;
 import com.github.jmuthu.poovali.utility.Helper;
 
@@ -98,7 +98,7 @@ public class BatchListFragment extends Fragment {
             holder.mBatchStatusView.setText(holder.mBatch.getStage().toString());
             holder.mProgressBar.setProgress(holder.mBatch.getProgress());
 
-            EventContent.Event event = holder.mBatch.getEvents().get(0);
+            Event event = holder.mBatch.getEvents().get(0);
             holder.mEventIconView.setImageResource(getResources().getIdentifier(event.getImageName(),
                     "drawable",
                     holder.mPlantIconView.getContext().getPackageName()));

@@ -25,7 +25,9 @@ import android.widget.TimePicker;
 
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.model.Batch;
+import com.github.jmuthu.poovali.model.BatchActivityEvent;
 import com.github.jmuthu.poovali.model.BatchRepository;
+import com.github.jmuthu.poovali.model.Event;
 import com.github.jmuthu.poovali.model.EventContent;
 import com.github.jmuthu.poovali.model.PlantContent;
 import com.github.jmuthu.poovali.utility.Helper;
@@ -42,7 +44,7 @@ import java.util.UUID;
 public class AddEventActivity extends AppCompatActivity {
 
     static boolean isSowActivity = true;
-    EventContent.Event mEvent = null;
+    Event mEvent = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +92,8 @@ public class AddEventActivity extends AppCompatActivity {
                 plantSpinner.setEnabled(false);
             }
         } else {
-            EventContent.BatchActivityEvent.Type[] batchActivityList =
-                    EventContent.BatchActivityEvent.Type.values();
+            BatchActivityEvent.Type[] batchActivityList =
+                    BatchActivityEvent.Type.values();
 
             SpinnerAdapter eventSpinnerAdapter =
                     new EventTypeSpinnerAdapter(this, batchActivityList);
@@ -113,7 +115,7 @@ public class AddEventActivity extends AppCompatActivity {
             if (mEvent != null) {
                 date = mEvent.getCreatedDate();
                 eventSpinner.setSelection(
-                        ((EventContent.BatchActivityEvent) mEvent).getType().ordinal());
+                        ((BatchActivityEvent) mEvent).getType().ordinal());
                 eventSpinner.setEnabled(false);
                 description = mEvent.getDescription();
             }
@@ -177,8 +179,8 @@ public class AddEventActivity extends AppCompatActivity {
             plant.addBatch(this, batch);
         } else {
             batch = (Batch) spinner.getSelectedItem();
-            ((EventContent.BatchActivityEvent) mEvent).
-                    setType((EventContent.BatchActivityEvent.Type) eventTypeSpinner.getSelectedItem());
+            ((BatchActivityEvent) mEvent).
+                    setType((BatchActivityEvent.Type) eventTypeSpinner.getSelectedItem());
         }
         batch.addEvent(this, mEvent);
         finish();
@@ -286,15 +288,15 @@ public class AddEventActivity extends AppCompatActivity {
         }
     }
 
-    public class EventTypeSpinnerAdapter extends ArrayAdapter<EventContent.BatchActivityEvent.Type> {
+    public class EventTypeSpinnerAdapter extends ArrayAdapter<BatchActivityEvent.Type> {
 
-        EventTypeSpinnerAdapter(Activity context, EventContent.BatchActivityEvent.Type[] list) {
+        EventTypeSpinnerAdapter(Activity context, BatchActivityEvent.Type[] list) {
             super(context, 0, list);
         }
 
         @NonNull
         public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-            EventContent.BatchActivityEvent.Type item = getItem(position);
+            BatchActivityEvent.Type item = getItem(position);
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext())
                         .inflate(R.layout.spinner_item, parent, false);

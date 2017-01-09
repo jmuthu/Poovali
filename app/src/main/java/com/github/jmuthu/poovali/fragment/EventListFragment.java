@@ -14,8 +14,9 @@ import android.widget.TextView;
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.activity.EventDetailActivity;
 import com.github.jmuthu.poovali.model.Batch;
+import com.github.jmuthu.poovali.model.BatchActivityEvent;
 import com.github.jmuthu.poovali.model.BatchRepository;
-import com.github.jmuthu.poovali.model.EventContent;
+import com.github.jmuthu.poovali.model.Event;
 import com.github.jmuthu.poovali.utility.Helper;
 
 import java.text.DateFormat;
@@ -58,9 +59,9 @@ public class EventListFragment extends Fragment {
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<EventListFragment.SimpleItemRecyclerViewAdapter.ViewHolder> {
 
-        private final List<EventContent.Event> mValues;
+        private final List<Event> mValues;
 
-        SimpleItemRecyclerViewAdapter(List<EventContent.Event> items) {
+        SimpleItemRecyclerViewAdapter(List<Event> items) {
             mValues = items;
         }
 
@@ -92,7 +93,7 @@ public class EventListFragment extends Fragment {
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if (holder.mItem.getClass() == EventContent.BatchActivityEvent.class) {
+                    if (holder.mItem.getClass() == BatchActivityEvent.class) {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, EventDetailActivity.class);
                         intent.putExtra(Helper.ARG_EVENT_ID, holder.mItem.getId());
@@ -114,7 +115,7 @@ public class EventListFragment extends Fragment {
             final TextView mEventCreatedDateView;
             final TextView mEventDescriptionView;
             final ImageView mEventIconView;
-            EventContent.Event mItem;
+            Event mItem;
 
             ViewHolder(View view) {
                 super(view);
