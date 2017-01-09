@@ -54,7 +54,7 @@ public class PlantContent {
                 continue;
             }
             for (Batch batch : plant.getBatchList()) {
-                BatchRepository.addToBatchMap(batch);
+                BatchRepository.store(batch);
             }
         }
     }
@@ -328,14 +328,14 @@ public class PlantContent {
 
         public void addBatch(Context context, Batch batch) {
             batchList.add(0, batch);
-            BatchRepository.addToBatchMap(batch);
+            BatchRepository.store(batch);
             Collections.sort(batchList, new Batch.BatchDescendingComparator());
             saveItems(context);
         }
 
         public void deleteBatch(Context context, int position) {
             Batch batch = batchList.get(position);
-            BatchRepository.removeFromBatchMap(batch);
+            BatchRepository.delete(batch);
             batchList.remove(position);
             saveItems(context);
         }

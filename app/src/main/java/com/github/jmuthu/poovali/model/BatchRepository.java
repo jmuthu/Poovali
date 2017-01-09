@@ -10,11 +10,11 @@ public class BatchRepository {
 
     private static Map<String, Batch> batchMap = new HashMap<>();
 
-    public static Batch getBatch(String batchId) {
+    public static Batch find(String batchId) {
         return batchMap.get(batchId);
     }
 
-    public static void addToBatchMap(Batch batch) {
+    public static void store(Batch batch) {
         batchMap.put(batch.getId(), batch);
         if (batch.getEvents() == null) {
             return;
@@ -24,15 +24,15 @@ public class BatchRepository {
         }
     }
 
-    public static void removeFromBatchMap(Batch batch) {
+    public static void delete(Batch batch) {
         batchMap.remove(batch.getId());
     }
 
-    public static List<Batch> getBatchList() {
-        return getBatchList(false);
+    public static List<Batch> findAll() {
+        return findAll(false);
     }
 
-    public static List<Batch> getBatchList(boolean sortByModifiedDate) {
+    public static List<Batch> findAll(boolean sortByModifiedDate) {
         ArrayList<Batch> result = new ArrayList<>(batchMap.values());
         if (sortByModifiedDate) {
             Collections.sort(result, new Batch.BatchModifiedDescendingComparator());
@@ -42,7 +42,7 @@ public class BatchRepository {
         return Collections.unmodifiableList(result);
     }
 
-    public static boolean isBatchListEmpty() {
+    public static boolean isEmpty() {
         return batchMap.isEmpty();
     }
 

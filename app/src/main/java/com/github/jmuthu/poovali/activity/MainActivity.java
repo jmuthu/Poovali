@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new BatchListFragment(), "Recent Activities");
         adapter.addFragment(new PlantListFragment(), "Plants");
         viewPager.setAdapter(adapter);
-        if (BatchRepository.isBatchListEmpty()) {
+        if (BatchRepository.isEmpty()) {
             viewPager.setCurrentItem(1);
         }
         viewPager.setOffscreenPageLimit(1);
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (BatchRepository.isBatchListEmpty()) {
+        if (BatchRepository.isEmpty()) {
             menu.findItem(R.id.add_event).setVisible(false);
         } else {
             menu.findItem(R.id.add_event).setVisible(true);

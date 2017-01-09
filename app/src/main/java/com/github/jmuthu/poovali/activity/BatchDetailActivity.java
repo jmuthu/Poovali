@@ -32,7 +32,7 @@ public class BatchDetailActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_batch_detail);
         String batchId = getIntent().getStringExtra(Helper.ARG_BATCH_ID);
-        mBatch = BatchRepository.getBatch(batchId);
+        mBatch = BatchRepository.find(batchId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

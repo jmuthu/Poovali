@@ -102,12 +102,12 @@ public class AddEventActivity extends AppCompatActivity {
             if (plantId != null) {
                 batchList = PlantContent.getPlant(plantId).getBatchList();
             } else {
-                batchList = BatchRepository.getBatchList();
+                batchList = BatchRepository.findAll();
             }
             plantSpinnerAdapter = new CustomSpinnerAdapter<Batch>(this, batchList);
             plantSpinner.setAdapter(plantSpinnerAdapter);
             if (batchId != null) {
-                plantSpinner.setSelection(batchList.indexOf(BatchRepository.getBatch(batchId)));
+                plantSpinner.setSelection(batchList.indexOf(BatchRepository.find(batchId)));
                 plantSpinner.setEnabled(false);
             }
             if (mEvent != null) {

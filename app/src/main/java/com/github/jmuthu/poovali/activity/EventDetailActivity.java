@@ -41,7 +41,7 @@ public class EventDetailActivity extends AppCompatActivity {
         if (extras != null) {
             String batchId = getIntent().getStringExtra(Helper.ARG_BATCH_ID);
             String eventId = getIntent().getStringExtra(Helper.ARG_EVENT_ID);
-            batch = BatchRepository.getBatch(batchId);
+            batch = BatchRepository.find(batchId);
             event = EventContent.getEvent(eventId);
         }
 
