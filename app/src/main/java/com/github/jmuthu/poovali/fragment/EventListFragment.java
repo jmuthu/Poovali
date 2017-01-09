@@ -14,9 +14,9 @@ import android.widget.TextView;
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.activity.EventDetailActivity;
 import com.github.jmuthu.poovali.model.Batch;
-import com.github.jmuthu.poovali.model.BatchActivityEvent;
 import com.github.jmuthu.poovali.model.BatchRepository;
-import com.github.jmuthu.poovali.model.Event;
+import com.github.jmuthu.poovali.model.event.BatchActivityEvent;
+import com.github.jmuthu.poovali.model.event.Event;
 import com.github.jmuthu.poovali.utility.Helper;
 
 import java.text.DateFormat;

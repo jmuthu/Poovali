@@ -1,5 +1,8 @@
 package com.github.jmuthu.poovali.model;
 
+import com.github.jmuthu.poovali.model.event.Event;
+import com.github.jmuthu.poovali.model.event.EventRepository;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;

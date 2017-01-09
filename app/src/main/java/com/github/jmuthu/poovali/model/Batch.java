@@ -2,6 +2,8 @@ package com.github.jmuthu.poovali.model;
 
 import android.content.Context;
 
+import com.github.jmuthu.poovali.model.event.Event;
+import com.github.jmuthu.poovali.model.event.EventRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 
 import java.io.Serializable;

@@ -25,12 +25,12 @@ import android.widget.TimePicker;
 
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.model.Batch;
-import com.github.jmuthu.poovali.model.BatchActivityEvent;
 import com.github.jmuthu.poovali.model.BatchRepository;
-import com.github.jmuthu.poovali.model.Event;
-import com.github.jmuthu.poovali.model.EventFactory;
-import com.github.jmuthu.poovali.model.EventRepository;
 import com.github.jmuthu.poovali.model.PlantContent;
+import com.github.jmuthu.poovali.model.event.BatchActivityEvent;
+import com.github.jmuthu.poovali.model.event.Event;
+import com.github.jmuthu.poovali.model.event.EventFactory;
+import com.github.jmuthu.poovali.model.event.EventRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 

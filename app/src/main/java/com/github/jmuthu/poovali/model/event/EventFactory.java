@@ -1,4 +1,4 @@
-package com.github.jmuthu.poovali.model;
+package com.github.jmuthu.poovali.model.event;
 
 import java.util.UUID;
 

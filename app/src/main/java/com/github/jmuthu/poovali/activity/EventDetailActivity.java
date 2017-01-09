@@ -19,8 +19,8 @@ import android.widget.TextView;
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.model.Batch;
 import com.github.jmuthu.poovali.model.BatchRepository;
-import com.github.jmuthu.poovali.model.Event;
-import com.github.jmuthu.poovali.model.EventRepository;
+import com.github.jmuthu.poovali.model.event.Event;
+import com.github.jmuthu.poovali.model.event.EventRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 

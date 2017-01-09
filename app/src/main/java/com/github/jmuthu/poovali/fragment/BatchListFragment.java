@@ -16,8 +16,8 @@ import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.activity.BatchDetailActivity;
 import com.github.jmuthu.poovali.model.Batch;
 import com.github.jmuthu.poovali.model.BatchRepository;
-import com.github.jmuthu.poovali.model.Event;
 import com.github.jmuthu.poovali.model.PlantContent;
+import com.github.jmuthu.poovali.model.event.Event;
 import com.github.jmuthu.poovali.utility.Helper;
 
 import java.text.DateFormat;
