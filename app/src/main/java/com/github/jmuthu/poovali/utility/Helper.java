@@ -22,12 +22,6 @@ public class Helper {
         return name.toLowerCase().replace(' ', '_').replaceAll("\\W", "");
     }
 
-    public interface DisplayableItem {
-        String getId();
-        String getName();
-        String getImageName();
-    }
-
     public static Date getZeroTimeDate(Date date) {
         Calendar calendar = Calendar.getInstance();
 

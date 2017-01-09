@@ -2,6 +2,7 @@ package com.github.jmuthu.poovali.model;
 
 import android.content.Context;
 
+import com.github.jmuthu.poovali.interfaces.DisplayableItem;
 import com.github.jmuthu.poovali.model.event.Event;
 import com.github.jmuthu.poovali.model.event.EventRepository;
 import com.github.jmuthu.poovali.utility.Helper;
@@ -17,7 +18,7 @@ import java.util.List;
 
 import static com.github.jmuthu.poovali.utility.Helper.getZeroTimeDate;
 
-public class Batch implements Serializable, Helper.DisplayableItem {
+public class Batch implements Serializable, DisplayableItem {
     private static final long serialVersionUID = 1L;
     private String id;
     transient private Plant plant;

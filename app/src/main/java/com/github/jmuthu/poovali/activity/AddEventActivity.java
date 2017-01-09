@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.github.jmuthu.poovali.R;
+import com.github.jmuthu.poovali.interfaces.DisplayableItem;
 import com.github.jmuthu.poovali.model.Batch;
 import com.github.jmuthu.poovali.model.BatchRepository;
 import com.github.jmuthu.poovali.model.Plant;
@@ -322,7 +323,7 @@ public class AddEventActivity extends AppCompatActivity {
         }
     }
 
-    public class CustomSpinnerAdapter<T extends Helper.DisplayableItem> extends ArrayAdapter<T> {
+    public class CustomSpinnerAdapter<T extends DisplayableItem> extends ArrayAdapter<T> {
 
         CustomSpinnerAdapter(Activity context, List<T> list) {
             super(context, 0, list);

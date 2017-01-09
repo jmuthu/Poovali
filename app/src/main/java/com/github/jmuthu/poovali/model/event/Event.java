@@ -1,11 +1,11 @@
 package com.github.jmuthu.poovali.model.event;
 
-import com.github.jmuthu.poovali.utility.Helper;
+import com.github.jmuthu.poovali.interfaces.DisplayableItem;
 
 import java.io.Serializable;
 import java.util.Date;
 
-public abstract class Event implements Serializable, Helper.DisplayableItem {
+public abstract class Event implements Serializable, DisplayableItem {
     private static final long serialVersionUID = 1L;
 
     private String id;

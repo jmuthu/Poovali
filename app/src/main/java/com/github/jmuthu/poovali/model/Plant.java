@@ -2,6 +2,7 @@ package com.github.jmuthu.poovali.model;
 
 import android.content.Context;
 
+import com.github.jmuthu.poovali.interfaces.DisplayableItem;
 import com.github.jmuthu.poovali.utility.Helper;
 
 import java.io.Serializable;
@@ -12,7 +13,7 @@ import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
 
-public class Plant implements Serializable, Helper.DisplayableItem {
+public class Plant implements Serializable, DisplayableItem {
     private static final long serialVersionUID = 1L;
     private String id;
     private String name;
