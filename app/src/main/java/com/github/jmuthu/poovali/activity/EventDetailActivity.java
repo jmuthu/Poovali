@@ -17,13 +17,14 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.jmuthu.poovali.R;
-import com.github.jmuthu.poovali.model.BatchContent;
+import com.github.jmuthu.poovali.model.Batch;
+import com.github.jmuthu.poovali.model.BatchRepository;
 import com.github.jmuthu.poovali.model.EventContent;
 import com.github.jmuthu.poovali.utility.Helper;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 
 public class EventDetailActivity extends AppCompatActivity {
-    static BatchContent.Batch batch;
+    static Batch batch;
     static EventContent.Event event;
 
     @Override
@@ -40,7 +41,7 @@ public class EventDetailActivity extends AppCompatActivity {
         if (extras != null) {
             String batchId = getIntent().getStringExtra(Helper.ARG_BATCH_ID);
             String eventId = getIntent().getStringExtra(Helper.ARG_EVENT_ID);
-            batch = BatchContent.getBatch(batchId);
+            batch = BatchRepository.getBatch(batchId);
             event = EventContent.getEvent(eventId);
         }
 

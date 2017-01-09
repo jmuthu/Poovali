@@ -14,7 +14,8 @@ import android.widget.TextView;
 
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.activity.BatchDetailActivity;
-import com.github.jmuthu.poovali.model.BatchContent;
+import com.github.jmuthu.poovali.model.Batch;
+import com.github.jmuthu.poovali.model.BatchRepository;
 import com.github.jmuthu.poovali.model.EventContent;
 import com.github.jmuthu.poovali.model.PlantContent;
 import com.github.jmuthu.poovali.utility.Helper;
@@ -46,7 +47,7 @@ public class BatchListFragment extends Fragment {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.batch_list);
         assert mRecyclerView != null;
         if (mPlant == null) {
-            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(BatchContent.getBatchList(true)));
+            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(BatchRepository.getBatchList(true)));
         } else {
             mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(mPlant.getBatchList()));
         }
@@ -60,15 +61,15 @@ public class BatchListFragment extends Fragment {
         if (mPlant != null) {
             mRecyclerView.getAdapter().notifyDataSetChanged(); // For adding activity
         } else {
-            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(BatchContent.getBatchList(true)));
+            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(BatchRepository.getBatchList(true)));
         }
     }
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
-        final List<BatchContent.Batch> mValues;
+        final List<Batch> mValues;
 
-        SimpleItemRecyclerViewAdapter(List<BatchContent.Batch> values) {
+        SimpleItemRecyclerViewAdapter(List<Batch> values) {
             this.mValues = values;
         }
 
@@ -140,7 +141,7 @@ public class BatchListFragment extends Fragment {
             final TextView mEventDescriptionView;
             final ImageView mPlantIconView;
             final ImageView mEventIconView;
-            BatchContent.Batch mBatch;
+            Batch mBatch;
 
             ViewHolder(View view) {
                 super(view);

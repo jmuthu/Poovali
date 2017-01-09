@@ -16,7 +16,8 @@ import android.widget.TextView;
 
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.fragment.EventListFragment;
-import com.github.jmuthu.poovali.model.BatchContent;
+import com.github.jmuthu.poovali.model.Batch;
+import com.github.jmuthu.poovali.model.BatchRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 
 import java.text.DateFormat;
@@ -24,14 +25,14 @@ import java.text.DateFormat;
 import static com.github.jmuthu.poovali.utility.Helper.DATE_FORMAT;
 
 public class BatchDetailActivity extends AppCompatActivity {
-    BatchContent.Batch mBatch;
+    Batch mBatch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_batch_detail);
         String batchId = getIntent().getStringExtra(Helper.ARG_BATCH_ID);
-        mBatch = BatchContent.getBatch(batchId);
+        mBatch = BatchRepository.getBatch(batchId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

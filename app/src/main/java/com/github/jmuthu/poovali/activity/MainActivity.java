@@ -19,7 +19,7 @@ import com.github.jmuthu.poovali.AlarmReceiver;
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.fragment.BatchListFragment;
 import com.github.jmuthu.poovali.fragment.PlantListFragment;
-import com.github.jmuthu.poovali.model.BatchContent;
+import com.github.jmuthu.poovali.model.BatchRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 
@@ -77,7 +77,7 @@ public class MainActivity extends AppCompatActivity {
         adapter.addFragment(new BatchListFragment(), "Recent Activities");
         adapter.addFragment(new PlantListFragment(), "Plants");
         viewPager.setAdapter(adapter);
-        if (BatchContent.isBatchListEmpty()) {
+        if (BatchRepository.isBatchListEmpty()) {
             viewPager.setCurrentItem(1);
         }
         viewPager.setOffscreenPageLimit(1);
@@ -93,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (BatchContent.isBatchListEmpty()) {
+        if (BatchRepository.isBatchListEmpty()) {
             menu.findItem(R.id.add_event).setVisible(false);
         } else {
             menu.findItem(R.id.add_event).setVisible(true);
@@ -115,6 +115,12 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, false);
                 startActivity(intent);
                 return true;
+            /*case R.id.add_plant:
+                intent = new Intent(this, AddPlantActivity.class);
+                //intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, false);
+                startActivity(intent);
+                return true;
+            */
             default:
                 return super.onOptionsItemSelected(item);
         }

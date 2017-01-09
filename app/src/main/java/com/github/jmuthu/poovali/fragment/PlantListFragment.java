@@ -14,7 +14,7 @@ import android.widget.TextView;
 
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.activity.PlantDetailActivity;
-import com.github.jmuthu.poovali.model.BatchContent;
+import com.github.jmuthu.poovali.model.Batch;
 import com.github.jmuthu.poovali.model.PlantContent;
 import com.github.jmuthu.poovali.utility.Helper;
 
@@ -80,7 +80,7 @@ public class PlantListFragment extends Fragment {
                     holder.mPlant.getCropDuration().toString());
             holder.mContentView.setText("Duration : " + days);
 
-            BatchContent.Batch latestBatch = holder.mPlant.getLatestBatch();
+            Batch latestBatch = holder.mPlant.getLatestBatch();
             if (latestBatch != null) {
                 DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
                 holder.mLastBatchDateView.setText("Last sowed : " +

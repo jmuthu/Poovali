@@ -24,7 +24,8 @@ import android.widget.TextView;
 import android.widget.TimePicker;
 
 import com.github.jmuthu.poovali.R;
-import com.github.jmuthu.poovali.model.BatchContent;
+import com.github.jmuthu.poovali.model.Batch;
+import com.github.jmuthu.poovali.model.BatchRepository;
 import com.github.jmuthu.poovali.model.EventContent;
 import com.github.jmuthu.poovali.model.PlantContent;
 import com.github.jmuthu.poovali.utility.Helper;
@@ -97,16 +98,16 @@ public class AddEventActivity extends AppCompatActivity {
             eventSpinner.setAdapter(eventSpinnerAdapter);
 
             label = getResources().getString(R.string.batch_label);
-            List<BatchContent.Batch> batchList;
+            List<Batch> batchList;
             if (plantId != null) {
                 batchList = PlantContent.getPlant(plantId).getBatchList();
             } else {
-                batchList = BatchContent.getBatchList();
+                batchList = BatchRepository.getBatchList();
             }
-            plantSpinnerAdapter = new CustomSpinnerAdapter<BatchContent.Batch>(this, batchList);
+            plantSpinnerAdapter = new CustomSpinnerAdapter<Batch>(this, batchList);
             plantSpinner.setAdapter(plantSpinnerAdapter);
             if (batchId != null) {
-                plantSpinner.setSelection(batchList.indexOf(BatchContent.getBatch(batchId)));
+                plantSpinner.setSelection(batchList.indexOf(BatchRepository.getBatch(batchId)));
                 plantSpinner.setEnabled(false);
             }
             if (mEvent != null) {
@@ -162,9 +163,9 @@ public class AddEventActivity extends AppCompatActivity {
         mEvent.setCreatedDate(date);
         mEvent.setDescription(desc.getText().toString());
 
-        BatchContent.Batch batch;
+        Batch batch;
         if (isSowActivity) {
-            batch = new BatchContent.Batch();
+            batch = new Batch();
             batch.setId(UUID.randomUUID().toString());
             batch.setDescription(desc.getText().toString());
             batch.setCreatedDate(date);
@@ -175,7 +176,7 @@ public class AddEventActivity extends AppCompatActivity {
                     format.format(batch.getCreatedDate()));
             plant.addBatch(this, batch);
         } else {
-            batch = (BatchContent.Batch) spinner.getSelectedItem();
+            batch = (Batch) spinner.getSelectedItem();
             ((EventContent.BatchActivityEvent) mEvent).
                     setType((EventContent.BatchActivityEvent.Type) eventTypeSpinner.getSelectedItem());
         }
@@ -238,7 +239,7 @@ public class AddEventActivity extends AppCompatActivity {
             DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, year, month, day);
             if (!isSowActivity) {
                 Spinner spinner = (Spinner) getActivity().findViewById(R.id.plant_type_spinner);
-                BatchContent.Batch batch = (BatchContent.Batch) spinner.getSelectedItem();
+                Batch batch = (Batch) spinner.getSelectedItem();
                 if (batch.getCreatedDate() != null) {
                     dialog.getDatePicker().setMinDate(batch.getCreatedDate().getTime());
                 }

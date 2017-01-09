@@ -13,7 +13,8 @@ import android.widget.TextView;
 
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.activity.EventDetailActivity;
-import com.github.jmuthu.poovali.model.BatchContent;
+import com.github.jmuthu.poovali.model.Batch;
+import com.github.jmuthu.poovali.model.BatchRepository;
 import com.github.jmuthu.poovali.model.EventContent;
 import com.github.jmuthu.poovali.utility.Helper;
 
@@ -21,7 +22,7 @@ import java.text.DateFormat;
 import java.util.List;
 
 public class EventListFragment extends Fragment {
-    BatchContent.Batch mBatch = null;
+    Batch mBatch = null;
     RecyclerView recyclerView;
 
     public EventListFragment() {
@@ -32,7 +33,7 @@ public class EventListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             String batchId = getArguments().getString(Helper.ARG_BATCH_ID);
-            mBatch = BatchContent.getBatch(batchId);
+            mBatch = BatchRepository.getBatch(batchId);
         }
     }
 

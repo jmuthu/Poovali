@@ -35,7 +35,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         //        resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-        /*List<String> sowVegetables = BatchContent.pendingActivities();
+        /*List<String> sowVegetables = BatchRepository.pendingActivities();
         int notificationCount = sowVegetables.size();
         if (notificationCount > 0) {
             String title = notificationCount == 1 ? notificationCount + " pending Sow activity" :

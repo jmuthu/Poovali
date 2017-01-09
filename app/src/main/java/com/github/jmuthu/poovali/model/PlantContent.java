@@ -53,8 +53,8 @@ public class PlantContent {
             if (plant.getBatchList() == null) {
                 continue;
             }
-            for (BatchContent.Batch batch : plant.getBatchList()) {
-                BatchContent.addToBatchMap(batch);
+            for (Batch batch : plant.getBatchList()) {
+                BatchRepository.addToBatchMap(batch);
             }
         }
     }
@@ -193,7 +193,7 @@ public class PlantContent {
         private String seedTreatment;
         private String soil;
         private EnumMap<GrowthStage, Integer> growthStageMap = new EnumMap<GrowthStage, Integer>(GrowthStage.class);
-        private List<BatchContent.Batch> batchList = new LinkedList<>();
+        private List<Batch> batchList = new LinkedList<>();
         //public final String spacingRequirements;
         //public final Map fertilizerSchedule;
 
@@ -276,11 +276,11 @@ public class PlantContent {
             this.growthStageMap = growthStageMap;
         }
 
-        public List<BatchContent.Batch> getBatchList() {
+        public List<Batch> getBatchList() {
             return Collections.unmodifiableList(batchList);
         }
 
-        public void setBatchList(List<BatchContent.Batch> batchList) {
+        public void setBatchList(List<Batch> batchList) {
             this.batchList = batchList;
         }
 
@@ -302,7 +302,7 @@ public class PlantContent {
 
         public boolean isDuplicateBatch(Date newBatchdate) {
             Date date = Helper.getZeroTimeDate(newBatchdate);
-            for (BatchContent.Batch batch : batchList) {
+            for (Batch batch : batchList) {
                 if (date.compareTo(Helper.getZeroTimeDate(batch.getCreatedDate())) == 0) {
                     return true;
                 }
@@ -310,7 +310,7 @@ public class PlantContent {
             return false;
         }
 
-        public BatchContent.Batch getLatestBatch() {
+        public Batch getLatestBatch() {
             if (batchList.isEmpty()) {
                 return null;
             }
@@ -326,16 +326,16 @@ public class PlantContent {
             return diff.intValue();
         }
 
-        public void addBatch(Context context, BatchContent.Batch batch) {
+        public void addBatch(Context context, Batch batch) {
             batchList.add(0, batch);
-            BatchContent.addToBatchMap(batch);
-            Collections.sort(batchList, new BatchContent.Batch.BatchDescendingComparator());
+            BatchRepository.addToBatchMap(batch);
+            Collections.sort(batchList, new Batch.BatchDescendingComparator());
             saveItems(context);
         }
 
         public void deleteBatch(Context context, int position) {
-            BatchContent.Batch batch = batchList.get(position);
-            BatchContent.removeFromBatchMap(batch);
+            Batch batch = batchList.get(position);
+            BatchRepository.removeFromBatchMap(batch);
             batchList.remove(position);
             saveItems(context);
         }
