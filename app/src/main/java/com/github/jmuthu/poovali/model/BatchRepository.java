@@ -1,7 +1,6 @@
 package com.github.jmuthu.poovali.model;
 
-import com.github.jmuthu.poovali.model.event.Event;
-import com.github.jmuthu.poovali.model.event.EventRepository;
+import com.github.jmuthu.poovali.utility.FileRepository;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -13,22 +12,22 @@ public class BatchRepository {
 
     private static Map<String, Batch> batchMap = new HashMap<>();
 
-    public static Batch find(String batchId) {
-        return batchMap.get(batchId);
+    private static void updateCache(Batch batch) {
+        batchMap.put(batch.getId(), batch);
     }
 
     public static void store(Batch batch) {
-        batchMap.put(batch.getId(), batch);
-        if (batch.getEvents() == null) {
-            return;
-        }
-        for (Event event : batch.getEvents()) {
-            EventRepository.store(event);
-        }
+        updateCache(batch);
+        FileRepository.writeAll(PlantRepository.findAll());
     }
 
     public static void delete(Batch batch) {
         batchMap.remove(batch.getId());
+        FileRepository.writeAll(PlantRepository.findAll());
+    }
+
+    public static Batch find(String batchId) {
+        return batchMap.get(batchId);
     }
 
     public static List<Batch> findAll() {
@@ -49,5 +48,16 @@ public class BatchRepository {
         return batchMap.isEmpty();
     }
 
+    public static void initialize() {
+        for (Plant plant : PlantRepository.findAll()) {
+            if (plant.getBatchList() == null) {
+                continue;
+            }
+            for (Batch batch : plant.getBatchList()) {
+                batch.setPlant(plant);
+                updateCache(batch);
+            }
+        }
+    }
 
 }

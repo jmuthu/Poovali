@@ -116,7 +116,8 @@ public class EventDetailActivity extends AppCompatActivity {
             builder.setTitle(R.string.delete_alert);
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    batch.deleteEvent(getActivity(), event);
+                    batch.deleteEvent(event);
+                    EventRepository.delete(event);
                     (getActivity()).finish();
                 }
             });

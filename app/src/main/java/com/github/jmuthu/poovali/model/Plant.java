@@ -154,18 +154,14 @@ public class Plant implements Serializable, DisplayableItem {
         return diff.intValue();
     }
 
-    public void addBatch(Context context, Batch batch) {
+    public void addBatch(Batch batch) {
         batchList.add(0, batch);
-        BatchRepository.store(batch);
         Collections.sort(batchList, new Batch.BatchDescendingComparator());
-        PlantRepository.storeAll(context);
     }
 
     public void deleteBatch(Context context, int position) {
         Batch batch = batchList.get(position);
-        BatchRepository.delete(batch);
         batchList.remove(position);
-        PlantRepository.storeAll(context);
     }
 
     public enum GrowthStage {

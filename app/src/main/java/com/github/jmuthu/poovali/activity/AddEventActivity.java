@@ -179,13 +179,15 @@ public class AddEventActivity extends AppCompatActivity {
             SimpleDateFormat format = new SimpleDateFormat("dd MMM yy");
             batch.setName(batch.getPlant().getName() + " - " +
                     format.format(batch.getCreatedDate()));
-            plant.addBatch(this, batch);
+            plant.addBatch(batch);
+            BatchRepository.store(batch);
         } else {
             batch = (Batch) spinner.getSelectedItem();
             ((BatchActivityEvent) mEvent).
                     setType((BatchActivityEvent.Type) eventTypeSpinner.getSelectedItem());
         }
-        batch.addEvent(this, mEvent);
+        batch.addEvent(mEvent);
+        EventRepository.store(mEvent);
         finish();
     }
 

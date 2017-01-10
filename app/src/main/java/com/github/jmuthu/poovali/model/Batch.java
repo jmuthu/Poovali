@@ -1,10 +1,7 @@
 package com.github.jmuthu.poovali.model;
 
-import android.content.Context;
-
 import com.github.jmuthu.poovali.interfaces.DisplayableItem;
 import com.github.jmuthu.poovali.model.event.Event;
-import com.github.jmuthu.poovali.model.event.EventRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 
 import java.io.Serializable;
@@ -40,9 +37,6 @@ public class Batch implements Serializable, DisplayableItem {
     }
 
     public Plant getPlant() {
-        if (plant == null && plantId != null) {
-            plant = PlantRepository.find(plantId);
-        }
         return plant;
     }
 
@@ -59,18 +53,14 @@ public class Batch implements Serializable, DisplayableItem {
         this.eventsList = eventsList;
     }
 
-    public void addEvent(Context context, Event event) {
+    public void addEvent(Event event) {
         if (!eventsList.contains(event)) {
             eventsList.add(0, event);
-            EventRepository.store(event);
         }
-        PlantRepository.storeAll(context);
     }
 
-    public void deleteEvent(Context context, Event event) {
+    public void deleteEvent(Event event) {
         eventsList.remove(event);
-        EventRepository.delete(event);
-        PlantRepository.storeAll(context);
     }
 
     public String getName() {
