@@ -104,6 +104,7 @@ public class BatchDetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
+        menu.findItem(R.id.add_plant).setVisible(false);
         menu.findItem(R.id.add_batch).setVisible(false);
         return true;
     }

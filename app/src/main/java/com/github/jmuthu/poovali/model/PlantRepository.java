@@ -110,7 +110,7 @@ public class PlantRepository {
         return Collections.unmodifiableList(plantList);
     }
 
-    private static void store(Plant plant) {
+    public static void store(Plant plant) {
         plantList.add(plant);
     }
 

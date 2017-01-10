@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.github.jmuthu.poovali.activity.AddEventActivity">
+    tools:context="com.github.jmuthu.poovali.activity.AddPlantActivity">
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
@@ -19,17 +19,18 @@
             android:orientation="horizontal">
 
             <TextView
-                style="@style/AddEventActionButtonText"
+                style="@style/AddPlantActionButtonText"
                 android:text="@android:string/cancel"
-                android:onClick="cancelAddEvent"/>
+                android:onClick="cancelAddPlant" />
 
             <TextView
-                style="@style/AddEventActionButtonText"
+                style="@style/AddPlantActionButtonText"
                 android:text="@string/save_label"
-                android:onClick="saveEvent"/>
+                android:onClick="savePlant" />
         </LinearLayout>
     </android.support.design.widget.AppBarLayout>
 
-    <include layout="@layout/content_add_event" />
+    <include layout="@layout/content_add_plant" />
 
 </android.support.design.widget.CoordinatorLayout>
+

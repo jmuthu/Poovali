@@ -115,12 +115,10 @@ public class MainActivity extends AppCompatActivity {
                 intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, false);
                 startActivity(intent);
                 return true;
-            /*case R.id.add_plant:
+            case R.id.add_plant:
                 intent = new Intent(this, AddPlantActivity.class);
-                //intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, false);
                 startActivity(intent);
                 return true;
-            */
             default:
                 return super.onOptionsItemSelected(item);
         }

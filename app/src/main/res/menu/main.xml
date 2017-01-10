@@ -4,6 +4,11 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.github.jmuthu.poovali.activity.MainActivity">
     <item
+        android:id="@+id/add_plant"
+        android:icon="@drawable/hand_holding_up_a_sprout"
+        app:showAsAction="ifRoom"
+        android:title="@string/add_plant" />
+    <item
         android:id="@+id/add_batch"
         android:icon="@drawable/seeds_24dp"
         app:showAsAction="ifRoom"

@@ -143,6 +143,7 @@ public class PlantDetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        menu.findItem(R.id.add_plant).setVisible(false);
         if (mPlant.getBatchList().size() == 0) {
             menu.findItem(R.id.add_event).setVisible(false);
         } else {

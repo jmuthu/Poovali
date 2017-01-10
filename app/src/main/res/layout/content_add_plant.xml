@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v4.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detail_content"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:fillViewport="true"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior">
+
+    <RelativeLayout
+        android:id="@+id/content_add_plant"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:context="com.github.jmuthu.poovali.activity.AddPlantActivity"
+        tools:showIn="@layout/activity_add_plant">
+
+        <TextView
+            android:id="@+id/plant_name_label"
+            style="@style/AddPlantLabel"
+            android:text="@string/plant_name" />
+
+        <EditText
+            android:id="@+id/plant_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/plant_name_label"
+            android:layout_marginStart="@dimen/list_icon_padding_start"
+            android:layout_marginEnd="@dimen/list_text_padding_end"
+            android:backgroundTint="#9E9E9E"
+            android:inputType="textCapSentences"
+            android:maxLength="50"
+            android:maxLines="1"
+            android:minLines="1"
+            android:textCursorDrawable="@drawable/cursor" />
+
+        <TextView
+            android:id="@+id/plant_image_label"
+            style="@style/AddPlantLabel"
+            android:layout_below="@+id/plant_name"
+            android:text="@string/select_plant_image" />
+
+        <ImageView
+            android:id="@+id/plant_image"
+            android:layout_below="@+id/plant_image_label"
+            android:layout_marginStart="@dimen/list_icon_padding_start"
+            android:src="@drawable/add_plant"
+            android:layout_width="64dp"
+            android:layout_height="64dp"
+            android:layout_marginEnd="15dp"
+            android:layout_marginTop="10dip"
+            android:scaleType="fitEnd"
+            android:clickable="true"
+            android:onClick="selectImage" />
+
+
+    </RelativeLayout>
+</android.support.v4.widget.NestedScrollView>

@@ -25,7 +25,7 @@
         <item name="android:layout_height">wrap_content</item>
     </style>
 
-    <style name="addEventActionButtonText" parent="@android:style/TextAppearance.Material.Button">
+    <style name="ActionButtonText" parent="@android:style/TextAppearance.Material.Button">
         <item name="android:layout_height">match_parent</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:focusable">true</item>
@@ -35,13 +35,22 @@
         <item name="android:clickable">true</item>
     </style>
 
-    <style name="AddEventLabel" parent="@android:style/TextAppearance.Material.Body1">
+    <style name="AddEventActionButtonText" parent="ActionButtonText" />
+
+    <style name="AddPlantActionButtonText" parent="ActionButtonText" />
+
+    <style name="FormLabel" parent="@android:style/TextAppearance.Material.Body1">
         <item name="android:layout_marginTop">30sp</item>
         <item name="android:layout_marginBottom">10sp</item>
         <item name="android:paddingStart">@dimen/list_icon_padding_start</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
+
+    <style name="AddEventLabel" parent="FormLabel" />
+
+    <style name="AddPlantLabel" parent="FormLabel" />
+
 
     <style name="ThemeSpinner" parent="@android:style/Widget.Material.Spinner.Underlined" />
 
