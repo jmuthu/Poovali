@@ -340,10 +340,14 @@ public class AddEventActivity extends AppCompatActivity {
             }
             if (item != null) {
                 ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
-                imageView.setImageResource(getResources().getIdentifier(
-                        item.getImageName(),
-                        "drawable",
-                        imageView.getContext().getPackageName()));
+                if (item.getImageUri() != null) {
+                    imageView.setImageURI(item.getImageUri());
+                } else {
+                    imageView.setImageResource(getResources().getIdentifier(
+                            item.getImageName(),
+                            "drawable",
+                            imageView.getContext().getPackageName()));
+                }
 
                 TextView textView = (TextView) convertView.findViewById(R.id.txt);
                 textView.setText(item.getName());

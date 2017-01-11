@@ -86,10 +86,14 @@ public class BatchListFragment extends Fragment {
             holder.mBatch = mValues.get(batchPosition);
             if (mPlant == null) {
                 holder.mPlantIconView.setVisibility(View.VISIBLE);
-                holder.mPlantIconView.setImageResource(getResources().getIdentifier(
-                        holder.mBatch.getImageName(),
-                        "drawable",
-                        holder.mPlantIconView.getContext().getPackageName()));
+                if (holder.mBatch.getImageUri() != null) {
+                    holder.mPlantIconView.setImageURI(holder.mBatch.getImageUri());
+                } else {
+                    holder.mPlantIconView.setImageResource(getResources().getIdentifier(
+                            holder.mBatch.getImageName(),
+                            "drawable",
+                            holder.mPlantIconView.getContext().getPackageName()));
+                }
                 holder.mNameView.setText(holder.mBatch.getName());
             } else {
                 holder.mPlantIconView.setVisibility(View.GONE);

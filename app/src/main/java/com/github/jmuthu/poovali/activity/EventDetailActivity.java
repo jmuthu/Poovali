@@ -66,10 +66,14 @@ public class EventDetailActivity extends AppCompatActivity {
         }
 
         ImageView imageView = (ImageView) findViewById(R.id.plant_type_icon);
-        imageView.setImageResource(getResources().getIdentifier(
-                batch.getImageName(),
-                "drawable",
-                getPackageName()));
+        if (batch.getImageUri() != null) {
+            imageView.setImageURI(batch.getImageUri());
+        } else {
+            imageView.setImageResource(getResources().getIdentifier(
+                    batch.getImageName(),
+                    "drawable",
+                    getPackageName()));
+        }
         TextView dateView = (TextView) findViewById(R.id.date);
         dateView.setText(Helper.DATE_FORMAT.format(event.getCreatedDate()));
         TextView timeView = (TextView) findViewById(R.id.time);

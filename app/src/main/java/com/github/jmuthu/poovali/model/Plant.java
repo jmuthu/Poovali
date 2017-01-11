@@ -1,6 +1,7 @@
 package com.github.jmuthu.poovali.model;
 
 import android.content.Context;
+import android.net.Uri;
 
 import com.github.jmuthu.poovali.interfaces.DisplayableItem;
 import com.github.jmuthu.poovali.utility.Helper;
@@ -17,12 +18,10 @@ public class Plant implements Serializable, DisplayableItem {
     private static final long serialVersionUID = 1L;
     private String id;
     private String name;
-    private String sowingSeason;
-    private String seedTreatment;
-    private String soil;
+    //Storing uri as string as it is not serializable
+    private String imageUri;
     private EnumMap<GrowthStage, Integer> growthStageMap = new EnumMap<GrowthStage, Integer>(GrowthStage.class);
     private List<Batch> batchList = new LinkedList<>();
-    //public final String spacingRequirements;
     //public final Map fertilizerSchedule;
 
     public Plant() {
@@ -30,18 +29,16 @@ public class Plant implements Serializable, DisplayableItem {
 
     public Plant(String id,
                  String name,
-                 String soil,
-                 String sowingSeason,
-                 String seedTreatment,
+                 Uri imageUri,
                  Integer seedling,
                  Integer flowering,
                  Integer fruiting,
                  Integer ripening) {
         this.id = id;
         this.name = name;
-        this.soil = soil;
-        this.sowingSeason = sowingSeason;
-        this.seedTreatment = seedTreatment;
+        if (imageUri != null) {
+            this.imageUri = imageUri.toString();
+        }
         this.growthStageMap.put(GrowthStage.SEEDLING, seedling);
         this.growthStageMap.put(GrowthStage.FLOWERING, flowering);
         this.growthStageMap.put(GrowthStage.FRUITING, fruiting);
@@ -64,36 +61,12 @@ public class Plant implements Serializable, DisplayableItem {
         this.name = name;
     }
 
-    public String getSowingSeason() {
-        return sowingSeason;
-    }
-
-    public void setSowingSeason(String sowingSeason) {
-        this.sowingSeason = sowingSeason;
-    }
-
-    public String getSeedTreatment() {
-        return seedTreatment;
-    }
-
-    public void setSeedTreatment(String seedTreatment) {
-        this.seedTreatment = seedTreatment;
-    }
-
     public Integer getCropDuration() {
         Integer cropDuration = 0;
         for (Integer value : growthStageMap.values()) {
             cropDuration += value;
         }
         return cropDuration;
-    }
-
-    public String getSoil() {
-        return soil;
-    }
-
-    public void setSoil(String soil) {
-        this.soil = soil;
     }
 
     public EnumMap<GrowthStage, Integer> getGrowthStageMap() {
@@ -110,6 +83,19 @@ public class Plant implements Serializable, DisplayableItem {
 
     public void setBatchList(List<Batch> batchList) {
         this.batchList = batchList;
+    }
+
+    public Uri getImageUri() {
+        if (this.imageUri != null) {
+            return Uri.parse(this.imageUri);
+        }
+        return null;
+    }
+
+    public void setImageUri(Uri imageUri) {
+        if (imageUri != null) {
+            this.imageUri = imageUri.toString();
+        }
     }
 
     public String getImageName() {

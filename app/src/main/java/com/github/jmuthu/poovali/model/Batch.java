@@ -1,5 +1,7 @@
 package com.github.jmuthu.poovali.model;
 
+import android.net.Uri;
+
 import com.github.jmuthu.poovali.interfaces.DisplayableItem;
 import com.github.jmuthu.poovali.model.event.Event;
 import com.github.jmuthu.poovali.utility.Helper;
@@ -88,19 +90,23 @@ public class Batch implements Serializable, DisplayableItem {
     }
 
     public String getImageName() {
-        if (getPlant() == null) { // For garden
+        if (plant == null) { // For garden
             return Helper.getImageFileName(name);
         }
-        return Helper.getImageFileName(getPlant().getName());
+        return Helper.getImageFileName(plant.getName());
+    }
+
+    public Uri getImageUri() {
+        return plant.getImageUri();
     }
 
     public int getProgress() {
-        return (int) getDurationInDays() * 100 / getPlant().getCropDuration();
+        return (int) getDurationInDays() * 100 / plant.getCropDuration();
     }
 
     public Plant.GrowthStage getStage() {
         long dayCount = getDurationInDays();
-        EnumMap<Plant.GrowthStage, Integer> growthStageMap = getPlant().getGrowthStageMap();
+        EnumMap<Plant.GrowthStage, Integer> growthStageMap = plant.getGrowthStageMap();
         if (dayCount <= growthStageMap.get(Plant.GrowthStage.SEEDLING)) {
             return Plant.GrowthStage.SEEDLING;
         } else if (dayCount <= growthStageMap.get(Plant.GrowthStage.SEEDLING) +

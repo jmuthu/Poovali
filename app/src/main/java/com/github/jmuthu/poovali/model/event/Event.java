@@ -1,5 +1,7 @@
 package com.github.jmuthu.poovali.model.event;
 
+import android.net.Uri;
+
 import com.github.jmuthu.poovali.interfaces.DisplayableItem;
 
 import java.io.Serializable;
@@ -39,5 +41,9 @@ public abstract class Event implements Serializable, DisplayableItem {
     @Override
     public String toString() {
         return getName();
+    }
+
+    public Uri getImageUri() {
+        return null;
     }
 }

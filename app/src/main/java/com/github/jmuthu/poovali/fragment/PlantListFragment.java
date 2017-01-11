@@ -89,11 +89,14 @@ public class PlantListFragment extends Fragment {
             }
 
             Helper.setOverDueText(holder.mPlant, holder.mNextBatchDueView, Color.rgb(255, 140, 0));
-
-            holder.mIconView.setImageResource(getResources().getIdentifier(
-                    holder.mPlant.getImageName(),
-                    "drawable",
-                    holder.mIconView.getContext().getPackageName()));
+            if (holder.mPlant.getImageUri() != null) {
+                holder.mIconView.setImageURI(holder.mPlant.getImageUri());
+            } else {
+                holder.mIconView.setImageResource(getResources().getIdentifier(
+                        holder.mPlant.getImageName(),
+                        "drawable",
+                        holder.mIconView.getContext().getPackageName()));
+            }
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {

@@ -16,8 +16,8 @@ import java.util.UUID;
 
 public class AddPlantActivity extends AppCompatActivity {
     static final int SELECT_IMAGE_REQUEST = 1;
-    ImageView plantIcon;
-
+    ImageView mPlantIcon;
+    Uri mSelectedImage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,15 +29,15 @@ public class AddPlantActivity extends AppCompatActivity {
         switch (requestCode) {
             case SELECT_IMAGE_REQUEST:
                 if (resultCode == RESULT_OK) {
-                    Uri selectedImage = imageReturnedIntent.getData();
-                    plantIcon.setImageURI(selectedImage);
+                    mSelectedImage = imageReturnedIntent.getData();
+                    mPlantIcon.setImageURI(mSelectedImage);
                 }
                 break;
         }
     }
 
     public void selectImage(View v) {
-        plantIcon = (ImageView) findViewById(R.id.plant_image);
+        mPlantIcon = (ImageView) findViewById(R.id.plant_image);
         Intent pickPhoto = new Intent(Intent.ACTION_PICK,
                 android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult(pickPhoto, SELECT_IMAGE_REQUEST);
@@ -48,9 +48,7 @@ public class AddPlantActivity extends AppCompatActivity {
         Plant plant = new Plant(
                 UUID.randomUUID().toString(),
                 name.getText().toString(),
-                "",
-                "",
-                "",
+                mSelectedImage,
                 10, 10, 10, 10);
         PlantRepository.store(plant);
         finish();
