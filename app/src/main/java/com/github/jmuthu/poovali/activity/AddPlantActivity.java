@@ -45,11 +45,19 @@ public class AddPlantActivity extends AppCompatActivity {
 
     public void savePlant(View v) {
         EditText name = (EditText) findViewById(R.id.plant_name);
+        EditText seedling = (EditText) findViewById(R.id.seedling_days);
+        EditText flowering = (EditText) findViewById(R.id.flowering_days);
+        EditText fruiting = (EditText) findViewById(R.id.fruiting_days);
+        EditText ripening = (EditText) findViewById(R.id.ripening_days);
+
         Plant plant = new Plant(
                 UUID.randomUUID().toString(),
                 name.getText().toString(),
                 mSelectedImage,
-                10, 10, 10, 10);
+                Integer.parseInt(seedling.getText().toString()),
+                Integer.parseInt(flowering.getText().toString()),
+                Integer.parseInt(fruiting.getText().toString()),
+                Integer.parseInt(ripening.getText().toString()));
         PlantRepository.store(plant);
         finish();
     }

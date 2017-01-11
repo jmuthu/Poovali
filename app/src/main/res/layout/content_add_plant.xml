@@ -53,6 +53,60 @@
             android:clickable="true"
             android:onClick="selectImage" />
 
+        <TextView
+            android:id="@+id/plant_growth_stage_label"
+            style="@style/GrowthStageLabel"
+            android:layout_below="@+id/plant_image"
+            android:text="@string/plant_growth_stage" />
+
+        <TextView
+            android:id="@+id/seedling_label"
+            style="@style/GrowthStageLabel"
+            android:layout_below="@+id/plant_growth_stage_label"
+            android:text="@string/seedling" />
+
+        <EditText
+            android:id="@+id/seedling_days"
+            android:layout_below="@+id/plant_growth_stage_label"
+            android:layout_alignBaseline="@+id/seedling_label"
+            style="@style/GrowStageInput" />
+
+        <TextView
+            android:id="@+id/flowering_label"
+            style="@style/GrowthStageLabel"
+            android:layout_below="@+id/seedling_label"
+            android:text="@string/flowering" />
+
+        <EditText
+            android:id="@+id/flowering_days"
+            android:layout_below="@+id/seedling_label"
+            android:layout_alignBaseline="@+id/flowering_label"
+            style="@style/GrowStageInput" />
+
+        <TextView
+            android:id="@+id/fruiting_label"
+            style="@style/GrowthStageLabel"
+            android:layout_below="@+id/flowering_label"
+            android:text="@string/fruiting" />
+
+        <EditText
+            android:id="@+id/fruiting_days"
+            android:layout_below="@+id/flowering_label"
+            android:layout_alignBaseline="@+id/fruiting_label"
+            style="@style/GrowStageInput" />
+
+        <TextView
+            android:id="@+id/ripening_label"
+            style="@style/GrowthStageLabel"
+            android:layout_below="@+id/fruiting_label"
+            android:text="@string/ripening" />
+
+        <EditText
+            android:id="@+id/ripening_days"
+            android:layout_below="@+id/fruiting_label"
+            android:layout_alignBaseline="@+id/ripening_label"
+            style="@style/GrowStageInput" />
+
 
     </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>

@@ -21,13 +21,13 @@
 
     <style name="Label" parent="@android:style/TextAppearance.Material.Title">
         <item name="android:layout_marginTop">@dimen/list_padding_top</item>
-        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
     <style name="ActionButtonText" parent="@android:style/TextAppearance.Material.Button">
         <item name="android:layout_height">match_parent</item>
-        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:focusable">true</item>
         <item name="android:layout_weight">1</item>
         <item name="android:gravity">center</item>
@@ -43,7 +43,7 @@
         <item name="android:layout_marginTop">30sp</item>
         <item name="android:layout_marginBottom">10sp</item>
         <item name="android:paddingStart">@dimen/list_icon_padding_start</item>
-        <item name="android:layout_width">fill_parent</item>
+        <item name="android:layout_width">match_parent</item>
         <item name="android:layout_height">wrap_content</item>
     </style>
 
@@ -51,6 +51,22 @@
 
     <style name="AddPlantLabel" parent="FormLabel" />
 
+    <style name="GrowthStageLabel" parent="FormLabel">
+        <item name="android:layout_marginBottom">0sp</item>
+    </style>
+
+    <style name="GrowStageInput">
+        <item name="android:layout_marginStart">@dimen/growth_stage_input_padding_start</item>
+        <item name="android:layout_marginEnd">@dimen/list_text_padding_end</item>
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:backgroundTint">#9E9E9E</item>
+        <item name="android:inputType">number</item>
+        <item name="android:maxLength">5</item>
+        <item name="android:maxLines">1</item>
+        <item name="android:minLines">1</item>
+        <item name="android:textCursorDrawable">@drawable/cursor</item>
+    </style>
 
     <style name="ThemeSpinner" parent="@android:style/Widget.Material.Spinner.Underlined" />
 
