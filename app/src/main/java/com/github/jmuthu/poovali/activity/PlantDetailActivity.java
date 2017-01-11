@@ -1,10 +1,14 @@
 package com.github.jmuthu.poovali.activity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -150,8 +154,10 @@ public class PlantDetailActivity extends AppCompatActivity {
         menu.findItem(R.id.add_plant).setVisible(false);
         if (mPlant.getBatchList().size() == 0) {
             menu.findItem(R.id.add_event).setVisible(false);
+            menu.findItem(R.id.delete).setVisible(true);
         } else {
             menu.findItem(R.id.add_event).setVisible(true);
+            menu.findItem(R.id.delete).setVisible(false);
         }
         return true;
     }
@@ -195,8 +201,41 @@ public class PlantDetailActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.delete:
+                DeletePlantDialogFragment dialog = new DeletePlantDialogFragment();
+                dialog.setPlant(mPlant);
+                dialog.show(getSupportFragmentManager(), "DeleteEvent");
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public static class DeletePlantDialogFragment extends DialogFragment {
+        Plant mPlantToDelete;
+
+        public void setPlant(Plant plant) {
+            mPlantToDelete = plant;
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(
+                    getActivity(), android.R.style.Theme_Material_Dialog_Alert);
+            builder.setTitle(R.string.delete_plant_alert);
+            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    PlantRepository.delete(mPlantToDelete);
+                    (getActivity()).finish();
+                }
+            });
+            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                }
+            });
+            // Create the AlertDialog object and return it
+            return builder.create();
         }
     }
 

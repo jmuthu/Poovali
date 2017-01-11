@@ -25,8 +25,8 @@ import com.github.jmuthu.poovali.utility.Helper;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 
 public class EventDetailActivity extends AppCompatActivity {
-    static Batch batch;
-    static Event event;
+    Batch mBatch;
+    Event mEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -42,42 +42,42 @@ public class EventDetailActivity extends AppCompatActivity {
         if (extras != null) {
             String batchId = getIntent().getStringExtra(Helper.ARG_BATCH_ID);
             String eventId = getIntent().getStringExtra(Helper.ARG_EVENT_ID);
-            batch = BatchRepository.find(batchId);
-            event = EventRepository.find(eventId);
+            mBatch = BatchRepository.find(batchId);
+            mEvent = EventRepository.find(eventId);
         }
 
         CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout)
                 findViewById(R.id.toolbar_layout);
-        collapsingToolbarLayout.setTitle(event.getName());
+        collapsingToolbarLayout.setTitle(mEvent.getName());
         ImageView eventIconView = (ImageView) findViewById(R.id.event_type_icon);
-        eventIconView.setImageResource(getResources().getIdentifier(event.getImageName(),
+        eventIconView.setImageResource(getResources().getIdentifier(mEvent.getImageName(),
                 "drawable",
                 getPackageName()));
 
         TextView batchView = (TextView) findViewById(R.id.name);
-        batchView.setText(batch.getName());
+        batchView.setText(mBatch.getName());
 
         TextView descriptionView = (TextView) findViewById(R.id.event_description);
-        if (event.getDescription() == null || event.getDescription().isEmpty()) {
+        if (mEvent.getDescription() == null || mEvent.getDescription().isEmpty()) {
             descriptionView.setVisibility(View.GONE);
             findViewById(R.id.event_description_icon).setVisibility(View.GONE);
         } else {
-            descriptionView.setText(event.getDescription());
+            descriptionView.setText(mEvent.getDescription());
         }
 
         ImageView imageView = (ImageView) findViewById(R.id.plant_type_icon);
-        if (batch.getImageUri() != null) {
-            imageView.setImageURI(batch.getImageUri());
+        if (mBatch.getImageUri() != null) {
+            imageView.setImageURI(mBatch.getImageUri());
         } else {
             imageView.setImageResource(getResources().getIdentifier(
-                    batch.getImageName(),
+                    mBatch.getImageName(),
                     "drawable",
                     getPackageName()));
         }
         TextView dateView = (TextView) findViewById(R.id.date);
-        dateView.setText(Helper.DATE_FORMAT.format(event.getCreatedDate()));
+        dateView.setText(Helper.DATE_FORMAT.format(mEvent.getCreatedDate()));
         TextView timeView = (TextView) findViewById(R.id.time);
-        timeView.setText(Helper.TIME_FORMAT.format(event.getCreatedDate()));
+        timeView.setText(Helper.TIME_FORMAT.format(mEvent.getCreatedDate()));
 
     }
 
@@ -92,13 +92,15 @@ public class EventDetailActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.delete:
-                DialogFragment dialog = new DeleteEventDialogFragment();
+                DeleteEventDialogFragment dialog = new DeleteEventDialogFragment();
+                dialog.setBatch(mBatch);
+                dialog.setEvent(mEvent);
                 dialog.show(getSupportFragmentManager(), "DeleteEvent");
                 return true;
             case R.id.edit:
                 Intent intent = new Intent(this, AddEventActivity.class);
-                intent.putExtra(Helper.ARG_EVENT_ID, event.getId());
-                intent.putExtra(Helper.ARG_BATCH_ID, batch.getId());
+                intent.putExtra(Helper.ARG_EVENT_ID, mEvent.getId());
+                intent.putExtra(Helper.ARG_BATCH_ID, mBatch.getId());
                 intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, false);
                 startActivity(intent);
                 finish();
@@ -112,16 +114,27 @@ public class EventDetailActivity extends AppCompatActivity {
     }
 
     public static class DeleteEventDialogFragment extends DialogFragment {
+        Batch mBatch;
+        Event mEvent;
+
+        public void setBatch(Batch batch) {
+            mBatch = batch;
+        }
+
+        public void setEvent(Event event) {
+            mEvent = event;
+        }
+
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the Builder class for convenient dialog construction
             AlertDialog.Builder builder = new AlertDialog.Builder(
                     getActivity(), android.R.style.Theme_Material_Dialog_Alert);
-            builder.setTitle(R.string.delete_alert);
+            builder.setTitle(R.string.delete_event_alert);
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    batch.deleteEvent(event);
-                    EventRepository.delete(event);
+                    mBatch.deleteEvent(mEvent);
+                    EventRepository.delete(mEvent);
                     (getActivity()).finish();
                 }
             });

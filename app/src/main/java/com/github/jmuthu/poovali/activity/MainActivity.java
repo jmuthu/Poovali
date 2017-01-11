@@ -98,6 +98,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             menu.findItem(R.id.add_event).setVisible(true);
         }
+        menu.findItem(R.id.delete).setVisible(false);
         return true;
     }
 
