@@ -200,6 +200,12 @@ public class PlantDetailActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.edit:
+                intent = new Intent(this, AddPlantActivity.class);
+                intent.putExtra(Helper.ARG_PLANT_ID, mPlant.getId());
+                startActivity(intent);
+                finish();
+                return true;
             case R.id.delete:
                 DeletePlantDialogFragment dialog = new DeletePlantDialogFragment();
                 dialog.setPlant(mPlant);

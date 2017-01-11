@@ -19,6 +19,11 @@
         app:showAsAction="ifRoom"
         android:title="@string/add_event" />
     <item
+        android:id="@+id/edit"
+        android:icon="@drawable/ic_mode_edit_white_24dp"
+        app:showAsAction="ifRoom"
+        android:title="@string/edit" />
+    <item
         android:id="@+id/delete"
         android:icon="@drawable/ic_delete_white_24dp"
         app:showAsAction="collapseActionView"

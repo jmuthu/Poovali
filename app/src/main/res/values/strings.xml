@@ -29,4 +29,7 @@
     <string name="add_event">Log activity</string>
     <string name="settings">Settings</string>
     <string name="batch_status">Stage</string>
+    <string name="growth_stage_invalid_days">Growth stage days cannot be empty or zero!</string>
+    <string name="invalid_name">Name cannot be empty</string>
+    <string name="save_failed">Save failed</string>
 </resources>
