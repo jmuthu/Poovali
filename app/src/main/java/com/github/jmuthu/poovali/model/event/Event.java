@@ -13,6 +13,7 @@ public abstract class Event implements Serializable, DisplayableItem {
     private String id;
     private Date createdDate;
     private String description;
+    private String batchId;
 
     public String getId() {
         return id;
@@ -36,6 +37,14 @@ public abstract class Event implements Serializable, DisplayableItem {
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public String getBatchId() {
+        return batchId;
+    }
+
+    public void setBatchId(String batchId) {
+        this.batchId = batchId;
     }
 
     @Override

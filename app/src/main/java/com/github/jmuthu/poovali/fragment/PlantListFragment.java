@@ -48,7 +48,7 @@ public class PlantListFragment extends Fragment {
     @Override
     public void onResume() {
         super.onResume();
-        mRecyclerView.getAdapter().notifyDataSetChanged(); // For adding activity
+        mRecyclerView.setAdapter(new PlantListFragment.SimpleItemRecyclerViewAdapter(PlantRepository.findAll()));
     }
 
     public class SimpleItemRecyclerViewAdapter

@@ -14,14 +14,14 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class FileRepository {
-    public static String BATCH_FILE = "poovali_batch.dat";
+    public static String FILE_PREFIX = "poovali_";
 
     public static Context context = null;
 
-    public static Object readAll() {
+    public static Object readAll(String entityName) {
         Object result = null;
         try {
-            File file = new File(context.getFilesDir(), BATCH_FILE);
+            File file = new File(context.getFilesDir(), FILE_PREFIX + entityName.toLowerCase());
             if (file.isFile()) {
                 FileInputStream fin = new FileInputStream(file);
                 ObjectInputStream ois = new ObjectInputStream(fin);
@@ -35,9 +35,9 @@ public class FileRepository {
         return result;
     }
 
-    public static void writeAll(Object data) {
+    public static void writeAll(String entityName, Object data) {
         try {
-            File file = new File(context.getFilesDir(), BATCH_FILE);
+            File file = new File(context.getFilesDir(), FILE_PREFIX + entityName.toLowerCase());
             if (!file.isFile()) {
                 file.createNewFile();
             }

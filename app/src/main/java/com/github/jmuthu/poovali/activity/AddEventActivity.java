@@ -175,9 +175,8 @@ public class AddEventActivity extends AppCompatActivity {
             batch.setDescription(desc.getText().toString());
             batch.setCreatedDate(date);
             Plant plant = (Plant) spinner.getSelectedItem();
-            batch.setPlant(plant);
             SimpleDateFormat format = new SimpleDateFormat("dd MMM yy");
-            batch.setName(batch.getPlant().getName() + " - " +
+            batch.setName(plant.getName() + " - " +
                     format.format(batch.getCreatedDate()));
             plant.addBatch(batch);
             BatchRepository.store(batch);

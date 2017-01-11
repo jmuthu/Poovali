@@ -6,9 +6,12 @@ import android.net.Uri;
 import com.github.jmuthu.poovali.interfaces.DisplayableItem;
 import com.github.jmuthu.poovali.utility.Helper;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 import java.util.EnumMap;
 import java.util.LinkedList;
@@ -21,7 +24,7 @@ public class Plant implements Serializable, DisplayableItem {
     //Storing uri as string as it is not serializable
     private String imageUri;
     private EnumMap<GrowthStage, Integer> growthStageMap = new EnumMap<GrowthStage, Integer>(GrowthStage.class);
-    private List<Batch> batchList = new LinkedList<>();
+    transient private List<Batch> batchList = new LinkedList<>();
     //public final Map fertilizerSchedule;
 
     public Plant() {
@@ -142,12 +145,18 @@ public class Plant implements Serializable, DisplayableItem {
 
     public void addBatch(Batch batch) {
         batchList.add(0, batch);
+        batch.setPlant(this);
         Collections.sort(batchList, new Batch.BatchDescendingComparator());
     }
 
     public void deleteBatch(Context context, int position) {
         Batch batch = batchList.get(position);
         batchList.remove(position);
+    }
+
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        batchList = new LinkedList<>();
     }
 
     public enum GrowthStage {
@@ -175,6 +184,13 @@ public class Plant implements Serializable, DisplayableItem {
             public String toString() {
                 return "Dormant";
             }
+        }
+    }
+
+    static class PlantNameComparator implements Comparator<Plant> {
+        @Override
+        public int compare(Plant p1, Plant p2) {
+            return p1.getName().compareTo(p2.getName());
         }
     }
 }

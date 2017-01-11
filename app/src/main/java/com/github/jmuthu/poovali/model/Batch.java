@@ -6,6 +6,8 @@ import com.github.jmuthu.poovali.interfaces.DisplayableItem;
 import com.github.jmuthu.poovali.model.event.Event;
 import com.github.jmuthu.poovali.utility.Helper;
 
+import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.Collections;
@@ -25,7 +27,7 @@ public class Batch implements Serializable, DisplayableItem {
     private String name;
     private Date createdDate;
     private String description;
-    private List<Event> eventsList = new LinkedList<>();
+    transient private List<Event> eventsList = new LinkedList<>();
 
     public Batch() {
     }
@@ -47,6 +49,10 @@ public class Batch implements Serializable, DisplayableItem {
         this.plantId = plant.getId();
     }
 
+    public String getPlantId() {
+        return plantId;
+    }
+
     public List<Event> getEvents() {
         return Collections.unmodifiableList(eventsList);
     }
@@ -58,6 +64,7 @@ public class Batch implements Serializable, DisplayableItem {
     public void addEvent(Event event) {
         if (!eventsList.contains(event)) {
             eventsList.add(0, event);
+            event.setBatchId(id);
         }
     }
 
@@ -130,6 +137,10 @@ public class Batch implements Serializable, DisplayableItem {
         return (int) (diff / (24 * 60 * 60 * 1000));
     }
 
+    private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
+        in.defaultReadObject();
+        eventsList = new LinkedList<>();
+    }
     @Override
     public String toString() {
         return name;

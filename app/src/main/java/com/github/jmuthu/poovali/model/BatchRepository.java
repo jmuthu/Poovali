@@ -9,21 +9,17 @@ import java.util.List;
 import java.util.Map;
 
 public class BatchRepository {
-
+    private static final String ENTITY_NAME = "Batch";
     private static Map<String, Batch> batchMap = new HashMap<>();
 
-    private static void updateCache(Batch batch) {
-        batchMap.put(batch.getId(), batch);
-    }
-
     public static void store(Batch batch) {
-        updateCache(batch);
-        FileRepository.writeAll(PlantRepository.findAll());
+        batchMap.put(batch.getId(), batch);
+        FileRepository.writeAll(ENTITY_NAME, batchMap);
     }
 
     public static void delete(Batch batch) {
         batchMap.remove(batch.getId());
-        FileRepository.writeAll(PlantRepository.findAll());
+        FileRepository.writeAll(ENTITY_NAME, batchMap);
     }
 
     public static Batch find(String batchId) {
@@ -49,15 +45,13 @@ public class BatchRepository {
     }
 
     public static void initialize() {
-        for (Plant plant : PlantRepository.findAll()) {
-            if (plant.getBatchList() == null) {
-                continue;
-            }
-            for (Batch batch : plant.getBatchList()) {
-                batch.setPlant(plant);
-                updateCache(batch);
-            }
+        Object result = FileRepository.readAll(ENTITY_NAME);
+        if (result != null) {
+            batchMap = (Map<String, Batch>) result;
+        }
+        for (Batch batch : batchMap.values()) {
+            Plant plant = PlantRepository.find(batch.getPlantId());
+            plant.addBatch(batch);
         }
     }
-
 }

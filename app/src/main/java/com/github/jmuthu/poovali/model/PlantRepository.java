@@ -4,68 +4,74 @@ import com.github.jmuthu.poovali.utility.FileRepository;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 public class PlantRepository {
-
-    private static List<Plant> plantList = new ArrayList<Plant>();
+    private static final String ENTITY_NAME = "Plant";
+    private static Map<String, Plant> plantMap = new HashMap<>();
 
     public static Plant find(String plantId) {
-        // Small list size, hash map would be an overkill
-        // so using list to traverse
-        for (Plant plant : findAll()) {
-            if (plant.getId().equals(plantId)) {
-                return plant;
-            }
-        }
-        return null;
+        return plantMap.get(plantId);
     }
 
     public static List<Plant> findAll() {
-        return Collections.unmodifiableList(plantList);
+        ArrayList<Plant> result = new ArrayList<>(plantMap.values());
+        Collections.sort(result, new Plant.PlantNameComparator());
+        return Collections.unmodifiableList(result);
     }
 
     public static void store(Plant plant) {
-        plantList.add(plant);
-        FileRepository.writeAll(plantList);
+        addPlant(plant);
+        FileRepository.writeAll(ENTITY_NAME, plantMap);
+    }
+
+    public static void delete(Plant plant) {
+        plantMap.remove(plant.getId());
+        FileRepository.writeAll(ENTITY_NAME, plantMap);
     }
 
     public static void initialize() {
-        Object result = FileRepository.readAll();
+        Object result = FileRepository.readAll(ENTITY_NAME);
         if (result != null) {
-            plantList = (List<Plant>) result;
+            plantMap = (Map<String, Plant>) result;
         } else {
             initializeDefaultItems();
         }
     }
 
+    private static void addPlant(Plant plant) {
+        plantMap.put(plant.getId(), plant);
+    }
+
     private static void initializeDefaultItems() {
-        plantList.add(
+        addPlant(
                 new Plant(
                         UUID.randomUUID().toString(),
                         "Brinjal",
                         null,
                         10, 30, 30, 80));
-        plantList.add(
+        addPlant(
                 new Plant(
                         UUID.randomUUID().toString(),
                         "Chilli",
                         null,
                         10, 30, 40, 80));
-        plantList.add(
+        addPlant(
                 new Plant(
                         UUID.randomUUID().toString(),
                         "Lady's Finger",
                         null,
                         10, 30, 30, 30));
-        plantList.add(
+        addPlant(
                 new Plant(
                         UUID.randomUUID().toString(),
                         "Radish",
                         null,
                         15, 20, 10, 10));
-        plantList.add(
+        addPlant(
                 new Plant(
                         UUID.randomUUID().toString(),
                         "Tomato",
