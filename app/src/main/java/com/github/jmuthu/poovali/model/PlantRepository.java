@@ -77,6 +77,6 @@ public class PlantRepository {
                         "Tomato",
                         null,
                         10, 30, 30, 80));
-
+        FileRepository.writeAll(ENTITY_NAME, plantMap);
     }
 }

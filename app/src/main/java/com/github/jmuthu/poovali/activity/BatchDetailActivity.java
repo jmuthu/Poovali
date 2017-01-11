@@ -22,6 +22,8 @@ import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.fragment.EventListFragment;
 import com.github.jmuthu.poovali.model.Batch;
 import com.github.jmuthu.poovali.model.BatchRepository;
+import com.github.jmuthu.poovali.model.event.Event;
+import com.github.jmuthu.poovali.model.event.EventRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 
 import java.text.DateFormat;
@@ -138,6 +140,7 @@ public class BatchDetailActivity extends AppCompatActivity {
         } else {
             eventLabel.setVisibility(View.GONE);
         }
+        invalidateOptionsMenu();
     }
 
     @Override
@@ -178,6 +181,10 @@ public class BatchDetailActivity extends AppCompatActivity {
             builder.setTitle(R.string.delete_batch_alert);
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
+                    for (Event event : mBatch.getEvents()) {
+                        EventRepository.delete(event);
+                    }
+                    mBatch.getPlant().deleteBatch(mBatch);
                     BatchRepository.delete(mBatch);
                     (getActivity()).finish();
                 }

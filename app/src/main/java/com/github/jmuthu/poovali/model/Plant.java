@@ -1,6 +1,5 @@
 package com.github.jmuthu.poovali.model;
 
-import android.content.Context;
 import android.net.Uri;
 
 import com.github.jmuthu.poovali.interfaces.DisplayableItem;
@@ -149,9 +148,8 @@ public class Plant implements Serializable, DisplayableItem {
         Collections.sort(batchList, new Batch.BatchDescendingComparator());
     }
 
-    public void deleteBatch(Context context, int position) {
-        Batch batch = batchList.get(position);
-        batchList.remove(position);
+    public void deleteBatch(Batch batch) {
+        batchList.remove(batch);
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
