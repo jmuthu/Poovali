@@ -1,9 +1,13 @@
 package com.github.jmuthu.poovali.activity;
 
+import android.app.Dialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.v4.app.DialogFragment;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
@@ -108,8 +112,18 @@ public class BatchDetailActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.add_plant).setVisible(false);
         menu.findItem(R.id.add_batch).setVisible(false);
+        if (mBatch.getEvents().size() == 1) {
+            menu.findItem(R.id.delete).setVisible(true);
+        } else {
+            menu.findItem(R.id.delete).setVisible(false);
+        }
         return true;
     }
 
@@ -139,8 +153,41 @@ public class BatchDetailActivity extends AppCompatActivity {
             case android.R.id.home:
                 finish();
                 return true;
+            case R.id.delete:
+                DeleteBatchDialogFragment dialog = new DeleteBatchDialogFragment();
+                dialog.setBatch(mBatch);
+                dialog.show(getSupportFragmentManager(), "DeleteEvent");
+                return true;
             default:
                 return super.onOptionsItemSelected(item);
+        }
+    }
+
+    public static class DeleteBatchDialogFragment extends DialogFragment {
+        Batch mBatch;
+
+        public void setBatch(Batch batch) {
+            mBatch = batch;
+        }
+
+        @Override
+        public Dialog onCreateDialog(Bundle savedInstanceState) {
+            // Use the Builder class for convenient dialog construction
+            AlertDialog.Builder builder = new AlertDialog.Builder(
+                    getActivity(), android.R.style.Theme_Material_Dialog_Alert);
+            builder.setTitle(R.string.delete_batch_alert);
+            builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                    BatchRepository.delete(mBatch);
+                    (getActivity()).finish();
+                }
+            });
+            builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                public void onClick(DialogInterface dialog, int id) {
+                }
+            });
+            // Create the AlertDialog object and return it
+            return builder.create();
         }
     }
 }

@@ -16,6 +16,7 @@
     <string name="edit">edit</string>
     <string name="delete_event_alert">Delete this event?</string>
     <string name="delete_plant_alert">Delete this plant?</string>
+    <string name="delete_batch_alert">Delete this batch?</string>
     <string name="add_batch">New batch</string>
     <string name="add_plant">New plant</string>
     <string name="plant_name">Name</string>
