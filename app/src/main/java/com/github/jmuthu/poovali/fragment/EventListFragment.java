@@ -86,7 +86,8 @@ public class EventListFragment extends Fragment {
             holder.mEventCreatedDateView.setText(date);
             String description = holder.mItem.getDescription();
             holder.mEventDescriptionView.setText(description);
-            holder.mEventIconView.setImageResource(getResources().getIdentifier(holder.mItem.getImageName(),
+            holder.mEventIconView.setImageResource(getResources().getIdentifier(
+                    Helper.getImageFileName(holder.mItem.getName()),
                     "drawable",
                     holder.mEventIconView.getContext().getPackageName()));
 

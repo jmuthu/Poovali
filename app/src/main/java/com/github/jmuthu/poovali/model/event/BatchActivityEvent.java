@@ -1,19 +1,14 @@
 package com.github.jmuthu.poovali.model.event;
 
-import com.github.jmuthu.poovali.utility.Helper;
-
 import java.io.Serializable;
 
 public class BatchActivityEvent extends Event implements Serializable {
     private static final long serialVersionUID = 1L;
     private Type type;
 
+    @Override
     public String getName() {
         return type.toString();
-    }
-
-    public String getImageName() {
-        return Helper.getImageFileName(type.name());
     }
 
     public Type getType() {

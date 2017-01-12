@@ -26,6 +26,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@+id/plant_name_label"
             android:layout_marginStart="@dimen/list_icon_padding_start"
+            android:layout_toStartOf="@+id/plant_image"
             android:layout_marginEnd="@dimen/list_text_padding_end"
             android:backgroundTint="#9E9E9E"
             android:inputType="textCapSentences"
@@ -34,21 +35,20 @@
             android:minLines="1"
             android:textCursorDrawable="@drawable/cursor" />
 
-        <TextView
+        <!--TextView
             android:id="@+id/plant_image_label"
             style="@style/AddPlantLabel"
             android:layout_below="@+id/plant_name"
-            android:text="@string/select_plant_image" />
+            android:text="@string/select_plant_image" /-->
 
         <ImageView
             android:id="@+id/plant_image"
-            android:layout_below="@+id/plant_image_label"
-            android:layout_marginStart="@dimen/list_icon_padding_start"
+            android:layout_alignTop="@+id/plant_name_label"
+            android:layout_alignParentEnd="true"
             android:src="@drawable/add_plant"
             android:layout_width="64dp"
             android:layout_height="64dp"
-            android:layout_marginEnd="15dp"
-            android:layout_marginTop="10dip"
+            android:layout_marginEnd="@dimen/list_text_padding_end"
             android:scaleType="fitEnd"
             android:clickable="true"
             android:onClick="selectImage" />
@@ -69,6 +69,7 @@
             android:id="@+id/seedling_days"
             android:layout_below="@+id/plant_growth_stage_label"
             android:layout_alignBaseline="@+id/seedling_label"
+            android:layout_toStartOf="@+id/plant_image"
             style="@style/GrowStageInput" />
 
         <TextView
@@ -81,6 +82,7 @@
             android:id="@+id/flowering_days"
             android:layout_below="@+id/seedling_label"
             android:layout_alignBaseline="@+id/flowering_label"
+            android:layout_toStartOf="@+id/plant_image"
             style="@style/GrowStageInput" />
 
         <TextView
@@ -92,6 +94,7 @@
         <EditText
             android:id="@+id/fruiting_days"
             android:layout_below="@+id/flowering_label"
+            android:layout_toStartOf="@+id/plant_image"
             android:layout_alignBaseline="@+id/fruiting_label"
             style="@style/GrowStageInput" />
 
@@ -104,6 +107,7 @@
         <EditText
             android:id="@+id/ripening_days"
             android:layout_below="@+id/fruiting_label"
+            android:layout_toStartOf="@+id/plant_image"
             android:layout_alignBaseline="@+id/ripening_label"
             style="@style/GrowStageInput" />
 

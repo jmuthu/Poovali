@@ -2,12 +2,10 @@ package com.github.jmuthu.poovali.model.event;
 
 import android.net.Uri;
 
-import com.github.jmuthu.poovali.interfaces.DisplayableItem;
-
 import java.io.Serializable;
 import java.util.Date;
 
-public abstract class Event implements Serializable, DisplayableItem {
+public abstract class Event implements Serializable {
     private static final long serialVersionUID = 1L;
 
     private String id;
@@ -51,6 +49,8 @@ public abstract class Event implements Serializable, DisplayableItem {
     public String toString() {
         return getName();
     }
+
+    public abstract String getName();
 
     public Uri getImageUri() {
         return null;

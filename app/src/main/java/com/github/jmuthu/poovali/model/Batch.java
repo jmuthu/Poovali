@@ -4,7 +4,6 @@ import android.net.Uri;
 
 import com.github.jmuthu.poovali.interfaces.DisplayableItem;
 import com.github.jmuthu.poovali.model.event.Event;
-import com.github.jmuthu.poovali.utility.Helper;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -80,6 +79,10 @@ public class Batch implements Serializable, DisplayableItem {
         this.name = name;
     }
 
+    public String getTypeName() {
+        return plant.getName();
+    }
+
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -94,13 +97,6 @@ public class Batch implements Serializable, DisplayableItem {
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public String getImageName() {
-        if (plant == null) { // For garden
-            return Helper.getImageFileName(name);
-        }
-        return Helper.getImageFileName(plant.getName());
     }
 
     public Uri getImageUri() {

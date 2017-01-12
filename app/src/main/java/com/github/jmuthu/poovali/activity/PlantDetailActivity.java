@@ -58,14 +58,7 @@ public class PlantDetailActivity extends AppCompatActivity {
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
         ImageView plantIcon = (ImageView) findViewById(R.id.plant_type_icon);
-        if (mPlant.getImageUri() != null) {
-            plantIcon.setImageURI(mPlant.getImageUri());
-        } else {
-            plantIcon.setImageResource(getResources().getIdentifier(
-                    mPlant.getImageName(),
-                    "drawable",
-                    getPackageName()));
-        }
+        Helper.setImageSrc(plantIcon, mPlant);
 
         CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         if (appBarLayout != null) {

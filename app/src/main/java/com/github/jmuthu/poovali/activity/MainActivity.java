@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.main, menu);
-        onPrepareOptionsMenu(menu);
         return true;
     }
 
@@ -98,6 +97,7 @@ public class MainActivity extends AppCompatActivity {
         } else {
             menu.findItem(R.id.add_event).setVisible(true);
         }
+        menu.findItem(R.id.edit).setVisible(false);
         menu.findItem(R.id.delete).setVisible(false);
         return true;
     }

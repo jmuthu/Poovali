@@ -1,7 +1,11 @@
 package com.github.jmuthu.poovali.utility;
 
+import android.content.Context;
+import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.jmuthu.poovali.R;
+import com.github.jmuthu.poovali.interfaces.DisplayableItem;
 import com.github.jmuthu.poovali.model.Plant;
 
 import java.text.DateFormat;
@@ -16,6 +20,22 @@ public class Helper {
     public static final String ARG_BATCH_ID = "BATCH_ID";
     public static final DateFormat DATE_FORMAT = DateFormat.getDateInstance(DateFormat.MEDIUM);
     public static final DateFormat TIME_FORMAT = DateFormat.getTimeInstance(DateFormat.SHORT);
+
+    public static void setImageSrc(ImageView imageView, DisplayableItem item) {
+        if (item.getImageUri() != null) {
+            imageView.setImageURI(item.getImageUri());
+        } else {
+            String name = getImageFileName(item.getTypeName());
+            Context context = imageView.getContext();
+            int resId = context.getResources().getIdentifier(name,
+                    "drawable",
+                    context.getPackageName());
+            if (resId == 0) {
+                resId = R.drawable.add_plant;
+            }
+            imageView.setImageResource(resId);
+        }
+    }
 
     public static String getImageFileName(String name)
     {

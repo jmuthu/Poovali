@@ -23,6 +23,7 @@ public class AddPlantActivity extends AppCompatActivity {
     ImageView mPlantIcon;
     Uri mSelectedImage;
     Plant mPlant = null;
+    EditText name;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,12 +35,19 @@ public class AddPlantActivity extends AppCompatActivity {
             plantId = extras.getString(Helper.ARG_PLANT_ID);
         }
         mPlantIcon = (ImageView) findViewById(R.id.plant_image);
+        name = (EditText) findViewById(R.id.plant_name);
+        name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (!hasFocus) {
+                    setImageIcon();
+                }
+            }
+        });
         if (plantId != null) {
             mPlant = PlantRepository.find(plantId);
-
-            EditText name = (EditText) findViewById(R.id.plant_name);
             name.setText(mPlant.getName());
-
+            mSelectedImage = mPlant.getImageUri();
             EditText seedling = (EditText) findViewById(R.id.seedling_days);
             seedling.setText(mPlant.getGrowthStageMap().get(Plant.GrowthStage.SEEDLING).toString());
             EditText flowering = (EditText) findViewById(R.id.flowering_days);
@@ -48,14 +56,20 @@ public class AddPlantActivity extends AppCompatActivity {
             fruiting.setText(mPlant.getGrowthStageMap().get(Plant.GrowthStage.FRUITING).toString());
             EditText ripening = (EditText) findViewById(R.id.ripening_days);
             ripening.setText(mPlant.getGrowthStageMap().get(Plant.GrowthStage.RIPENING).toString());
+            setImageIcon();
+        }
+    }
 
-            if (mPlant.getImageUri() != null) {
-                mPlantIcon.setImageURI(mPlant.getImageUri());
-            } else {
-                mPlantIcon.setImageResource(getResources().getIdentifier(
-                        mPlant.getImageName(),
-                        "drawable",
-                        getPackageName()));
+    void setImageIcon() {
+        if (mSelectedImage != null) {
+            mPlantIcon.setImageURI(mSelectedImage);
+        } else {
+            int resId = getResources().getIdentifier(
+                    name.getText().toString().toLowerCase(),
+                    "drawable",
+                    getPackageName());
+            if (resId > 0) {
+                mPlantIcon.setImageResource(resId);
             }
         }
     }
@@ -98,7 +112,7 @@ public class AddPlantActivity extends AppCompatActivity {
     }
 
     public void savePlant(View v) {
-        EditText name = (EditText) findViewById(R.id.plant_name);
+        name = (EditText) findViewById(R.id.plant_name);
         if (name.getText() == null || name.getText().toString().isEmpty()) {
             saveFailedAlert(getResources().getString(R.string.invalid_name));
             return;
@@ -120,7 +134,6 @@ public class AddPlantActivity extends AppCompatActivity {
         Integer ripeningDays = parseText(ripening);
         if (ripeningDays == -1) return;
 
-
         if (mPlant != null) {
             mPlant.setName(name.getText().toString());
             mPlant.setImageUri(mSelectedImage);
@@ -138,6 +151,7 @@ public class AddPlantActivity extends AppCompatActivity {
                     fruitingDays,
                     ripeningDays);
         }
+
         PlantRepository.store(mPlant);
         finish();
     }

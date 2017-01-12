@@ -50,7 +50,8 @@ public class EventDetailActivity extends AppCompatActivity {
                 findViewById(R.id.toolbar_layout);
         collapsingToolbarLayout.setTitle(mEvent.getName());
         ImageView eventIconView = (ImageView) findViewById(R.id.event_type_icon);
-        eventIconView.setImageResource(getResources().getIdentifier(mEvent.getImageName(),
+        eventIconView.setImageResource(getResources().getIdentifier(
+                Helper.getImageFileName(mEvent.getName()),
                 "drawable",
                 getPackageName()));
 
@@ -66,14 +67,8 @@ public class EventDetailActivity extends AppCompatActivity {
         }
 
         ImageView imageView = (ImageView) findViewById(R.id.plant_type_icon);
-        if (mBatch.getImageUri() != null) {
-            imageView.setImageURI(mBatch.getImageUri());
-        } else {
-            imageView.setImageResource(getResources().getIdentifier(
-                    mBatch.getImageName(),
-                    "drawable",
-                    getPackageName()));
-        }
+        Helper.setImageSrc(imageView, mBatch);
+
         TextView dateView = (TextView) findViewById(R.id.date);
         dateView.setText(Helper.DATE_FORMAT.format(mEvent.getCreatedDate()));
         TextView timeView = (TextView) findViewById(R.id.time);

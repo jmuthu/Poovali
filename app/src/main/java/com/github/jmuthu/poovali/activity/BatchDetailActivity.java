@@ -65,13 +65,7 @@ public class BatchDetailActivity extends AppCompatActivity {
             });
         }
         ImageView plantIcon = (ImageView) findViewById(R.id.plant_type_icon);
-        if (mBatch.getImageUri() != null) {
-            plantIcon.setImageURI(mBatch.getImageUri());
-        } else {
-            plantIcon.setImageResource(getResources().getIdentifier(mBatch.getImageName(),
-                    "drawable",
-                    getPackageName()));
-        }
+        Helper.setImageSrc(plantIcon, mBatch);
 
         TextView batchStatusView = (TextView) findViewById(R.id.batch_status);
         TextView batchDescriptionView = (TextView) findViewById(R.id.description);
@@ -121,6 +115,7 @@ public class BatchDetailActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.add_plant).setVisible(false);
         menu.findItem(R.id.add_batch).setVisible(false);
+        menu.findItem(R.id.edit).setVisible(false);
         if (mBatch.getEvents().size() == 1) {
             menu.findItem(R.id.delete).setVisible(true);
         } else {

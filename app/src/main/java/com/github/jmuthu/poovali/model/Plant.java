@@ -63,6 +63,10 @@ public class Plant implements Serializable, DisplayableItem {
         this.name = name;
     }
 
+    public String getTypeName() {
+        return name;
+    }
+
     public Integer getCropDuration() {
         Integer cropDuration = 0;
         for (Integer value : growthStageMap.values()) {
@@ -98,10 +102,6 @@ public class Plant implements Serializable, DisplayableItem {
         if (imageUri != null) {
             this.imageUri = imageUri.toString();
         }
-    }
-
-    public String getImageName() {
-        return Helper.getImageFileName(name);
     }
 
     @Override

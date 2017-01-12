@@ -7,7 +7,7 @@ public interface DisplayableItem {
 
     String getName();
 
-    String getImageName();
+    String getTypeName();
 
     Uri getImageUri();
 }

@@ -86,14 +86,7 @@ public class BatchListFragment extends Fragment {
             holder.mBatch = mValues.get(batchPosition);
             if (mPlant == null) {
                 holder.mPlantIconView.setVisibility(View.VISIBLE);
-                if (holder.mBatch.getImageUri() != null) {
-                    holder.mPlantIconView.setImageURI(holder.mBatch.getImageUri());
-                } else {
-                    holder.mPlantIconView.setImageResource(getResources().getIdentifier(
-                            holder.mBatch.getImageName(),
-                            "drawable",
-                            holder.mPlantIconView.getContext().getPackageName()));
-                }
+                Helper.setImageSrc(holder.mPlantIconView, holder.mBatch);
                 holder.mNameView.setText(holder.mBatch.getName());
             } else {
                 holder.mPlantIconView.setVisibility(View.GONE);
@@ -104,7 +97,8 @@ public class BatchListFragment extends Fragment {
             holder.mProgressBar.setProgress(holder.mBatch.getProgress());
 
             Event event = holder.mBatch.getEvents().get(0);
-            holder.mEventIconView.setImageResource(getResources().getIdentifier(event.getImageName(),
+            holder.mEventIconView.setImageResource(getResources().getIdentifier(
+                    Helper.getImageFileName(event.getName()),
                     "drawable",
                     holder.mPlantIconView.getContext().getPackageName()));
 

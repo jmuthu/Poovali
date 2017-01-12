@@ -339,14 +339,7 @@ public class AddEventActivity extends AppCompatActivity {
             }
             if (item != null) {
                 ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
-                if (item.getImageUri() != null) {
-                    imageView.setImageURI(item.getImageUri());
-                } else {
-                    imageView.setImageResource(getResources().getIdentifier(
-                            item.getImageName(),
-                            "drawable",
-                            imageView.getContext().getPackageName()));
-                }
+                Helper.setImageSrc(imageView, item);
 
                 TextView textView = (TextView) convertView.findViewById(R.id.txt);
                 textView.setText(item.getName());
