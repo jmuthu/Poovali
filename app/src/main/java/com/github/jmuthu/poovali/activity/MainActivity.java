@@ -92,10 +92,6 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        /*if (!PlantBatchRepository.isEmpty()) {
-            menu.findItem(R.id.add_event).setVisible(false);
-        }
-        */
         menu.findItem(R.id.add_event).setVisible(false);
         menu.findItem(R.id.edit).setVisible(false);
         menu.findItem(R.id.delete).setVisible(false);
@@ -109,11 +105,6 @@ public class MainActivity extends AppCompatActivity {
             case R.id.add_batch:
                 intent = new Intent(this, AddEventActivity.class);
                 intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, true);
-                startActivity(intent);
-                return true;
-            case R.id.add_event:
-                intent = new Intent(this, AddEventActivity.class);
-                intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, false);
                 startActivity(intent);
                 return true;
             case R.id.add_plant:
