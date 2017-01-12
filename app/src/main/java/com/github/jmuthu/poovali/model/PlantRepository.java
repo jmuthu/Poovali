@@ -2,9 +2,9 @@ package com.github.jmuthu.poovali.model;
 
 import com.github.jmuthu.poovali.utility.FileRepository;
 
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -12,15 +12,15 @@ import java.util.UUID;
 public class PlantRepository {
     private static final String ENTITY_NAME = "Plant";
     private static Map<String, Plant> plantMap = new HashMap<>();
+    private static List<Plant> plantList = new LinkedList<Plant>(); // To make findAll really fast
+    private static Plant.PlantNameComparator plantNameComparator = new Plant.PlantNameComparator();
 
     public static Plant find(String plantId) {
         return plantMap.get(plantId);
     }
 
     public static List<Plant> findAll() {
-        ArrayList<Plant> result = new ArrayList<>(plantMap.values());
-        Collections.sort(result, new Plant.PlantNameComparator());
-        return Collections.unmodifiableList(result);
+        return Collections.unmodifiableList(plantList);
     }
 
     public static void store(Plant plant) {
@@ -30,6 +30,7 @@ public class PlantRepository {
 
     public static void delete(Plant plant) {
         plantMap.remove(plant.getId());
+        plantList.remove(plant);
         FileRepository.writeAll(ENTITY_NAME, plantMap);
     }
 
@@ -37,6 +38,8 @@ public class PlantRepository {
         Object result = FileRepository.readAll(ENTITY_NAME);
         if (result != null) {
             plantMap = (Map<String, Plant>) result;
+            plantList = new LinkedList<Plant>(plantMap.values());
+            Collections.sort(plantList, plantNameComparator);
         } else {
             initializeDefaultItems();
         }
@@ -44,6 +47,10 @@ public class PlantRepository {
 
     private static void addPlant(Plant plant) {
         plantMap.put(plant.getId(), plant);
+        if (!plantList.contains(plant)) {
+            plantList.add(plant);
+        }
+        Collections.sort(plantList, plantNameComparator); // Need to do for modified plants
     }
 
     private static void initializeDefaultItems() {

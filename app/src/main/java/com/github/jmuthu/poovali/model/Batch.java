@@ -25,6 +25,7 @@ public class Batch implements Serializable, DisplayableItem {
     private String plantId;
     private String name;
     private Date createdDate;
+    private Date latestEventCreatedDate;
     private String description;
     transient private List<Event> eventsList = new LinkedList<>();
 
@@ -64,6 +65,9 @@ public class Batch implements Serializable, DisplayableItem {
         if (!eventsList.contains(event)) {
             eventsList.add(0, event);
             event.setBatchId(id);
+            if (event.getCreatedDate().compareTo(latestEventCreatedDate) > 0) {
+                latestEventCreatedDate = event.getCreatedDate();
+            }
         }
     }
 
@@ -89,6 +93,11 @@ public class Batch implements Serializable, DisplayableItem {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
+        this.latestEventCreatedDate = createdDate;
+    }
+
+    public Date getLatestEventCreatedDate() {
+        return this.latestEventCreatedDate;
     }
 
     public String getDescription() {
@@ -137,6 +146,7 @@ public class Batch implements Serializable, DisplayableItem {
         in.defaultReadObject();
         eventsList = new LinkedList<>();
     }
+
     @Override
     public String toString() {
         return name;
@@ -152,7 +162,7 @@ public class Batch implements Serializable, DisplayableItem {
     static class BatchModifiedDescendingComparator implements Comparator<com.github.jmuthu.poovali.model.Batch> {
         @Override
         public int compare(com.github.jmuthu.poovali.model.Batch b1, com.github.jmuthu.poovali.model.Batch b2) {
-            return b2.eventsList.get(0).getCreatedDate().compareTo(b1.eventsList.get(0).getCreatedDate());
+            return b2.getLatestEventCreatedDate().compareTo(b1.getLatestEventCreatedDate());
         }
     }
 
