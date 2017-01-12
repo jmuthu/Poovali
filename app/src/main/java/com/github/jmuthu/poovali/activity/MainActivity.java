@@ -92,11 +92,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
-        if (BatchRepository.isEmpty()) {
+        /*if (!BatchRepository.isEmpty()) {
             menu.findItem(R.id.add_event).setVisible(false);
-        } else {
-            menu.findItem(R.id.add_event).setVisible(true);
         }
+        */
+        menu.findItem(R.id.add_event).setVisible(false);
         menu.findItem(R.id.edit).setVisible(false);
         menu.findItem(R.id.delete).setVisible(false);
         return true;
