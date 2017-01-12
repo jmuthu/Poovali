@@ -1,4 +1,4 @@
-package com.github.jmuthu.poovali.model;
+package com.github.jmuthu.poovali.model.plant;
 
 import android.net.Uri;
 
@@ -18,7 +18,7 @@ import java.util.List;
 
 import static com.github.jmuthu.poovali.utility.Helper.getZeroTimeDate;
 
-public class Batch implements Serializable, DisplayableItem {
+public class PlantBatch implements Serializable, DisplayableItem {
     private static final long serialVersionUID = 1L;
     private String id;
     transient private Plant plant;
@@ -29,7 +29,7 @@ public class Batch implements Serializable, DisplayableItem {
     private String description;
     transient private List<Event> eventsList = new LinkedList<>();
 
-    public Batch() {
+    public PlantBatch() {
     }
 
     public String getId() {
@@ -152,23 +152,23 @@ public class Batch implements Serializable, DisplayableItem {
         return name;
     }
 
-    static class BatchDescendingComparator implements Comparator<com.github.jmuthu.poovali.model.Batch> {
+    static class BatchDescendingComparator implements Comparator<PlantBatch> {
         @Override
-        public int compare(com.github.jmuthu.poovali.model.Batch b1, com.github.jmuthu.poovali.model.Batch b2) {
+        public int compare(PlantBatch b1, PlantBatch b2) {
             return b2.getCreatedDate().compareTo(b1.getCreatedDate());
         }
     }
 
-    static class BatchModifiedDescendingComparator implements Comparator<com.github.jmuthu.poovali.model.Batch> {
+    static class BatchModifiedDescendingComparator implements Comparator<PlantBatch> {
         @Override
-        public int compare(com.github.jmuthu.poovali.model.Batch b1, com.github.jmuthu.poovali.model.Batch b2) {
+        public int compare(PlantBatch b1, PlantBatch b2) {
             return b2.getLatestEventCreatedDate().compareTo(b1.getLatestEventCreatedDate());
         }
     }
 
-    static class BatchNameComparator implements Comparator<com.github.jmuthu.poovali.model.Batch> {
+    static class BatchNameComparator implements Comparator<PlantBatch> {
         @Override
-        public int compare(com.github.jmuthu.poovali.model.Batch b1, com.github.jmuthu.poovali.model.Batch b2) {
+        public int compare(PlantBatch b1, PlantBatch b2) {
             return b1.getName().compareTo(b2.getName());
         }
     }

@@ -6,7 +6,7 @@ import android.widget.TextView;
 
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.interfaces.DisplayableItem;
-import com.github.jmuthu.poovali.model.Plant;
+import com.github.jmuthu.poovali.model.plant.Plant;
 
 import java.text.DateFormat;
 import java.util.Calendar;

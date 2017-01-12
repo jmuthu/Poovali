@@ -10,8 +10,8 @@ import android.widget.EditText;
 import android.widget.ImageView;
 
 import com.github.jmuthu.poovali.R;
-import com.github.jmuthu.poovali.model.Plant;
-import com.github.jmuthu.poovali.model.PlantRepository;
+import com.github.jmuthu.poovali.model.plant.Plant;
+import com.github.jmuthu.poovali.model.plant.PlantRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 
 import java.util.UUID;

@@ -4,7 +4,7 @@ package com.github.jmuthu.poovali.utility;
 import android.content.Context;
 import android.util.Log;
 
-import com.github.jmuthu.poovali.model.PlantRepository;
+import com.github.jmuthu.poovali.model.plant.PlantRepository;
 
 import java.io.File;
 import java.io.FileInputStream;

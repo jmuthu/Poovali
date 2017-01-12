@@ -20,10 +20,10 @@ import android.widget.TextView;
 
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.fragment.EventListFragment;
-import com.github.jmuthu.poovali.model.Batch;
-import com.github.jmuthu.poovali.model.BatchRepository;
 import com.github.jmuthu.poovali.model.event.Event;
 import com.github.jmuthu.poovali.model.event.EventRepository;
+import com.github.jmuthu.poovali.model.plant.PlantBatch;
+import com.github.jmuthu.poovali.model.plant.PlantBatchRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 
 import java.text.DateFormat;
@@ -31,14 +31,14 @@ import java.text.DateFormat;
 import static com.github.jmuthu.poovali.utility.Helper.DATE_FORMAT;
 
 public class BatchDetailActivity extends AppCompatActivity {
-    Batch mBatch;
+    PlantBatch mPlantBatch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_batch_detail);
         String batchId = getIntent().getStringExtra(Helper.ARG_BATCH_ID);
-        mBatch = BatchRepository.find(batchId);
+        mPlantBatch = PlantBatchRepository.find(batchId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -57,15 +57,15 @@ public class BatchDetailActivity extends AppCompatActivity {
                         scrollRange = appBarLayout.getTotalScrollRange();
                     }
                     if (scrollRange + verticalOffset == 0) {
-                        collapsingToolbarLayout.setTitle(mBatch.getName());
+                        collapsingToolbarLayout.setTitle(mPlantBatch.getName());
                     } else {
-                        collapsingToolbarLayout.setTitle(mBatch.getPlant().getName());
+                        collapsingToolbarLayout.setTitle(mPlantBatch.getPlant().getName());
                     }
                 }
             });
         }
         ImageView plantIcon = (ImageView) findViewById(R.id.plant_type_icon);
-        Helper.setImageSrc(plantIcon, mBatch);
+        Helper.setImageSrc(plantIcon, mPlantBatch);
 
         TextView batchStatusView = (TextView) findViewById(R.id.batch_status);
         TextView batchDescriptionView = (TextView) findViewById(R.id.description);
@@ -73,25 +73,25 @@ public class BatchDetailActivity extends AppCompatActivity {
         TextView createdDateView = (TextView) findViewById(R.id.created_date);
         TextView durationView = (TextView) findViewById(R.id.duration);
 
-        createdDateView.setText("created on " + DATE_FORMAT.format(mBatch.getCreatedDate()));
-        batchStatusView.setText(mBatch.getStage().toString());
+        createdDateView.setText("created on " + DATE_FORMAT.format(mPlantBatch.getCreatedDate()));
+        batchStatusView.setText(mPlantBatch.getStage().toString());
 
-        int duration = mBatch.getDurationInDays();
+        int duration = mPlantBatch.getDurationInDays();
         if (duration > 1) {
-            durationView.setText(mBatch.getDurationInDays() + " days old");
+            durationView.setText(mPlantBatch.getDurationInDays() + " days old");
         } else if (duration == 1) {
-            durationView.setText(mBatch.getDurationInDays() + " day old");
+            durationView.setText(mPlantBatch.getDurationInDays() + " day old");
         } else if (duration == 0) {
             durationView.setText("planted today");
         }
 
-        if (mBatch.getDescription() == null || mBatch.getDescription().isEmpty()) {
+        if (mPlantBatch.getDescription() == null || mPlantBatch.getDescription().isEmpty()) {
             DateFormat df = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT);
-            batchDescriptionView.setText("Batch created on " + df.format(mBatch.getCreatedDate()));
+            batchDescriptionView.setText("PlantBatch created on " + df.format(mPlantBatch.getCreatedDate()));
         } else {
-            batchDescriptionView.setText(mBatch.getDescription());
+            batchDescriptionView.setText(mPlantBatch.getDescription());
         }
-        progressBar.setProgress(mBatch.getProgress());
+        progressBar.setProgress(mPlantBatch.getProgress());
 
         if (savedInstanceState == null) {
             Bundle arguments = new Bundle();
@@ -116,7 +116,7 @@ public class BatchDetailActivity extends AppCompatActivity {
         menu.findItem(R.id.add_plant).setVisible(false);
         menu.findItem(R.id.add_batch).setVisible(false);
         menu.findItem(R.id.edit).setVisible(false);
-        if (mBatch.getEvents().size() == 1) {
+        if (mPlantBatch.getEvents().size() == 1) {
             menu.findItem(R.id.delete).setVisible(true);
         } else {
             menu.findItem(R.id.delete).setVisible(false);
@@ -128,10 +128,10 @@ public class BatchDetailActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         TextView eventLabel = (TextView) findViewById(R.id.event_label);
-        if (mBatch.getEvents().size() > 1) {
+        if (mPlantBatch.getEvents().size() > 1) {
             eventLabel.setVisibility(View.VISIBLE);
             eventLabel.setText(getString(R.string.events) + " ("
-                    + (mBatch.getEvents().size() - 1) + ")");
+                    + (mPlantBatch.getEvents().size() - 1) + ")");
         } else {
             eventLabel.setVisibility(View.GONE);
         }
@@ -144,8 +144,8 @@ public class BatchDetailActivity extends AppCompatActivity {
             case R.id.add_event:
                 Intent intent = new Intent(this, AddEventActivity.class);
                 intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, false);
-                intent.putExtra(Helper.ARG_BATCH_ID, mBatch.getId());
-                intent.putExtra(Helper.ARG_PLANT_ID, mBatch.getPlant().getId());
+                intent.putExtra(Helper.ARG_BATCH_ID, mPlantBatch.getId());
+                intent.putExtra(Helper.ARG_PLANT_ID, mPlantBatch.getPlant().getId());
                 startActivity(intent);
                 return true;
             case android.R.id.home:
@@ -153,7 +153,7 @@ public class BatchDetailActivity extends AppCompatActivity {
                 return true;
             case R.id.delete:
                 DeleteBatchDialogFragment dialog = new DeleteBatchDialogFragment();
-                dialog.setBatch(mBatch);
+                dialog.setBatch(mPlantBatch);
                 dialog.show(getSupportFragmentManager(), "DeleteEvent");
                 return true;
             default:
@@ -162,10 +162,10 @@ public class BatchDetailActivity extends AppCompatActivity {
     }
 
     public static class DeleteBatchDialogFragment extends DialogFragment {
-        Batch mBatch;
+        PlantBatch mPlantBatch;
 
-        public void setBatch(Batch batch) {
-            mBatch = batch;
+        public void setBatch(PlantBatch plantBatch) {
+            mPlantBatch = plantBatch;
         }
 
         @Override
@@ -176,11 +176,11 @@ public class BatchDetailActivity extends AppCompatActivity {
             builder.setTitle(R.string.delete_batch_alert);
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    for (Event event : mBatch.getEvents()) {
+                    for (Event event : mPlantBatch.getEvents()) {
                         EventRepository.delete(event);
                     }
-                    mBatch.getPlant().deleteBatch(mBatch);
-                    BatchRepository.delete(mBatch);
+                    mPlantBatch.getPlant().deleteBatch(mPlantBatch);
+                    PlantBatchRepository.delete(mPlantBatch);
                     (getActivity()).finish();
                 }
             });

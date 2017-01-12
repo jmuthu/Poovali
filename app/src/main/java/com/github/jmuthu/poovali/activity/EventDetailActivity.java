@@ -17,15 +17,15 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.github.jmuthu.poovali.R;
-import com.github.jmuthu.poovali.model.Batch;
-import com.github.jmuthu.poovali.model.BatchRepository;
 import com.github.jmuthu.poovali.model.event.Event;
 import com.github.jmuthu.poovali.model.event.EventRepository;
+import com.github.jmuthu.poovali.model.plant.PlantBatch;
+import com.github.jmuthu.poovali.model.plant.PlantBatchRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 
 public class EventDetailActivity extends AppCompatActivity {
-    Batch mBatch;
+    PlantBatch mPlantBatch;
     Event mEvent;
 
     @Override
@@ -42,7 +42,7 @@ public class EventDetailActivity extends AppCompatActivity {
         if (extras != null) {
             String batchId = getIntent().getStringExtra(Helper.ARG_BATCH_ID);
             String eventId = getIntent().getStringExtra(Helper.ARG_EVENT_ID);
-            mBatch = BatchRepository.find(batchId);
+            mPlantBatch = PlantBatchRepository.find(batchId);
             mEvent = EventRepository.find(eventId);
         }
 
@@ -56,7 +56,7 @@ public class EventDetailActivity extends AppCompatActivity {
                 getPackageName()));
 
         TextView batchView = (TextView) findViewById(R.id.name);
-        batchView.setText(mBatch.getName());
+        batchView.setText(mPlantBatch.getName());
 
         TextView descriptionView = (TextView) findViewById(R.id.event_description);
         if (mEvent.getDescription() == null || mEvent.getDescription().isEmpty()) {
@@ -67,7 +67,7 @@ public class EventDetailActivity extends AppCompatActivity {
         }
 
         ImageView imageView = (ImageView) findViewById(R.id.plant_type_icon);
-        Helper.setImageSrc(imageView, mBatch);
+        Helper.setImageSrc(imageView, mPlantBatch);
 
         TextView dateView = (TextView) findViewById(R.id.date);
         dateView.setText(Helper.DATE_FORMAT.format(mEvent.getCreatedDate()));
@@ -88,14 +88,14 @@ public class EventDetailActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.delete:
                 DeleteEventDialogFragment dialog = new DeleteEventDialogFragment();
-                dialog.setBatch(mBatch);
+                dialog.setBatch(mPlantBatch);
                 dialog.setEvent(mEvent);
                 dialog.show(getSupportFragmentManager(), "DeleteEvent");
                 return true;
             case R.id.edit:
                 Intent intent = new Intent(this, AddEventActivity.class);
                 intent.putExtra(Helper.ARG_EVENT_ID, mEvent.getId());
-                intent.putExtra(Helper.ARG_BATCH_ID, mBatch.getId());
+                intent.putExtra(Helper.ARG_BATCH_ID, mPlantBatch.getId());
                 intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, false);
                 startActivity(intent);
                 finish();
@@ -109,11 +109,11 @@ public class EventDetailActivity extends AppCompatActivity {
     }
 
     public static class DeleteEventDialogFragment extends DialogFragment {
-        Batch mBatch;
+        PlantBatch mPlantBatch;
         Event mEvent;
 
-        public void setBatch(Batch batch) {
-            mBatch = batch;
+        public void setBatch(PlantBatch plantBatch) {
+            mPlantBatch = plantBatch;
         }
 
         public void setEvent(Event event) {
@@ -128,7 +128,7 @@ public class EventDetailActivity extends AppCompatActivity {
             builder.setTitle(R.string.delete_event_alert);
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
-                    mBatch.deleteEvent(mEvent);
+                    mPlantBatch.deleteEvent(mEvent);
                     EventRepository.delete(mEvent);
                     (getActivity()).finish();
                 }

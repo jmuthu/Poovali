@@ -1,4 +1,4 @@
-package com.github.jmuthu.poovali.model;
+package com.github.jmuthu.poovali.model.plant;
 
 import android.net.Uri;
 
@@ -23,7 +23,7 @@ public class Plant implements Serializable, DisplayableItem {
     //Storing uri as string as it is not serializable
     private String imageUri;
     private EnumMap<GrowthStage, Integer> growthStageMap = new EnumMap<GrowthStage, Integer>(GrowthStage.class);
-    transient private List<Batch> batchList = new LinkedList<>();
+    transient private List<PlantBatch> plantBatchList = new LinkedList<>();
     //public final Map fertilizerSchedule;
 
     public Plant() {
@@ -83,12 +83,12 @@ public class Plant implements Serializable, DisplayableItem {
         this.growthStageMap = growthStageMap;
     }
 
-    public List<Batch> getBatchList() {
-        return Collections.unmodifiableList(batchList);
+    public List<PlantBatch> getPlantBatchList() {
+        return Collections.unmodifiableList(plantBatchList);
     }
 
-    public void setBatchList(List<Batch> batchList) {
-        this.batchList = batchList;
+    public void setPlantBatchList(List<PlantBatch> plantBatchList) {
+        this.plantBatchList = plantBatchList;
     }
 
     public Uri getImageUri() {
@@ -118,19 +118,19 @@ public class Plant implements Serializable, DisplayableItem {
 
     public boolean isDuplicateBatch(Date newBatchdate) {
         Date date = Helper.getZeroTimeDate(newBatchdate);
-        for (Batch batch : batchList) {
-            if (date.compareTo(Helper.getZeroTimeDate(batch.getCreatedDate())) == 0) {
+        for (PlantBatch plantBatch : plantBatchList) {
+            if (date.compareTo(Helper.getZeroTimeDate(plantBatch.getCreatedDate())) == 0) {
                 return true;
             }
         }
         return false;
     }
 
-    public Batch getLatestBatch() {
-        if (batchList.isEmpty()) {
+    public PlantBatch getLatestBatch() {
+        if (plantBatchList.isEmpty()) {
             return null;
         }
-        return batchList.get(0);
+        return plantBatchList.get(0);
     }
 
     public Integer pendingSowDays() {
@@ -142,19 +142,19 @@ public class Plant implements Serializable, DisplayableItem {
         return diff.intValue();
     }
 
-    public void addBatch(Batch batch) {
-        batchList.add(0, batch);
-        batch.setPlant(this);
-        Collections.sort(batchList, new Batch.BatchDescendingComparator());
+    public void addBatch(PlantBatch plantBatch) {
+        plantBatchList.add(0, plantBatch);
+        plantBatch.setPlant(this);
+        Collections.sort(plantBatchList, new PlantBatch.BatchDescendingComparator());
     }
 
-    public void deleteBatch(Batch batch) {
-        batchList.remove(batch);
+    public void deleteBatch(PlantBatch plantBatch) {
+        plantBatchList.remove(plantBatch);
     }
 
     private void readObject(ObjectInputStream in) throws IOException, ClassNotFoundException {
         in.defaultReadObject();
-        batchList = new LinkedList<>();
+        plantBatchList = new LinkedList<>();
     }
 
     public enum GrowthStage {

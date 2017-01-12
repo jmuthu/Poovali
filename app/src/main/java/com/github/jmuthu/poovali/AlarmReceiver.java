@@ -10,8 +10,8 @@ import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
 import com.github.jmuthu.poovali.model.Notification;
-import com.github.jmuthu.poovali.model.Plant;
-import com.github.jmuthu.poovali.model.PlantRepository;
+import com.github.jmuthu.poovali.model.plant.Plant;
+import com.github.jmuthu.poovali.model.plant.PlantRepository;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -28,7 +28,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             return notification;
         }
         for (Plant plant : PlantRepository.findAll()) {
-            if (plant.getBatchList().isEmpty()) {
+            if (plant.getPlantBatchList().isEmpty()) {
                 continue;
             }
             Integer dayCount = plant.pendingSowDays();
@@ -62,7 +62,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         //        resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
 
-        /*List<String> sowVegetables = BatchRepository.pendingActivities();
+        /*List<String> sowVegetables = PlantBatchRepository.pendingActivities();
         int notificationCount = sowVegetables.size();
         if (notificationCount > 0) {
             String title = notificationCount == 1 ? notificationCount + " pending Sow activity" :

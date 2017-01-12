@@ -1,4 +1,4 @@
-package com.github.jmuthu.poovali.model;
+package com.github.jmuthu.poovali.model.plant;
 
 import com.github.jmuthu.poovali.utility.FileRepository;
 

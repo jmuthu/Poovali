@@ -14,11 +14,11 @@ import android.widget.TextView;
 
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.activity.BatchDetailActivity;
-import com.github.jmuthu.poovali.model.Batch;
-import com.github.jmuthu.poovali.model.BatchRepository;
-import com.github.jmuthu.poovali.model.Plant;
-import com.github.jmuthu.poovali.model.PlantRepository;
 import com.github.jmuthu.poovali.model.event.Event;
+import com.github.jmuthu.poovali.model.plant.Plant;
+import com.github.jmuthu.poovali.model.plant.PlantBatch;
+import com.github.jmuthu.poovali.model.plant.PlantBatchRepository;
+import com.github.jmuthu.poovali.model.plant.PlantRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 
 import java.text.DateFormat;
@@ -48,9 +48,9 @@ public class BatchListFragment extends Fragment {
         mRecyclerView = (RecyclerView) rootView.findViewById(R.id.batch_list);
         assert mRecyclerView != null;
         if (mPlant == null) {
-            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(BatchRepository.findAll(true)));
+            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(PlantBatchRepository.findAll(true)));
         } else {
-            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(mPlant.getBatchList()));
+            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(mPlant.getPlantBatchList()));
         }
         return rootView;
     }
@@ -62,15 +62,15 @@ public class BatchListFragment extends Fragment {
         if (mPlant != null) {
             mRecyclerView.getAdapter().notifyDataSetChanged(); // For adding activity
         } else {
-            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(BatchRepository.findAll(true)));
+            mRecyclerView.setAdapter(new SimpleItemRecyclerViewAdapter(PlantBatchRepository.findAll(true)));
         }
     }
 
     public class SimpleItemRecyclerViewAdapter
             extends RecyclerView.Adapter<SimpleItemRecyclerViewAdapter.ViewHolder> {
-        final List<Batch> mValues;
+        final List<PlantBatch> mValues;
 
-        SimpleItemRecyclerViewAdapter(List<Batch> values) {
+        SimpleItemRecyclerViewAdapter(List<PlantBatch> values) {
             this.mValues = values;
         }
 
@@ -83,20 +83,20 @@ public class BatchListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(final SimpleItemRecyclerViewAdapter.ViewHolder holder, int batchPosition) {
-            holder.mBatch = mValues.get(batchPosition);
+            holder.mPlantBatch = mValues.get(batchPosition);
             if (mPlant == null) {
                 holder.mPlantIconView.setVisibility(View.VISIBLE);
-                Helper.setImageSrc(holder.mPlantIconView, holder.mBatch);
-                holder.mNameView.setText(holder.mBatch.getName());
+                Helper.setImageSrc(holder.mPlantIconView, holder.mPlantBatch);
+                holder.mNameView.setText(holder.mPlantBatch.getName());
             } else {
                 holder.mPlantIconView.setVisibility(View.GONE);
-                holder.mNameView.setText(Helper.DATE_FORMAT.format(holder.mBatch.getCreatedDate()));
+                holder.mNameView.setText(Helper.DATE_FORMAT.format(holder.mPlantBatch.getCreatedDate()));
             }
 
-            holder.mBatchStatusView.setText(holder.mBatch.getStage().toString());
-            holder.mProgressBar.setProgress(holder.mBatch.getProgress());
+            holder.mBatchStatusView.setText(holder.mPlantBatch.getStage().toString());
+            holder.mProgressBar.setProgress(holder.mPlantBatch.getProgress());
 
-            Event event = holder.mBatch.getEvents().get(0);
+            Event event = holder.mPlantBatch.getEvents().get(0);
             holder.mEventIconView.setImageResource(getResources().getIdentifier(
                     Helper.getImageFileName(event.getName()),
                     "drawable",
@@ -117,7 +117,7 @@ public class BatchListFragment extends Fragment {
                 public void onClick(View v) {
                     Context context = v.getContext();
                     Intent intent = new Intent(context, BatchDetailActivity.class);
-                    intent.putExtra(Helper.ARG_BATCH_ID, holder.mBatch.getId());
+                    intent.putExtra(Helper.ARG_BATCH_ID, holder.mPlantBatch.getId());
                     context.startActivity(intent);
                 }
             });
@@ -140,7 +140,7 @@ public class BatchListFragment extends Fragment {
             final TextView mEventDescriptionView;
             final ImageView mPlantIconView;
             final ImageView mEventIconView;
-            Batch mBatch;
+            PlantBatch mPlantBatch;
 
             ViewHolder(View view) {
                 super(view);

@@ -25,14 +25,14 @@ import android.widget.TimePicker;
 
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.interfaces.DisplayableItem;
-import com.github.jmuthu.poovali.model.Batch;
-import com.github.jmuthu.poovali.model.BatchRepository;
-import com.github.jmuthu.poovali.model.Plant;
-import com.github.jmuthu.poovali.model.PlantRepository;
 import com.github.jmuthu.poovali.model.event.BatchActivityEvent;
 import com.github.jmuthu.poovali.model.event.Event;
 import com.github.jmuthu.poovali.model.event.EventFactory;
 import com.github.jmuthu.poovali.model.event.EventRepository;
+import com.github.jmuthu.poovali.model.plant.Plant;
+import com.github.jmuthu.poovali.model.plant.PlantBatch;
+import com.github.jmuthu.poovali.model.plant.PlantBatchRepository;
+import com.github.jmuthu.poovali.model.plant.PlantRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 
@@ -103,16 +103,16 @@ public class AddEventActivity extends AppCompatActivity {
             eventSpinner.setAdapter(eventSpinnerAdapter);
 
             label = getResources().getString(R.string.batch_label);
-            List<Batch> batchList;
+            List<PlantBatch> plantBatchList;
             if (plantId != null) {
-                batchList = PlantRepository.find(plantId).getBatchList();
+                plantBatchList = PlantRepository.find(plantId).getPlantBatchList();
             } else {
-                batchList = BatchRepository.findAll();
+                plantBatchList = PlantBatchRepository.findAll();
             }
-            plantSpinnerAdapter = new CustomSpinnerAdapter<Batch>(this, batchList);
+            plantSpinnerAdapter = new CustomSpinnerAdapter<PlantBatch>(this, plantBatchList);
             plantSpinner.setAdapter(plantSpinnerAdapter);
             if (batchId != null) {
-                plantSpinner.setSelection(batchList.indexOf(BatchRepository.find(batchId)));
+                plantSpinner.setSelection(plantBatchList.indexOf(PlantBatchRepository.find(batchId)));
                 plantSpinner.setEnabled(false);
             }
             if (mEvent != null) {
@@ -168,24 +168,24 @@ public class AddEventActivity extends AppCompatActivity {
         mEvent.setCreatedDate(date);
         mEvent.setDescription(desc.getText().toString());
 
-        Batch batch;
+        PlantBatch plantBatch;
         if (isSowActivity) {
-            batch = new Batch();
-            batch.setId(UUID.randomUUID().toString());
-            batch.setDescription(desc.getText().toString());
-            batch.setCreatedDate(date);
+            plantBatch = new PlantBatch();
+            plantBatch.setId(UUID.randomUUID().toString());
+            plantBatch.setDescription(desc.getText().toString());
+            plantBatch.setCreatedDate(date);
             Plant plant = (Plant) spinner.getSelectedItem();
             SimpleDateFormat format = new SimpleDateFormat("dd MMM yy");
-            batch.setName(plant.getName() + " - " +
-                    format.format(batch.getCreatedDate()));
-            plant.addBatch(batch);
-            BatchRepository.store(batch);
+            plantBatch.setName(plant.getName() + " - " +
+                    format.format(plantBatch.getCreatedDate()));
+            plant.addBatch(plantBatch);
+            PlantBatchRepository.store(plantBatch);
         } else {
-            batch = (Batch) spinner.getSelectedItem();
+            plantBatch = (PlantBatch) spinner.getSelectedItem();
             ((BatchActivityEvent) mEvent).
                     setType((BatchActivityEvent.Type) eventTypeSpinner.getSelectedItem());
         }
-        batch.addEvent(mEvent);
+        plantBatch.addEvent(mEvent);
         EventRepository.store(mEvent);
         finish();
     }
@@ -245,9 +245,9 @@ public class AddEventActivity extends AppCompatActivity {
             DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, year, month, day);
             if (!isSowActivity) {
                 Spinner spinner = (Spinner) getActivity().findViewById(R.id.plant_type_spinner);
-                Batch batch = (Batch) spinner.getSelectedItem();
-                if (batch.getCreatedDate() != null) {
-                    dialog.getDatePicker().setMinDate(batch.getCreatedDate().getTime());
+                PlantBatch plantBatch = (PlantBatch) spinner.getSelectedItem();
+                if (plantBatch.getCreatedDate() != null) {
+                    dialog.getDatePicker().setMinDate(plantBatch.getCreatedDate().getTime());
                 }
             }
             dialog.getDatePicker().setMaxDate(now);

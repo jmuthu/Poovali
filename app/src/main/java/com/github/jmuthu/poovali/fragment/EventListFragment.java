@@ -13,17 +13,17 @@ import android.widget.TextView;
 
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.activity.EventDetailActivity;
-import com.github.jmuthu.poovali.model.Batch;
-import com.github.jmuthu.poovali.model.BatchRepository;
 import com.github.jmuthu.poovali.model.event.BatchActivityEvent;
 import com.github.jmuthu.poovali.model.event.Event;
+import com.github.jmuthu.poovali.model.plant.PlantBatch;
+import com.github.jmuthu.poovali.model.plant.PlantBatchRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 
 import java.text.DateFormat;
 import java.util.List;
 
 public class EventListFragment extends Fragment {
-    Batch mBatch = null;
+    PlantBatch mPlantBatch = null;
     RecyclerView recyclerView;
 
     public EventListFragment() {
@@ -34,7 +34,7 @@ public class EventListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             String batchId = getArguments().getString(Helper.ARG_BATCH_ID);
-            mBatch = BatchRepository.find(batchId);
+            mPlantBatch = PlantBatchRepository.find(batchId);
         }
     }
 
@@ -45,7 +45,7 @@ public class EventListFragment extends Fragment {
 
         recyclerView = (RecyclerView) rootView.findViewById(R.id.event_list);
         assert recyclerView != null;
-        recyclerView.setAdapter(new EventListFragment.SimpleItemRecyclerViewAdapter(mBatch.getEvents()));
+        recyclerView.setAdapter(new EventListFragment.SimpleItemRecyclerViewAdapter(mPlantBatch.getEvents()));
 
         return rootView;
     }
@@ -98,7 +98,7 @@ public class EventListFragment extends Fragment {
                         Context context = v.getContext();
                         Intent intent = new Intent(context, EventDetailActivity.class);
                         intent.putExtra(Helper.ARG_EVENT_ID, holder.mItem.getId());
-                        intent.putExtra(Helper.ARG_BATCH_ID, mBatch.getId());
+                        intent.putExtra(Helper.ARG_BATCH_ID, mPlantBatch.getId());
                         context.startActivity(intent);
                     }
                 }

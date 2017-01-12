@@ -2,9 +2,9 @@ package com.github.jmuthu.poovali;
 
 import android.app.Application;
 
-import com.github.jmuthu.poovali.model.BatchRepository;
-import com.github.jmuthu.poovali.model.PlantRepository;
 import com.github.jmuthu.poovali.model.event.EventRepository;
+import com.github.jmuthu.poovali.model.plant.PlantBatchRepository;
+import com.github.jmuthu.poovali.model.plant.PlantRepository;
 import com.github.jmuthu.poovali.utility.FileRepository;
 
 public class MyApplication extends Application {
@@ -14,7 +14,7 @@ public class MyApplication extends Application {
         super.onCreate();
         FileRepository.context = this;
         PlantRepository.initialize();
-        BatchRepository.initialize();
+        PlantBatchRepository.initialize();
         EventRepository.initialize();
     }
 }

@@ -1,7 +1,7 @@
 package com.github.jmuthu.poovali.model.event;
 
-import com.github.jmuthu.poovali.model.Batch;
-import com.github.jmuthu.poovali.model.BatchRepository;
+import com.github.jmuthu.poovali.model.plant.PlantBatch;
+import com.github.jmuthu.poovali.model.plant.PlantBatchRepository;
 import com.github.jmuthu.poovali.utility.FileRepository;
 
 import java.util.ArrayList;
@@ -37,8 +37,8 @@ public class EventRepository {
             eventMap = (Map<String, Event>) result;
         }
         for (Event event : eventMap.values()) {
-            Batch batch = BatchRepository.find(event.getBatchId());
-            batch.addEvent(event);
+            PlantBatch plantBatch = PlantBatchRepository.find(event.getBatchId());
+            plantBatch.addEvent(event);
         }
     }
 }

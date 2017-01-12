@@ -14,9 +14,9 @@ import android.widget.TextView;
 
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.activity.PlantDetailActivity;
-import com.github.jmuthu.poovali.model.Batch;
-import com.github.jmuthu.poovali.model.Plant;
-import com.github.jmuthu.poovali.model.PlantRepository;
+import com.github.jmuthu.poovali.model.plant.Plant;
+import com.github.jmuthu.poovali.model.plant.PlantBatch;
+import com.github.jmuthu.poovali.model.plant.PlantRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 
 import java.text.DateFormat;
@@ -72,8 +72,8 @@ public class PlantListFragment extends Fragment {
             holder.mPlant = mValues.get(position);
 
             String name = holder.mPlant.getName();
-            if (!holder.mPlant.getBatchList().isEmpty()) {
-                name += " (" + holder.mPlant.getBatchList().size() + ")";
+            if (!holder.mPlant.getPlantBatchList().isEmpty()) {
+                name += " (" + holder.mPlant.getPlantBatchList().size() + ")";
             }
 
             holder.mNameView.setText(name);
@@ -81,11 +81,11 @@ public class PlantListFragment extends Fragment {
                     holder.mPlant.getCropDuration().toString());
             holder.mContentView.setText("Duration : " + days);
 
-            Batch latestBatch = holder.mPlant.getLatestBatch();
-            if (latestBatch != null) {
+            PlantBatch latestPlantBatch = holder.mPlant.getLatestBatch();
+            if (latestPlantBatch != null) {
                 DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
                 holder.mLastBatchDateView.setText("Last sowed : " +
-                        format.format(latestBatch.getCreatedDate()));
+                        format.format(latestPlantBatch.getCreatedDate()));
             }
 
             Helper.setOverDueText(holder.mPlant, holder.mNextBatchDueView, Color.rgb(255, 140, 0));

@@ -20,8 +20,8 @@ import android.widget.TextView;
 
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.fragment.BatchListFragment;
-import com.github.jmuthu.poovali.model.Plant;
-import com.github.jmuthu.poovali.model.PlantRepository;
+import com.github.jmuthu.poovali.model.plant.Plant;
+import com.github.jmuthu.poovali.model.plant.PlantRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 import com.github.mikephil.charting.animation.Easing;
@@ -144,7 +144,7 @@ public class PlantDetailActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.add_plant).setVisible(false);
-        if (mPlant.getBatchList().size() == 0) {
+        if (mPlant.getPlantBatchList().size() == 0) {
             menu.findItem(R.id.add_event).setVisible(false);
             menu.findItem(R.id.delete).setVisible(true);
         } else {
@@ -163,10 +163,10 @@ public class PlantDetailActivity extends AppCompatActivity {
 
     public void setupUpdatableViews() {
         TextView batchLabel = (TextView) findViewById(R.id.batch_label);
-        if (mPlant.getBatchList().size() > 0) {
+        if (mPlant.getPlantBatchList().size() > 0) {
             batchLabel.setVisibility(View.VISIBLE);
             batchLabel.setText(getString(R.string.batch_label) + " ("
-                    + mPlant.getBatchList().size() + ")");
+                    + mPlant.getPlantBatchList().size() + ")");
         } else {
             batchLabel.setVisibility(View.GONE);
         }
