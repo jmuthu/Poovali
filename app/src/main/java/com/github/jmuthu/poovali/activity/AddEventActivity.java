@@ -102,7 +102,7 @@ public class AddEventActivity extends AppCompatActivity {
                     new EventTypeSpinnerAdapter(this, batchActivityList);
             eventSpinner.setAdapter(eventSpinnerAdapter);
 
-            label = getResources().getString(R.string.batch_label);
+            label = getResources().getString(R.string.for_batch_label);
             List<PlantBatch> plantBatchList;
             if (plantId != null) {
                 plantBatchList = PlantRepository.find(plantId).getPlantBatchList();

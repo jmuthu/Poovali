@@ -28,7 +28,7 @@ import java.util.Calendar;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
-
+    ViewPager mViewPager;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -40,22 +40,20 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        ViewPager viewPager = (ViewPager) findViewById(R.id.viewpager);
-        setupViewPager(viewPager);
+        mViewPager = (ViewPager) findViewById(R.id.viewpager);
+        setupViewPager(mViewPager);
 
         TabLayout tabLayout = (TabLayout) findViewById(R.id.tabs);
-        tabLayout.setupWithViewPager(viewPager);
+        tabLayout.setupWithViewPager(mViewPager);
 
-        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+        mViewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
 
             @Override
             public void onPageSelected(int position) {
-                // ImageView imageView = (ImageView) findViewById(R.id.add_action);
-                // int actionImageId = viewPager.getCurrentItem() == 0 ? R.drawable.seeds : R.drawable.batch_activity;
-                // imageView.setImageResource(actionImageId);
+                invalidateOptionsMenu();
             }
 
             @Override
@@ -74,11 +72,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void setupViewPager(ViewPager viewPager) {
         ViewPagerAdapter adapter = new ViewPagerAdapter(getSupportFragmentManager());
-        adapter.addFragment(new BatchListFragment(), "Recent Activities");
-        adapter.addFragment(new PlantListFragment(), "Plants");
+        adapter.addFragment(new BatchListFragment(), getResources().getText(R.string.batches).toString());
+        adapter.addFragment(new PlantListFragment(), getResources().getText(R.string.plants).toString());
         viewPager.setAdapter(adapter);
         if (PlantBatchRepository.isEmpty()) {
             viewPager.setCurrentItem(1);
+        } else {
+            viewPager.setCurrentItem(0);
         }
         viewPager.setOffscreenPageLimit(1);
     }
@@ -92,6 +92,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
+        if (mViewPager.getCurrentItem() == 0) {
+            menu.findItem(R.id.add_plant).setVisible(false);
+            menu.findItem(R.id.add_batch).setVisible(true);
+        } else {
+            menu.findItem(R.id.add_plant).setVisible(true);
+            menu.findItem(R.id.add_batch).setVisible(false);
+        }
         menu.findItem(R.id.add_event).setVisible(false);
         menu.findItem(R.id.edit).setVisible(false);
         menu.findItem(R.id.delete).setVisible(false);

@@ -144,11 +144,10 @@ public class PlantDetailActivity extends AppCompatActivity {
     @Override
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.add_plant).setVisible(false);
+        menu.findItem(R.id.add_event).setVisible(false);
         if (mPlant.getPlantBatchList().size() == 0) {
-            menu.findItem(R.id.add_event).setVisible(false);
             menu.findItem(R.id.delete).setVisible(true);
         } else {
-            menu.findItem(R.id.add_event).setVisible(true);
             menu.findItem(R.id.delete).setVisible(false);
         }
         return true;
