@@ -10,14 +10,11 @@
 
     <style name="AppTheme" parent="MyMaterialTheme.Base" />
 
-    <style name="AppTheme.NoActionBar">
-        <item name="windowActionBar">false</item>
-        <item name="windowNoTitle">true</item>
-    </style>
-
     <style name="AppTheme.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="AppTheme.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert" />
 
     <style name="Label" parent="@android:style/TextAppearance.Material.Title">
         <item name="android:layout_marginTop">@dimen/list_padding_top</item>

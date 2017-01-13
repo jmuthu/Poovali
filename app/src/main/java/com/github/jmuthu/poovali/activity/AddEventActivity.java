@@ -148,7 +148,7 @@ public class AddEventActivity extends AppCompatActivity {
         } catch (ParseException e) {
             Log.e(this.getClass().getName(), "Unable to parse date : " + dateString, e);
             AlertDialog.Builder builder = new AlertDialog.Builder(this,
-                    android.R.style.Theme_Material_Dialog_Alert);
+                    R.style.AlertDialogTheme);
             builder.setMessage("Invalid date, try again!");
             builder.setTitle("Save failed");
             builder.setPositiveButton(android.R.string.ok, null);
@@ -211,7 +211,7 @@ public class AddEventActivity extends AppCompatActivity {
 
             if (plant.isDuplicateBatch(date)) {
                 AlertDialog.Builder builder = new AlertDialog.Builder(this,
-                        android.R.style.Theme_Material_Dialog_Alert);
+                        R.style.AlertDialogTheme);
                 builder.setMessage("Batch already exists for the given date, select another date!");
                 builder.setTitle("Save failed");
                 builder.setPositiveButton(android.R.string.ok, null);

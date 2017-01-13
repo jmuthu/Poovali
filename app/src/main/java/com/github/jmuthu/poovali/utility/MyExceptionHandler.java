@@ -1,10 +1,12 @@
 package com.github.jmuthu.poovali.utility;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
 import android.os.Build;
-import android.support.v7.app.AlertDialog;
 import android.util.Log;
+
+import com.github.jmuthu.poovali.R;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -54,8 +56,7 @@ public class MyExceptionHandler implements
         errorReport.append(Build.VERSION.INCREMENTAL);
         errorReport.append(LINE_SEPARATOR);
         Log.e(myContext.getPackageName(), exception.getMessage(), exception);
-        alertAndCloseApp(myContext,
-                "Please check phone data storage and contact Poovali for further help!");
+        alertAndCloseApp(myContext, null);
     }
 
     public static void alertAndCloseApp(Context context, String message) {
@@ -65,7 +66,7 @@ public class MyExceptionHandler implements
         if (message == null) {
             message = DEFAULT_MESSAGE;
         }
-        new AlertDialog.Builder(context, android.R.style.Theme_Material_Dialog_Alert)
+        new AlertDialog.Builder(context, R.style.AlertDialogTheme)
                 .setTitle("Application stopped")
                 .setMessage(message)
                 .setPositiveButton(android.R.string.ok, null)

@@ -103,7 +103,7 @@ public class AddPlantActivity extends AppCompatActivity {
 
     void saveFailedAlert(String message) {
         AlertDialog.Builder builder = new AlertDialog.Builder(this,
-                android.R.style.Theme_Material_Dialog_Alert);
+                R.style.AlertDialogTheme);
         builder.setMessage(message);
         builder.setTitle(R.string.save_failed);
         builder.setPositiveButton(android.R.string.ok, null);

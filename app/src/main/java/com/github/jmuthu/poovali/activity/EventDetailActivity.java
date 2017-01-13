@@ -124,7 +124,7 @@ public class EventDetailActivity extends AppCompatActivity {
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the Builder class for convenient dialog construction
             AlertDialog.Builder builder = new AlertDialog.Builder(
-                    getActivity(), android.R.style.Theme_Material_Dialog_Alert);
+                    getActivity(), R.style.AlertDialogTheme);
             builder.setTitle(R.string.delete_event_alert);
             builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
                 public void onClick(DialogInterface dialog, int id) {
