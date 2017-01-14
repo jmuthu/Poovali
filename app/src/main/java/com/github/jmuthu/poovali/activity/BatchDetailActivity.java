@@ -27,6 +27,7 @@ import com.github.jmuthu.poovali.model.plant.PlantBatchRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 
 import java.text.DateFormat;
+import java.text.MessageFormat;
 
 import static com.github.jmuthu.poovali.utility.Helper.DATE_FORMAT;
 
@@ -67,31 +68,7 @@ public class BatchDetailActivity extends AppCompatActivity {
         ImageView plantIcon = (ImageView) findViewById(R.id.plant_type_icon);
         Helper.setImageSrc(plantIcon, mPlantBatch);
 
-        TextView batchStatusView = (TextView) findViewById(R.id.batch_status);
-        TextView batchDescriptionView = (TextView) findViewById(R.id.description);
-        ProgressBar progressBar = (ProgressBar) findViewById(R.id.batch_status_progress);
-        TextView createdDateView = (TextView) findViewById(R.id.created_date);
-        TextView durationView = (TextView) findViewById(R.id.duration);
-
-        createdDateView.setText("created on " + DATE_FORMAT.format(mPlantBatch.getCreatedDate()));
-        batchStatusView.setText(mPlantBatch.getStage().toString());
-
-        int duration = mPlantBatch.getDurationInDays();
-        if (duration > 1) {
-            durationView.setText(mPlantBatch.getDurationInDays() + " days old");
-        } else if (duration == 1) {
-            durationView.setText(mPlantBatch.getDurationInDays() + " day old");
-        } else if (duration == 0) {
-            durationView.setText("planted today");
-        }
-
-        if (mPlantBatch.getDescription() == null || mPlantBatch.getDescription().isEmpty()) {
-            DateFormat df = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT);
-            batchDescriptionView.setText("PlantBatch created on " + df.format(mPlantBatch.getCreatedDate()));
-        } else {
-            batchDescriptionView.setText(mPlantBatch.getDescription());
-        }
-        progressBar.setProgress(mPlantBatch.getProgress());
+        setEditableContent();
 
         if (savedInstanceState == null) {
             Bundle arguments = new Bundle();
@@ -102,6 +79,32 @@ public class BatchDetailActivity extends AppCompatActivity {
                     .add(R.id.event_list_container, fragment)
                     .commit();
         }
+    }
+
+    public void setEditableContent() {
+        TextView batchStatusView = (TextView) findViewById(R.id.batch_status);
+        TextView batchDescriptionView = (TextView) findViewById(R.id.description);
+        ProgressBar progressBar = (ProgressBar) findViewById(R.id.batch_status_progress);
+        TextView createdDateView = (TextView) findViewById(R.id.created_date);
+        TextView durationView = (TextView) findViewById(R.id.duration);
+
+        createdDateView.setText(getString(R.string.created_on) + " " +
+                DATE_FORMAT.format(mPlantBatch.getCreatedDate()));
+        batchStatusView.setText(mPlantBatch.getStage().toString());
+
+        int duration = mPlantBatch.getDurationInDays();
+        String fmt = getResources().getText(R.string.days_due).toString();
+        durationView.setText(MessageFormat.format(fmt, duration));
+
+
+        if (mPlantBatch.getDescription() == null || mPlantBatch.getDescription().isEmpty()) {
+            DateFormat df = DateFormat.getDateTimeInstance(DateFormat.FULL, DateFormat.SHORT);
+            batchDescriptionView.setText(getString(R.string.created_on) + " " +
+                    df.format(mPlantBatch.getCreatedDate()));
+        } else {
+            batchDescriptionView.setText(mPlantBatch.getDescription());
+        }
+        progressBar.setProgress(mPlantBatch.getProgress());
     }
 
     @Override
@@ -135,6 +138,7 @@ public class BatchDetailActivity extends AppCompatActivity {
                     + (mPlantBatch.getEvents().size()) + ")");
         }
         invalidateOptionsMenu();
+        setEditableContent();
     }
 
     @Override
@@ -153,7 +157,6 @@ public class BatchDetailActivity extends AppCompatActivity {
                 intent = new Intent(this, AddPlantBatchActivity.class);
                 intent.putExtra(Helper.ARG_BATCH_ID, mPlantBatch.getId());
                 startActivity(intent);
-                finish();
                 return true;
             case R.id.delete:
                 DeleteBatchDialogFragment dialog = new DeleteBatchDialogFragment();

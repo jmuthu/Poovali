@@ -43,6 +43,7 @@ import java.util.List;
 
 public class PlantDetailActivity extends AppCompatActivity {
     Plant mPlant;
+    PieChart mPieChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,58 +58,26 @@ public class PlantDetailActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        ImageView plantIcon = (ImageView) findViewById(R.id.plant_type_icon);
-        Helper.setImageSrc(plantIcon, mPlant);
+        mPieChart = (PieChart) findViewById(R.id.chart);
+        mPieChart.setHoleRadius(40);
+        mPieChart.setTransparentCircleRadius(45);
 
-        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
-        if (appBarLayout != null) {
-            appBarLayout.setTitle(mPlant.getName());
-        }
+        mPieChart.getDescription().setEnabled(false);
+        mPieChart.setDrawCenterText(true);
 
-        PieChart pieChart = (PieChart) findViewById(R.id.chart);
-        List<PieEntry> entries = new ArrayList<>();
-        EnumMap<Plant.GrowthStage, Integer> growthStages = mPlant.getGrowthStageMap();
-        Iterator<Plant.GrowthStage> enumKeySet = growthStages.keySet().iterator();
-        while (enumKeySet.hasNext()) {
-            Plant.GrowthStage currentStage = enumKeySet.next();
-            entries.add(new PieEntry(growthStages.get(currentStage), currentStage.toString()));
-        }
+        mPieChart.setCenterTextTypeface(Typeface.DEFAULT);
+        mPieChart.setCenterTextSize(16);
 
-        String days = String.format(getResources().getString(R.string.days), mPlant.getCropDuration().toString());
-        PieDataSet dataSet = new PieDataSet(entries, "");
-        dataSet.setColors(new int[]{android.R.color.holo_red_light,
-                android.R.color.holo_orange_light,
-                android.R.color.holo_orange_dark,
-                android.R.color.holo_green_dark}, this);
-        dataSet.setSliceSpace(3f);
-        dataSet.setYValuePosition(PieDataSet.ValuePosition.INSIDE_SLICE);
+        mPieChart.setExtraOffsets(0.f, 5.f, 0.f, 5.f);
+        mPieChart.setDrawEntryLabels(false);
+        // mPieChart.setEntryLabelTextSize(12);
+        // mPieChart.setEntryLabelTypeface(Typeface.DEFAULT);
+        // mPieChart.setEntryLabelColor(Color.DKGRAY);
+        mPieChart.setHighlightPerTapEnabled(true);
+        mPieChart.setRotationEnabled(false);
+        mPieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
 
-        PieData data = new PieData(dataSet);
-        data.setValueFormatter(new MyValueFormatter());
-        data.setValueTextColor(Color.BLACK);
-        data.setValueTextSize(16);
-        data.setValueTypeface(Typeface.DEFAULT);
-
-        pieChart.setData(data);
-        pieChart.setHoleRadius(40);
-        pieChart.setTransparentCircleRadius(45);
-
-        pieChart.getDescription().setEnabled(false);
-        pieChart.setDrawCenterText(true);
-        pieChart.setCenterText(days);
-        pieChart.setCenterTextTypeface(Typeface.DEFAULT);
-        pieChart.setCenterTextSize(16);
-
-        pieChart.setExtraOffsets(0.f, 5.f, 0.f, 5.f);
-        pieChart.setDrawEntryLabels(false);
-        // pieChart.setEntryLabelTextSize(12);
-        // pieChart.setEntryLabelTypeface(Typeface.DEFAULT);
-        // pieChart.setEntryLabelColor(Color.DKGRAY);
-        pieChart.setHighlightPerTapEnabled(true);
-        pieChart.setRotationEnabled(false);
-        pieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
-
-        Legend l = pieChart.getLegend();
+        Legend l = mPieChart.getLegend();
         l.setEnabled(true);
         l.setVerticalAlignment(Legend.LegendVerticalAlignment.BOTTOM);
         l.setHorizontalAlignment(Legend.LegendHorizontalAlignment.RIGHT);
@@ -118,9 +87,8 @@ public class PlantDetailActivity extends AppCompatActivity {
         l.setDrawInside(true);
         l.setWordWrapEnabled(true);
 
-        pieChart.invalidate();
-
         setupUpdatableViews();
+
         if (savedInstanceState == null) {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
@@ -161,6 +129,13 @@ public class PlantDetailActivity extends AppCompatActivity {
     }
 
     public void setupUpdatableViews() {
+        CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
+        if (appBarLayout != null) {
+            appBarLayout.setTitle(mPlant.getName());
+        }
+        ImageView plantIcon = (ImageView) findViewById(R.id.plant_type_icon);
+        Helper.setImageSrc(plantIcon, mPlant);
+
         TextView batchLabel = (TextView) findViewById(R.id.batch_label);
         if (mPlant.getPlantBatchList().size() > 0) {
             batchLabel.setVisibility(View.VISIBLE);
@@ -171,6 +146,35 @@ public class PlantDetailActivity extends AppCompatActivity {
         }
         TextView nextBatchDueView = (TextView) findViewById(R.id.next_batch_due);
         Helper.setOverDueText(mPlant, nextBatchDueView, Color.YELLOW);
+
+        List<PieEntry> entries = new ArrayList<>();
+        EnumMap<Plant.GrowthStage, Integer> growthStages = mPlant.getGrowthStageMap();
+        Iterator<Plant.GrowthStage> enumKeySet = growthStages.keySet().iterator();
+        while (enumKeySet.hasNext()) {
+            Plant.GrowthStage currentStage = enumKeySet.next();
+            entries.add(new PieEntry(growthStages.get(currentStage), currentStage.toString()));
+        }
+
+        String days = String.format(getString(R.string.days), mPlant.getCropDuration().toString());
+        PieDataSet dataSet = new PieDataSet(entries, "");
+        dataSet.setColors(new int[]{android.R.color.holo_red_light,
+                android.R.color.holo_orange_light,
+                android.R.color.holo_orange_dark,
+                android.R.color.holo_green_dark}, this);
+        dataSet.setSliceSpace(3f);
+        dataSet.setYValuePosition(PieDataSet.ValuePosition.INSIDE_SLICE);
+
+        PieData data = new PieData(dataSet);
+        data.setValueFormatter(new MyValueFormatter());
+        data.setValueTextColor(Color.BLACK);
+        data.setValueTextSize(16);
+        data.setValueTypeface(Typeface.DEFAULT);
+
+        mPieChart.setData(data);
+        mPieChart.setCenterText(days);
+
+        mPieChart.invalidate();
+
     }
 
     @Override
@@ -189,7 +193,6 @@ public class PlantDetailActivity extends AppCompatActivity {
                 intent = new Intent(this, AddPlantActivity.class);
                 intent.putExtra(Helper.ARG_PLANT_ID, mPlant.getId());
                 startActivity(intent);
-                finish();
                 return true;
             case R.id.delete:
                 DeletePlantDialogFragment dialog = new DeletePlantDialogFragment();

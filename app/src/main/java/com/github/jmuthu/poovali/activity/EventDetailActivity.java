@@ -58,22 +58,32 @@ public class EventDetailActivity extends AppCompatActivity {
         TextView batchView = (TextView) findViewById(R.id.name);
         batchView.setText(mPlantBatch.getName());
 
+        ImageView imageView = (ImageView) findViewById(R.id.plant_type_icon);
+        Helper.setImageSrc(imageView, mPlantBatch);
+
+        setupUpdatableViews();
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        setupUpdatableViews();
+    }
+
+    public void setupUpdatableViews() {
+        TextView dateView = (TextView) findViewById(R.id.date);
+        dateView.setText(Helper.DATE_FORMAT.format(mEvent.getCreatedDate()));
+        TextView timeView = (TextView) findViewById(R.id.time);
+        timeView.setText(Helper.TIME_FORMAT.format(mEvent.getCreatedDate()));
         TextView descriptionView = (TextView) findViewById(R.id.event_description);
         if (mEvent.getDescription() == null || mEvent.getDescription().isEmpty()) {
             descriptionView.setVisibility(View.GONE);
             findViewById(R.id.event_description_icon).setVisibility(View.GONE);
         } else {
+            descriptionView.setVisibility(View.VISIBLE);
+            findViewById(R.id.event_description_icon).setVisibility(View.VISIBLE);
             descriptionView.setText(mEvent.getDescription());
         }
-
-        ImageView imageView = (ImageView) findViewById(R.id.plant_type_icon);
-        Helper.setImageSrc(imageView, mPlantBatch);
-
-        TextView dateView = (TextView) findViewById(R.id.date);
-        dateView.setText(Helper.DATE_FORMAT.format(mEvent.getCreatedDate()));
-        TextView timeView = (TextView) findViewById(R.id.time);
-        timeView.setText(Helper.TIME_FORMAT.format(mEvent.getCreatedDate()));
-
     }
 
     @Override
@@ -96,7 +106,6 @@ public class EventDetailActivity extends AppCompatActivity {
                 Intent intent = new Intent(this, AddEventActivity.class);
                 intent.putExtra(Helper.ARG_EVENT_ID, mEvent.getId());
                 startActivity(intent);
-                finish();
                 return true;
             case android.R.id.home:
                 finish();

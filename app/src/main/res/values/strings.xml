@@ -35,4 +35,5 @@
     <string name="invalid_date">Invalid date, try again!</string>
     <string name="duplicate_batch">Batch already exists for the given date, select another date!</string>
     <string name="save_failed">Save failed</string>
+    <string name="days_due">{0,choice,0#planted today|1#1 day old|1&lt;{0} days old}</string>
 </resources>
