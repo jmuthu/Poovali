@@ -95,8 +95,6 @@ public class EventDetailActivity extends AppCompatActivity {
             case R.id.edit:
                 Intent intent = new Intent(this, AddEventActivity.class);
                 intent.putExtra(Helper.ARG_EVENT_ID, mEvent.getId());
-                intent.putExtra(Helper.ARG_BATCH_ID, mPlantBatch.getId());
-                intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, false);
                 startActivity(intent);
                 finish();
                 return true;

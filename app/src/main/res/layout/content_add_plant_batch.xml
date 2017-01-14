@@ -9,30 +9,29 @@
     app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
     <RelativeLayout
-        android:id="@+id/content_add_event"
+        android:id="@+id/content_add_plant_batch"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        tools:context="com.github.jmuthu.poovali.activity.AddEventActivity"
-        tools:showIn="@layout/activity_add_event">
+        tools:context="com.github.jmuthu.poovali.activity.AddPlantBatchActivity"
+        tools:showIn="@layout/activity_add_plant_batch">
 
         <TextView
-            android:id="@+id/event_type_label"
-            style="@style/AddEventLabel"
-            android:text="@string/event_type" />
+            android:id="@+id/plant_label"
+            style="@style/FormLabel"
+            android:text="@string/plant_label" />
 
         <Spinner
-            android:id="@+id/event_type_spinner"
+            android:id="@+id/plant_type_spinner"
             style="@style/ThemeSpinner"
+            android:layout_marginStart="@dimen/list_icon_padding_start"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/list_icon_padding_start"
-            android:layout_below="@+id/event_type_label"
-            android:focusable="true" />
+            android:layout_below="@+id/plant_label" />
 
         <TextView
             android:id="@+id/date_label"
-            style="@style/AddEventLabel"
-            android:layout_below="@+id/event_type_spinner"
+            style="@style/FormLabel"
+            android:layout_below="@+id/plant_type_spinner"
             android:text="@string/created_on" />
 
         <TextView
@@ -78,16 +77,16 @@
             android:background="#9E9E9E" />
 
         <TextView
-            android:id="@+id/event_description_label"
-            style="@style/AddEventLabel"
+            android:id="@+id/description_label"
+            style="@style/FormLabel"
             android:layout_below="@+id/time"
             android:text="@string/event_description" />
 
         <EditText
-            android:id="@+id/event_description"
+            android:id="@+id/description"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/event_description_label"
+            android:layout_below="@+id/description_label"
             android:layout_marginStart="@dimen/list_icon_padding_start"
             android:layout_marginEnd="@dimen/list_text_padding_end"
             android:backgroundTint="#9E9E9E"
@@ -95,7 +94,7 @@
             android:maxLength="2000"
             android:maxLines="4"
             android:minLines="1"
-            android:labelFor="@id/event_description"
+            android:labelFor="@id/description"
             android:textCursorDrawable="@drawable/cursor" />
     </RelativeLayout>
 </android.support.v4.widget.NestedScrollView>

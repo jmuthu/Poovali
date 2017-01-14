@@ -3,6 +3,7 @@ package com.github.jmuthu.poovali.model.event;
 import android.net.Uri;
 
 import java.io.Serializable;
+import java.util.Comparator;
 import java.util.Date;
 
 public abstract class Event implements Serializable {
@@ -54,5 +55,12 @@ public abstract class Event implements Serializable {
 
     public Uri getImageUri() {
         return null;
+    }
+
+    public static class EventModifiedDescendingComparator implements Comparator<Event> {
+        @Override
+        public int compare(Event b1, Event b2) {
+            return b2.getCreatedDate().compareTo(b1.getCreatedDate());
+        }
     }
 }

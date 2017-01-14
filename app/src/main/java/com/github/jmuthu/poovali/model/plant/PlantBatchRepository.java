@@ -59,7 +59,7 @@ public class PlantBatchRepository {
         }
         for (PlantBatch plantBatch : batchMap.values()) {
             Plant plant = PlantRepository.find(plantBatch.getPlantId());
-            plant.addBatch(plantBatch);
+            plant.addOrUpdatePlantBatch(plantBatch);
         }
     }
 }

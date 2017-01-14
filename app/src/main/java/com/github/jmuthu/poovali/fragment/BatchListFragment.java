@@ -95,22 +95,25 @@ public class BatchListFragment extends Fragment {
 
             holder.mBatchStatusView.setText(holder.mPlantBatch.getStage().toString());
             holder.mProgressBar.setProgress(holder.mPlantBatch.getProgress());
+            String description = holder.mPlantBatch.getDescription();
+            if (!holder.mPlantBatch.getEvents().isEmpty()) {
+                Event event = holder.mPlantBatch.getEvents().get(0);
+                holder.mEventIconView.setImageResource(getResources().getIdentifier(
+                        Helper.getImageFileName(event.getName()),
+                        "drawable",
+                        holder.mPlantIconView.getContext().getPackageName()));
 
-            Event event = holder.mPlantBatch.getEvents().get(0);
-            holder.mEventIconView.setImageResource(getResources().getIdentifier(
-                    Helper.getImageFileName(event.getName()),
-                    "drawable",
-                    holder.mPlantIconView.getContext().getPackageName()));
-
-            DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
-            String date = format.format(event.getCreatedDate());
-            holder.mEventCreatedDateView.setText(date);
-            String description = event.getDescription();
-            if (description == null || description.isEmpty()) {
-                holder.mEventDescriptionView.setText(event.getName());
+                DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
+                String date = format.format(event.getCreatedDate());
+                holder.mEventCreatedDateView.setText(date);
+                description = event.getDescription();
+                if (description == null || description.isEmpty()) {
+                    description = event.getName();
+                }
             } else {
-                holder.mEventDescriptionView.setText(description);
+                holder.mEventIconView.setImageResource(R.drawable.sow);
             }
+            holder.mEventDescriptionView.setText(description);
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override

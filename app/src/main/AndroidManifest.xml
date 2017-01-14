@@ -33,6 +33,14 @@
             android:theme="@style/AppTheme"
             android:windowSoftInputMode="adjustResize|stateHidden" />
         <activity
+            android:name=".activity.AddPlantBatchActivity"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
+            android:name=".activity.AddPlantActivity"
+            android:theme="@style/AppTheme"
+            android:windowSoftInputMode="adjustResize|stateHidden" />
+        <activity
             android:name=".activity.EventDetailActivity"
             android:parentActivityName=".activity.MainActivity">
             <meta-data
@@ -50,10 +58,7 @@
 
         <receiver android:name=".AlarmReceiver" />
 
-        <activity
-            android:name=".activity.AddPlantActivity"
-            android:theme="@style/AppTheme"
-            android:windowSoftInputMode="adjustResize|stateHidden" />
+
     </application>
 
 </manifest>

@@ -61,14 +61,15 @@ public class PlantBatch implements Serializable, DisplayableItem {
         this.eventsList = eventsList;
     }
 
-    public void addEvent(Event event) {
+    public void addOrUpdateEvent(Event event) {
         if (!eventsList.contains(event)) {
             eventsList.add(0, event);
             event.setBatchId(id);
-            if (event.getCreatedDate().compareTo(latestEventCreatedDate) > 0) {
-                latestEventCreatedDate = event.getCreatedDate();
-            }
         }
+        if (event.getCreatedDate().compareTo(latestEventCreatedDate) > 0) {
+            latestEventCreatedDate = event.getCreatedDate();
+        }
+        Collections.sort(eventsList, new Event.EventModifiedDescendingComparator());
     }
 
     public void deleteEvent(Event event) {

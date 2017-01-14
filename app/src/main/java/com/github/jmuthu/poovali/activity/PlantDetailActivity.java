@@ -178,14 +178,7 @@ public class PlantDetailActivity extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.add_batch:
-                intent = new Intent(this, AddEventActivity.class);
-                intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, true);
-                intent.putExtra(Helper.ARG_PLANT_ID, mPlant.getId());
-                startActivity(intent);
-                return true;
-            case R.id.add_event:
-                intent = new Intent(this, AddEventActivity.class);
-                intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, false);
+                intent = new Intent(this, AddPlantBatchActivity.class);
                 intent.putExtra(Helper.ARG_PLANT_ID, mPlant.getId());
                 startActivity(intent);
                 return true;

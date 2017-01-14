@@ -38,7 +38,7 @@ public class EventRepository {
         }
         for (Event event : eventMap.values()) {
             PlantBatch plantBatch = PlantBatchRepository.find(event.getBatchId());
-            plantBatch.addEvent(event);
+            plantBatch.addOrUpdateEvent(event);
         }
     }
 }

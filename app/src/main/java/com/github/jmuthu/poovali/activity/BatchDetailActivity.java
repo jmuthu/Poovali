@@ -115,8 +115,7 @@ public class BatchDetailActivity extends AppCompatActivity {
     public boolean onPrepareOptionsMenu(Menu menu) {
         menu.findItem(R.id.add_plant).setVisible(false);
         menu.findItem(R.id.add_batch).setVisible(false);
-        menu.findItem(R.id.edit).setVisible(false);
-        if (mPlantBatch.getEvents().size() == 1) {
+        if (mPlantBatch.getEvents().isEmpty()) {
             menu.findItem(R.id.delete).setVisible(true);
         } else {
             menu.findItem(R.id.delete).setVisible(false);
@@ -128,12 +127,12 @@ public class BatchDetailActivity extends AppCompatActivity {
     public void onResume() {
         super.onResume();
         TextView eventLabel = (TextView) findViewById(R.id.event_label);
-        if (mPlantBatch.getEvents().size() > 1) {
+        if (mPlantBatch.getEvents().isEmpty()) {
+            eventLabel.setVisibility(View.GONE);
+        } else {
             eventLabel.setVisibility(View.VISIBLE);
             eventLabel.setText(getString(R.string.events) + " ("
-                    + (mPlantBatch.getEvents().size() - 1) + ")");
-        } else {
-            eventLabel.setVisibility(View.GONE);
+                    + (mPlantBatch.getEvents().size()) + ")");
         }
         invalidateOptionsMenu();
     }
@@ -143,12 +142,17 @@ public class BatchDetailActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.add_event:
                 Intent intent = new Intent(this, AddEventActivity.class);
-                intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, false);
                 intent.putExtra(Helper.ARG_BATCH_ID, mPlantBatch.getId());
                 intent.putExtra(Helper.ARG_PLANT_ID, mPlantBatch.getPlant().getId());
                 startActivity(intent);
                 return true;
             case android.R.id.home:
+                finish();
+                return true;
+            case R.id.edit:
+                intent = new Intent(this, AddPlantBatchActivity.class);
+                intent.putExtra(Helper.ARG_BATCH_ID, mPlantBatch.getId());
+                startActivity(intent);
                 finish();
                 return true;
             case R.id.delete:

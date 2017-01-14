@@ -8,11 +8,10 @@
     <string name="events">Activities</string>
     <string name="save_label">Save</string>
     <string name="days">%s days</string>
-    <string name="event_type">New activity</string>
+    <string name="event_type">Activity for</string>
     <string name="created_on">Created on</string>
     <string name="event_description">Notes</string>
     <string name="plant_label">New batch for </string>
-    <string name="for_batch_label">For batch</string>
     <string name="batch_label">Batch</string>
     <string name="delete">delete</string>
     <string name="edit">edit</string>
@@ -33,5 +32,7 @@
     <string name="batch_status">Stage</string>
     <string name="growth_stage_invalid_days">Growth stage days cannot be empty or zero!</string>
     <string name="invalid_name">Name cannot be empty</string>
+    <string name="invalid_date">Invalid date, try again!</string>
+    <string name="duplicate_batch">Batch already exists for the given date, select another date!</string>
     <string name="save_failed">Save failed</string>
 </resources>

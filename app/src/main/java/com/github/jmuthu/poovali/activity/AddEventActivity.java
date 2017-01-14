@@ -1,12 +1,8 @@
 package com.github.jmuthu.poovali.activity;
 
 import android.app.Activity;
-import android.app.DatePickerDialog;
-import android.app.Dialog;
-import android.app.TimePickerDialog;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -15,55 +11,49 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.Spinner;
 import android.widget.SpinnerAdapter;
 import android.widget.TextView;
-import android.widget.TimePicker;
 
 import com.github.jmuthu.poovali.R;
-import com.github.jmuthu.poovali.interfaces.DisplayableItem;
 import com.github.jmuthu.poovali.model.event.BatchActivityEvent;
+import com.github.jmuthu.poovali.model.event.BatchEventFactory;
 import com.github.jmuthu.poovali.model.event.Event;
-import com.github.jmuthu.poovali.model.event.EventFactory;
 import com.github.jmuthu.poovali.model.event.EventRepository;
-import com.github.jmuthu.poovali.model.plant.Plant;
 import com.github.jmuthu.poovali.model.plant.PlantBatch;
 import com.github.jmuthu.poovali.model.plant.PlantBatchRepository;
-import com.github.jmuthu.poovali.model.plant.PlantRepository;
+import com.github.jmuthu.poovali.utility.DatePickerFragment;
 import com.github.jmuthu.poovali.utility.Helper;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
+import com.github.jmuthu.poovali.utility.TimePickerFragment;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.List;
-import java.util.UUID;
 
 public class AddEventActivity extends AppCompatActivity {
 
-    static boolean isSowActivity = true;
     Event mEvent = null;
+    PlantBatch mPlantBatch = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
 
-        String plantId = null;
         String batchId = null;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            isSowActivity = extras.getBoolean(Helper.ARG_IS_SOW_ACTIVITY);
             batchId = extras.getString(Helper.ARG_BATCH_ID);
             String eventId = extras.getString(Helper.ARG_EVENT_ID);
-            plantId = extras.getString(Helper.ARG_PLANT_ID);
             if (eventId != null) {
                 mEvent = EventRepository.find(eventId);
+                mPlantBatch = PlantBatchRepository.find(mEvent.getBatchId());
+            } else {
+                mPlantBatch = PlantBatchRepository.find(batchId);
             }
         }
 
@@ -73,68 +63,33 @@ public class AddEventActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         Spinner eventSpinner = (Spinner) findViewById(R.id.event_type_spinner);
+        BatchActivityEvent.Type[] batchActivityList =
+                BatchActivityEvent.Type.values();
+        SpinnerAdapter eventSpinnerAdapter =
+                new EventTypeSpinnerAdapter(this, batchActivityList);
+        eventSpinner.setAdapter(eventSpinnerAdapter);
 
-        String label;
-        SpinnerAdapter plantSpinnerAdapter;
-        Spinner plantSpinner = (Spinner) findViewById(R.id.plant_type_spinner);
+        TextView event_label = (TextView) findViewById(R.id.event_type_label);
+        String text = getString(R.string.event_type) + " " + mPlantBatch.getName();
+        event_label.setText(text);
 
         Date date = Calendar.getInstance().getTime();
-        String description = null;
 
-        if (isSowActivity) {
-            findViewById(R.id.event_type_label).setVisibility(View.GONE);
-            eventSpinner.setVisibility(View.GONE);
+        if (mEvent != null) {
+            date = mEvent.getCreatedDate();
+            eventSpinner.setSelection(
+                    ((BatchActivityEvent) mEvent).getType().ordinal());
+            eventSpinner.setEnabled(false);
 
-            label = getResources().getString(R.string.plant_label);
-            plantSpinnerAdapter = new CustomSpinnerAdapter<Plant>(this,
-                    PlantRepository.findAll());
-            plantSpinner.setAdapter(plantSpinnerAdapter);
-            if (plantId != null) {
-                plantSpinner.setSelection(PlantRepository.findAll()
-                        .indexOf(PlantRepository.find(plantId)));
-                plantSpinner.setEnabled(false);
-            }
-        } else {
-            BatchActivityEvent.Type[] batchActivityList =
-                    BatchActivityEvent.Type.values();
-
-            SpinnerAdapter eventSpinnerAdapter =
-                    new EventTypeSpinnerAdapter(this, batchActivityList);
-            eventSpinner.setAdapter(eventSpinnerAdapter);
-
-            label = getResources().getString(R.string.for_batch_label);
-            List<PlantBatch> plantBatchList;
-            if (plantId != null) {
-                plantBatchList = PlantRepository.find(plantId).getPlantBatchList();
-            } else {
-                plantBatchList = PlantBatchRepository.findAll();
-            }
-            plantSpinnerAdapter = new CustomSpinnerAdapter<PlantBatch>(this, plantBatchList);
-            plantSpinner.setAdapter(plantSpinnerAdapter);
-            if (batchId != null) {
-                plantSpinner.setSelection(plantBatchList.indexOf(PlantBatchRepository.find(batchId)));
-                plantSpinner.setEnabled(false);
-            }
-            if (mEvent != null) {
-                date = mEvent.getCreatedDate();
-                eventSpinner.setSelection(
-                        ((BatchActivityEvent) mEvent).getType().ordinal());
-                eventSpinner.setEnabled(false);
-                description = mEvent.getDescription();
-            }
+            TextView eventDescription = (TextView) findViewById(R.id.event_description);
+            eventDescription.setText(mEvent.getDescription());
         }
-
-        TextView plant_label = (TextView) findViewById(R.id.plant_label);
-        plant_label.setText(label);
 
         TextView dateView = (TextView) findViewById(R.id.date);
         dateView.setText(Helper.DATE_FORMAT.format(date));
 
         TextView timeView = (TextView) findViewById(R.id.time);
         timeView.setText(Helper.TIME_FORMAT.format(date));
-
-        TextView eventDescription = (TextView) findViewById(R.id.event_description);
-        eventDescription.setText(description);
     }
 
     public void saveEvent(View v) {
@@ -149,43 +104,25 @@ public class AddEventActivity extends AppCompatActivity {
             Log.e(this.getClass().getName(), "Unable to parse date : " + dateString, e);
             AlertDialog.Builder builder = new AlertDialog.Builder(this,
                     R.style.AlertDialogTheme);
-            builder.setMessage("Invalid date, try again!");
-            builder.setTitle("Save failed");
+            builder.setMessage(R.string.invalid_date);
+            builder.setTitle(R.string.save_failed);
             builder.setPositiveButton(android.R.string.ok, null);
             builder.show();
             return;
         }
-        if (!validateDate(date)) {
-            return;
-        }
-        Spinner spinner = (Spinner) findViewById(R.id.plant_type_spinner);
+
         Spinner eventTypeSpinner = (Spinner) findViewById(R.id.event_type_spinner);
-        EditText desc = (EditText) findViewById(R.id.event_description);
-
         if (mEvent == null) {
-            mEvent = EventFactory.createEvent(isSowActivity);
-        }
-        mEvent.setCreatedDate(date);
-        mEvent.setDescription(desc.getText().toString());
-
-        PlantBatch plantBatch;
-        if (isSowActivity) {
-            plantBatch = new PlantBatch();
-            plantBatch.setId(UUID.randomUUID().toString());
-            plantBatch.setDescription(desc.getText().toString());
-            plantBatch.setCreatedDate(date);
-            Plant plant = (Plant) spinner.getSelectedItem();
-            SimpleDateFormat format = new SimpleDateFormat("dd MMM yy");
-            plantBatch.setName(plant.getName() + " - " +
-                    format.format(plantBatch.getCreatedDate()));
-            plant.addBatch(plantBatch);
-            PlantBatchRepository.store(plantBatch);
+            mEvent = BatchEventFactory.createEvent((BatchActivityEvent.Type) eventTypeSpinner.getSelectedItem());
         } else {
-            plantBatch = (PlantBatch) spinner.getSelectedItem();
             ((BatchActivityEvent) mEvent).
                     setType((BatchActivityEvent.Type) eventTypeSpinner.getSelectedItem());
         }
-        plantBatch.addEvent(mEvent);
+        EditText desc = (EditText) findViewById(R.id.event_description);
+        mEvent.setCreatedDate(date);
+        mEvent.setDescription(desc.getText().toString());
+
+        mPlantBatch.addOrUpdateEvent(mEvent);
         EventRepository.store(mEvent);
         finish();
     }
@@ -195,101 +132,16 @@ public class AddEventActivity extends AppCompatActivity {
     }
 
     public void showDatePickerDialog(View v) {
-        DialogFragment newFragment = new DatePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "datePicker");
+        DatePickerFragment datePickerFragment = new DatePickerFragment();
+        datePickerFragment.setDateView((TextView) findViewById(R.id.date));
+        datePickerFragment.setMinDate(mPlantBatch.getCreatedDate());
+        datePickerFragment.show(getSupportFragmentManager(), "datePicker");
     }
 
     public void showTimePickerDialog(View v) {
-        DialogFragment newFragment = new TimePickerFragment();
-        newFragment.show(getSupportFragmentManager(), "timePicker");
-    }
-
-    public boolean validateDate(Date date) {
-        if (isSowActivity) {
-            Spinner spinner = (Spinner) findViewById(R.id.plant_type_spinner);
-            Plant plant = (Plant) spinner.getSelectedItem();
-
-            if (plant.isDuplicateBatch(date)) {
-                AlertDialog.Builder builder = new AlertDialog.Builder(this,
-                        R.style.AlertDialogTheme);
-                builder.setMessage("Batch already exists for the given date, select another date!");
-                builder.setTitle("Save failed");
-                builder.setPositiveButton(android.R.string.ok, null);
-
-                builder.show();
-                return false;
-            }
-        }
-        return true;
-    }
-
-    public static class DatePickerFragment extends DialogFragment
-            implements DatePickerDialog.OnDateSetListener {
-
-        @Override
-        @NonNull
-        public Dialog onCreateDialog(Bundle savedInstanceState) {
-            TextView dateView = (TextView) getActivity().findViewById(R.id.date);
-            Calendar calendar = Calendar.getInstance();
-            Long now = calendar.getTimeInMillis();
-            try {
-                calendar.setTime(Helper.DATE_FORMAT.parse(dateView.getText().toString()));
-            } catch (ParseException e) {
-                Log.e(this.getClass().getName(), "Unable to parse date : " + dateView.getText(), e);
-                return new DatePickerDialog(getActivity(), this, 2016, 1, 1);
-            }
-            int year = calendar.get(Calendar.YEAR);
-            int month = calendar.get(Calendar.MONTH);
-            int day = calendar.get(Calendar.DAY_OF_MONTH);
-
-            DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, year, month, day);
-            if (!isSowActivity) {
-                Spinner spinner = (Spinner) getActivity().findViewById(R.id.plant_type_spinner);
-                PlantBatch plantBatch = (PlantBatch) spinner.getSelectedItem();
-                if (plantBatch.getCreatedDate() != null) {
-                    dialog.getDatePicker().setMinDate(plantBatch.getCreatedDate().getTime());
-                }
-            }
-            dialog.getDatePicker().setMaxDate(now);
-            return dialog;
-        }
-
-        public void onDateSet(DatePicker view, int year, int month, int day) {
-            TextView dateView = (TextView) getActivity().findViewById(R.id.date);
-            Calendar calendar = Calendar.getInstance();
-            calendar.set(year, month, day);
-            dateView.setText(Helper.DATE_FORMAT.format(calendar.getTime()));
-        }
-    }
-
-    public static class TimePickerFragment extends DialogFragment
-            implements TimePickerDialog.OnTimeSetListener {
-
-        @Override
-        @NonNull
-        public Dialog onCreateDialog(@NonNull Bundle savedInstanceState) {
-            TextView timeView = (TextView) getActivity().findViewById(R.id.time);
-            Calendar calendar = Calendar.getInstance();
-            try {
-                calendar.setTime(Helper.TIME_FORMAT.parse(timeView.getText().toString()));
-            } catch (ParseException e) {
-                Log.e(this.getClass().getName(), "Unable to parse time : " + timeView.getText(), e);
-                return new TimePickerDialog(getActivity(), this, 0, 0, false);
-            }
-            int hour = calendar.get(Calendar.HOUR_OF_DAY);
-            int minute = calendar.get(Calendar.MINUTE);
-
-            return new TimePickerDialog(getActivity(), this, hour, minute,
-                    android.text.format.DateFormat.is24HourFormat(getActivity()));
-        }
-
-        public void onTimeSet(TimePicker view, int hourOfDay, int minute) {
-            TextView dateView = (TextView) getActivity().findViewById(R.id.time);
-            final Calendar calendar = Calendar.getInstance();
-            calendar.set(Calendar.HOUR, hourOfDay);
-            calendar.set(Calendar.MINUTE, minute);
-            dateView.setText(Helper.TIME_FORMAT.format(calendar.getTime()));
-        }
+        TimePickerFragment timePickerFragment = new TimePickerFragment();
+        timePickerFragment.setTimeView((TextView) findViewById(R.id.time));
+        timePickerFragment.show(getSupportFragmentManager(), "timePicker");
     }
 
     public class EventTypeSpinnerAdapter extends ArrayAdapter<BatchActivityEvent.Type> {
@@ -314,35 +166,6 @@ public class AddEventActivity extends AppCompatActivity {
 
                 TextView textView = (TextView) convertView.findViewById(R.id.txt);
                 textView.setText(item.toString());
-            }
-            return convertView;
-        }
-
-        public View getDropDownView(int position, View convertView, @NonNull ViewGroup parent) {
-            return getView(position, convertView, parent);
-
-        }
-    }
-
-    public class CustomSpinnerAdapter<T extends DisplayableItem> extends ArrayAdapter<T> {
-
-        CustomSpinnerAdapter(Activity context, List<T> list) {
-            super(context, 0, list);
-        }
-
-        @NonNull
-        public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-            T item = getItem(position);
-            if (convertView == null) {
-                convertView = LayoutInflater.from(getContext())
-                        .inflate(R.layout.spinner_item, parent, false);
-            }
-            if (item != null) {
-                ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
-                Helper.setImageSrc(imageView, item);
-
-                TextView textView = (TextView) convertView.findViewById(R.id.txt);
-                textView.setText(item.getName());
             }
             return convertView;
         }

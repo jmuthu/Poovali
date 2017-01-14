@@ -116,10 +116,11 @@ public class Plant implements Serializable, DisplayableItem {
         return c.getTime();
     }
 
-    public boolean isDuplicateBatch(Date newBatchdate) {
-        Date date = Helper.getZeroTimeDate(newBatchdate);
+    public boolean isDuplicateBatch(String plantBatchId, Date inputDate) {
+        Date date = Helper.getZeroTimeDate(inputDate);
         for (PlantBatch plantBatch : plantBatchList) {
-            if (date.compareTo(Helper.getZeroTimeDate(plantBatch.getCreatedDate())) == 0) {
+            if (plantBatch.getId() != plantBatchId &&
+                    date.compareTo(Helper.getZeroTimeDate(plantBatch.getCreatedDate())) == 0) {
                 return true;
             }
         }
@@ -142,9 +143,11 @@ public class Plant implements Serializable, DisplayableItem {
         return diff.intValue();
     }
 
-    public void addBatch(PlantBatch plantBatch) {
-        plantBatchList.add(0, plantBatch);
-        plantBatch.setPlant(this);
+    public void addOrUpdatePlantBatch(PlantBatch plantBatch) {
+        if (!plantBatchList.contains(plantBatch)) {
+            plantBatchList.add(0, plantBatch);
+            plantBatch.setPlant(this);
+        }
         Collections.sort(plantBatchList, new PlantBatch.BatchDescendingComparator());
     }
 

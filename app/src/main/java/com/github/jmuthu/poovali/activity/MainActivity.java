@@ -20,7 +20,6 @@ import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.fragment.BatchListFragment;
 import com.github.jmuthu.poovali.fragment.PlantListFragment;
 import com.github.jmuthu.poovali.model.plant.PlantBatchRepository;
-import com.github.jmuthu.poovali.utility.Helper;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 
 import java.util.ArrayList;
@@ -110,8 +109,7 @@ public class MainActivity extends AppCompatActivity {
         Intent intent;
         switch (item.getItemId()) {
             case R.id.add_batch:
-                intent = new Intent(this, AddEventActivity.class);
-                intent.putExtra(Helper.ARG_IS_SOW_ACTIVITY, true);
+                intent = new Intent(this, AddPlantBatchActivity.class);
                 startActivity(intent);
                 return true;
             case R.id.add_plant:

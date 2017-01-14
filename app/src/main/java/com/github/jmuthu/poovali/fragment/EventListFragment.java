@@ -74,9 +74,6 @@ public class EventListFragment extends Fragment {
 
         @Override
         public void onBindViewHolder(final EventListFragment.SimpleItemRecyclerViewAdapter.ViewHolder holder, int position) {
-            if (position == mValues.size() - 1) { //ignore the sow activity
-                return;
-            }
             holder.mItem = mValues.get(position);
 
             DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
@@ -107,7 +104,7 @@ public class EventListFragment extends Fragment {
 
         @Override
         public int getItemCount() {
-            return mValues.size() - 1;
+            return mValues.size();
         }
 
         class ViewHolder extends RecyclerView.ViewHolder {
