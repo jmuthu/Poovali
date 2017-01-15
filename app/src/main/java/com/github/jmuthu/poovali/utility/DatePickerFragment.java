@@ -36,7 +36,7 @@ public class DatePickerFragment extends DialogFragment
     @NonNull
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         Calendar calendar = Calendar.getInstance();
-        Long now = calendar.getTimeInMillis();
+        Date endOfToday = Helper.getEndOfDay(calendar.getTime());
         try {
             calendar.setTime(Helper.DATE_FORMAT.parse(mDateView.getText().toString()));
         } catch (ParseException e) {
@@ -49,12 +49,12 @@ public class DatePickerFragment extends DialogFragment
 
         DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, year, month, day);
         if (mMinDate != null) {
-            dialog.getDatePicker().setMinDate(mMinDate.getTime());
+            dialog.getDatePicker().setMinDate(Helper.getStartOfDay(mMinDate).getTime());
         }
         if (mMaxDate != null) {
-            dialog.getDatePicker().setMaxDate(mMaxDate.getTime());
+            dialog.getDatePicker().setMaxDate(Helper.getEndOfDay(mMaxDate).getTime());
         } else {
-            dialog.getDatePicker().setMaxDate(now);
+            dialog.getDatePicker().setMaxDate(endOfToday.getTime());
         }
         return dialog;
     }

@@ -16,7 +16,7 @@ import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
 
-import static com.github.jmuthu.poovali.utility.Helper.getZeroTimeDate;
+import static com.github.jmuthu.poovali.utility.Helper.getStartOfDay;
 
 public class PlantBatch implements Serializable, DisplayableItem {
     private static final long serialVersionUID = 1L;
@@ -139,7 +139,7 @@ public class PlantBatch implements Serializable, DisplayableItem {
     }
 
     public int getDurationInDays() {
-        long diff = getZeroTimeDate(Calendar.getInstance().getTime()).getTime() - getZeroTimeDate(createdDate).getTime();
+        long diff = getStartOfDay(Calendar.getInstance().getTime()).getTime() - getStartOfDay(createdDate).getTime();
         return (int) (diff / (24 * 60 * 60 * 1000));
     }
 

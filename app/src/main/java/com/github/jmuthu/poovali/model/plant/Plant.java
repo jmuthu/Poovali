@@ -117,10 +117,10 @@ public class Plant implements Serializable, DisplayableItem {
     }
 
     public boolean isDuplicateBatch(String plantBatchId, Date inputDate) {
-        Date date = Helper.getZeroTimeDate(inputDate);
+        Date date = Helper.getStartOfDay(inputDate);
         for (PlantBatch plantBatch : plantBatchList) {
             if (plantBatch.getId() != plantBatchId &&
-                    date.compareTo(Helper.getZeroTimeDate(plantBatch.getCreatedDate())) == 0) {
+                    date.compareTo(Helper.getStartOfDay(plantBatch.getCreatedDate())) == 0) {
                 return true;
             }
         }
