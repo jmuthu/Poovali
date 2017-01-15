@@ -152,21 +152,21 @@ public class AddEventActivity extends AppCompatActivity {
 
         @NonNull
         public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-            BatchActivityEvent.Type item = getItem(position);
+            String typeName = Helper.getBatchEventName(getItem(position).getValue());
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext())
                         .inflate(R.layout.spinner_item, parent, false);
             }
-            if (item != null) {
-                ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
-                imageView.setImageResource(getResources().getIdentifier(
-                        Helper.getImageFileName(item.toString()),
-                        "drawable",
-                        imageView.getContext().getPackageName()));
 
-                TextView textView = (TextView) convertView.findViewById(R.id.txt);
-                textView.setText(item.toString());
-            }
+            ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
+            imageView.setImageResource(getResources().getIdentifier(
+                    Helper.getImageFileName(typeName),
+                    "drawable",
+                    imageView.getContext().getPackageName()));
+
+            TextView textView = (TextView) convertView.findViewById(R.id.txt);
+            textView.setText(typeName);
+
             return convertView;
         }
 

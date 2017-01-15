@@ -20,6 +20,7 @@ public class Helper {
     public static final String ARG_BATCH_ID = "BATCH_ID";
     public static final DateFormat DATE_FORMAT = DateFormat.getDateInstance(DateFormat.MEDIUM);
     public static final DateFormat TIME_FORMAT = DateFormat.getTimeInstance(DateFormat.SHORT);
+    public static String[] batchEventNameList = null;
 
     public static void setImageSrc(ImageView imageView, DisplayableItem item) {
         if (item.getImageUri() != null) {
@@ -37,8 +38,7 @@ public class Helper {
         }
     }
 
-    public static String getImageFileName(String name)
-    {
+    public static String getImageFileName(String name) {
         return name.toLowerCase().replace(' ', '_').replaceAll("\\W", "");
     }
 
@@ -84,4 +84,13 @@ public class Helper {
             }
         }
     }
+
+    public static void setBatchEventName(Context context) {
+        batchEventNameList = context.getResources().getStringArray(R.array.batch_activity_type);
+    }
+
+    public static String getBatchEventName(int id) {
+        return batchEventNameList[id];
+    }
+
 }

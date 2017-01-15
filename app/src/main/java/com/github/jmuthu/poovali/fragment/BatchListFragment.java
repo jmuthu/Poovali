@@ -112,6 +112,7 @@ public class BatchListFragment extends Fragment {
                 }
             } else {
                 holder.mEventIconView.setImageResource(R.drawable.sow);
+                description = getString(R.string.sow_type);
             }
             holder.mEventDescriptionView.setText(description);
 

@@ -1,5 +1,7 @@
 package com.github.jmuthu.poovali.model.event;
 
+import com.github.jmuthu.poovali.utility.Helper;
+
 import java.io.Serializable;
 
 public class BatchActivityEvent extends Event implements Serializable {
@@ -8,7 +10,7 @@ public class BatchActivityEvent extends Event implements Serializable {
 
     @Override
     public String getName() {
-        return type.toString();
+        return Helper.getBatchEventName(type.getValue());
     }
 
     public Type getType() {
@@ -20,50 +22,24 @@ public class BatchActivityEvent extends Event implements Serializable {
     }
 
     public enum Type {
-        DEWEED {
-            public String toString() {
-                return "DeWeed";
-            }
-        },
-        FERTILIZER {
-            public String toString() {
-                return "Fertilizer";
-            }
-        },
-        HARVEST {
-            public String toString() {
-                return "Harvest";
-            }
-        },
-        MICRO_NUTRIENTS {
-            public String toString() {
-                return "Micro nutrients";
-            }
-        },
-        MULCH {
-            public String toString() {
-                return "Mulch";
-            }
-        },
-        PESTICIDE {
-            public String toString() {
-                return "Pesticide";
-            }
-        },
-        PRUNE {
-            public String toString() {
-                return "Prune";
-            }
-        },
-        REPLANT {
-            public String toString() {
-                return "Re-plant";
-            }
-        },
-        WATER {
-            public String toString() {
-                return "Water";
-            }
+        DEWEED(0),
+        FERTILIZER(1),
+        HARVEST(2),
+        MICRO_NUTRIENTS(3),
+        MULCH(4),
+        PESTICIDE(5),
+        PRUNE(6),
+        REPLANT(7),
+        WATER(8);
+
+        private final int value;
+
+        Type(final int newValue) {
+            value = newValue;
+        }
+
+        public int getValue() {
+            return value;
         }
     }
 }
