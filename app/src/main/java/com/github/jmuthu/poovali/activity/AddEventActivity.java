@@ -70,7 +70,7 @@ public class AddEventActivity extends AppCompatActivity {
         eventSpinner.setAdapter(eventSpinnerAdapter);
 
         TextView event_label = (TextView) findViewById(R.id.event_type_label);
-        String text = getString(R.string.event_type) + " " + mPlantBatch.getName();
+        String text = getString(R.string.event_type_label) + " " + mPlantBatch.getName();
         event_label.setText(text);
 
         Date date = Calendar.getInstance().getTime();

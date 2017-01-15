@@ -20,6 +20,7 @@ import com.github.jmuthu.poovali.model.plant.PlantRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 
 import java.text.DateFormat;
+import java.text.MessageFormat;
 import java.util.List;
 
 public class PlantListFragment extends Fragment {
@@ -77,14 +78,13 @@ public class PlantListFragment extends Fragment {
             }
 
             holder.mNameView.setText(name);
-            String days = String.format(getResources().getString(R.string.days),
-                    holder.mPlant.getCropDuration().toString());
-            holder.mContentView.setText("Duration : " + days);
+            String text = MessageFormat.format(getString(R.string.no_of_days), holder.mPlant.getCropDuration());
+            holder.mContentView.setText(getString(R.string.duration_label) + text);
 
             PlantBatch latestPlantBatch = holder.mPlant.getLatestBatch();
             if (latestPlantBatch != null) {
                 DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
-                holder.mLastBatchDateView.setText("Last sowed : " +
+                holder.mLastBatchDateView.setText(getString(R.string.last_sowed) +
                         format.format(latestPlantBatch.getCreatedDate()));
             }
 

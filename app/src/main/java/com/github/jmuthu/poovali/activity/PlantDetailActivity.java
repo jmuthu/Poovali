@@ -35,6 +35,7 @@ import com.github.mikephil.charting.formatter.IValueFormatter;
 import com.github.mikephil.charting.utils.ViewPortHandler;
 
 import java.text.DecimalFormat;
+import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.EnumMap;
 import java.util.Iterator;
@@ -155,7 +156,7 @@ public class PlantDetailActivity extends AppCompatActivity {
             entries.add(new PieEntry(growthStages.get(currentStage), currentStage.toString()));
         }
 
-        String days = String.format(getString(R.string.days), mPlant.getCropDuration().toString());
+        String days = MessageFormat.format(getString(R.string.no_of_days), mPlant.getCropDuration());
         PieDataSet dataSet = new PieDataSet(entries, "");
         dataSet.setColors(new int[]{android.R.color.holo_red_light,
                 android.R.color.holo_orange_light,

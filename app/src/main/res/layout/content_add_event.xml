@@ -18,7 +18,7 @@
         <TextView
             android:id="@+id/event_type_label"
             style="@style/AddEventLabel"
-            android:text="@string/event_type" />
+            android:text="@string/event_type_label" />
 
         <Spinner
             android:id="@+id/event_type_spinner"
