@@ -5,6 +5,8 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -23,7 +25,7 @@ public class AddPlantActivity extends AppCompatActivity {
     ImageView mPlantIcon;
     Uri mSelectedImage;
     Plant mPlant = null;
-    EditText name;
+    EditText nameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,18 +37,28 @@ public class AddPlantActivity extends AppCompatActivity {
             plantId = extras.getString(Helper.ARG_PLANT_ID);
         }
         mPlantIcon = (ImageView) findViewById(R.id.plant_image);
-        name = (EditText) findViewById(R.id.plant_name);
-        name.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+        nameView = (EditText) findViewById(R.id.plant_name);
+        nameView.addTextChangedListener(new TextWatcher() {
+
             @Override
-            public void onFocusChange(View v, boolean hasFocus) {
-                if (!hasFocus) {
-                    setImageIcon();
-                }
+            public void afterTextChanged(Editable s) {
+            }
+
+            @Override
+            public void beforeTextChanged(CharSequence s, int start,
+                                          int count, int after) {
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start,
+                                      int before, int count) {
+                setImageIcon();
             }
         });
+
         if (plantId != null) {
             mPlant = PlantRepository.find(plantId);
-            name.setText(mPlant.getName());
+            nameView.setText(mPlant.getName());
             mSelectedImage = mPlant.getImageUri();
             EditText seedling = (EditText) findViewById(R.id.seedling_days);
             seedling.setText(mPlant.getGrowthStageMap().get(Plant.GrowthStage.SEEDLING).toString());
@@ -56,8 +68,8 @@ public class AddPlantActivity extends AppCompatActivity {
             fruiting.setText(mPlant.getGrowthStageMap().get(Plant.GrowthStage.FRUITING).toString());
             EditText ripening = (EditText) findViewById(R.id.ripening_days);
             ripening.setText(mPlant.getGrowthStageMap().get(Plant.GrowthStage.RIPENING).toString());
-            setImageIcon();
         }
+        setImageIcon();
     }
 
     void setImageIcon() {
@@ -65,11 +77,13 @@ public class AddPlantActivity extends AppCompatActivity {
             mPlantIcon.setImageURI(mSelectedImage);
         } else {
             int resId = getResources().getIdentifier(
-                    name.getText().toString().toLowerCase().trim(),
+                    Helper.getImageFileName(nameView.getText().toString().toLowerCase().trim()),
                     "drawable",
                     getPackageName());
             if (resId > 0) {
                 mPlantIcon.setImageResource(resId);
+            } else {
+                mPlantIcon.setImageResource(R.drawable.ic_add_a_photo_black_48dp);
             }
         }
     }
@@ -112,9 +126,14 @@ public class AddPlantActivity extends AppCompatActivity {
     }
 
     public void savePlant(View v) {
-        name = (EditText) findViewById(R.id.plant_name);
-        if (name.getText() == null || name.getText().toString().trim().isEmpty()) {
-            saveFailedAlert(getResources().getString(R.string.invalid_name));
+        if (nameView.getText() == null || nameView.getText().toString().trim().isEmpty()) {
+            saveFailedAlert(getString(R.string.invalid_name));
+            return;
+        }
+        String plantName = nameView.getText().toString().trim();
+        Plant plant = PlantRepository.findByName(plantName);
+        if (plant != null && (mPlant == null || !mPlant.sameIdentityAs(plant))) {
+            saveFailedAlert(getString(R.string.duplicate_plant));
             return;
         }
         EditText seedling = (EditText) findViewById(R.id.seedling_days);
@@ -135,7 +154,7 @@ public class AddPlantActivity extends AppCompatActivity {
         if (ripeningDays == -1) return;
 
         if (mPlant != null) {
-            mPlant.setName(name.getText().toString().trim());
+            mPlant.setName(plantName);
             mPlant.setImageUri(mSelectedImage);
             mPlant.getGrowthStageMap().put(Plant.GrowthStage.SEEDLING, seedlingDays);
             mPlant.getGrowthStageMap().put(Plant.GrowthStage.FLOWERING, floweringDays);
@@ -144,7 +163,7 @@ public class AddPlantActivity extends AppCompatActivity {
         } else {
             mPlant = new Plant(
                     UUID.randomUUID().toString(),
-                    name.getText().toString().trim(),
+                    plantName,
                     mSelectedImage,
                     seedlingDays,
                     floweringDays,

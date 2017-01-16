@@ -19,6 +19,15 @@ public class PlantRepository {
         return plantMap.get(plantId);
     }
 
+    public static Plant findByName(String name) {
+        for (Plant plant : plantList) {
+            if (plant.getName().equals(name)) {
+                return plant;
+            }
+        }
+        return null;
+    }
+
     public static List<Plant> findAll() {
         return Collections.unmodifiableList(plantList);
     }

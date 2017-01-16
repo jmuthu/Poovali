@@ -194,4 +194,8 @@ public class Plant implements Serializable, DisplayableItem {
             return p1.getName().compareTo(p2.getName());
         }
     }
+
+    public boolean sameIdentityAs(final Plant other) {
+        return other != null && this.id.equals(other.id);
+    }
 }
