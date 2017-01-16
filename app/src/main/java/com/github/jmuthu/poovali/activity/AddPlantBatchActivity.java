@@ -127,7 +127,7 @@ public class AddPlantBatchActivity extends AppCompatActivity {
         mPlantBatch.setName(plant.getName() + " - " +
                 format.format(date));
         EditText desc = (EditText) findViewById(R.id.description);
-        mPlantBatch.setDescription(desc.getText().toString());
+        mPlantBatch.setDescription(desc.getText().toString().trim());
         mPlantBatch.setCreatedDate(date);
 
         plant.addOrUpdatePlantBatch(mPlantBatch);

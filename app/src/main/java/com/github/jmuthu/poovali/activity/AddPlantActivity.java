@@ -65,7 +65,7 @@ public class AddPlantActivity extends AppCompatActivity {
             mPlantIcon.setImageURI(mSelectedImage);
         } else {
             int resId = getResources().getIdentifier(
-                    name.getText().toString().toLowerCase(),
+                    name.getText().toString().toLowerCase().trim(),
                     "drawable",
                     getPackageName());
             if (resId > 0) {
@@ -113,7 +113,7 @@ public class AddPlantActivity extends AppCompatActivity {
 
     public void savePlant(View v) {
         name = (EditText) findViewById(R.id.plant_name);
-        if (name.getText() == null || name.getText().toString().isEmpty()) {
+        if (name.getText() == null || name.getText().toString().trim().isEmpty()) {
             saveFailedAlert(getResources().getString(R.string.invalid_name));
             return;
         }
@@ -135,7 +135,7 @@ public class AddPlantActivity extends AppCompatActivity {
         if (ripeningDays == -1) return;
 
         if (mPlant != null) {
-            mPlant.setName(name.getText().toString());
+            mPlant.setName(name.getText().toString().trim());
             mPlant.setImageUri(mSelectedImage);
             mPlant.getGrowthStageMap().put(Plant.GrowthStage.SEEDLING, seedlingDays);
             mPlant.getGrowthStageMap().put(Plant.GrowthStage.FLOWERING, floweringDays);
@@ -144,7 +144,7 @@ public class AddPlantActivity extends AppCompatActivity {
         } else {
             mPlant = new Plant(
                     UUID.randomUUID().toString(),
-                    name.getText().toString(),
+                    name.getText().toString().trim(),
                     mSelectedImage,
                     seedlingDays,
                     floweringDays,

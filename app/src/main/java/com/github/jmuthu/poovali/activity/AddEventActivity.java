@@ -120,7 +120,7 @@ public class AddEventActivity extends AppCompatActivity {
         }
         EditText desc = (EditText) findViewById(R.id.event_description);
         mEvent.setCreatedDate(date);
-        mEvent.setDescription(desc.getText().toString());
+        mEvent.setDescription(desc.getText().toString().trim());
 
         mPlantBatch.addOrUpdateEvent(mEvent);
         EventRepository.store(mEvent);
