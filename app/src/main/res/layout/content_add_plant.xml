@@ -45,7 +45,7 @@
             android:id="@+id/plant_image"
             android:layout_alignTop="@+id/plant_name_label"
             android:layout_alignParentEnd="true"
-            android:src="@drawable/add_plant"
+            android:src="@drawable/ic_add_a_photo_black_48dp"
             android:layout_width="64dp"
             android:layout_height="64dp"
             android:layout_marginEnd="@dimen/list_text_padding_end"
