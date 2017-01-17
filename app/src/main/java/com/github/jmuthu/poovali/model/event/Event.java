@@ -9,16 +9,16 @@ import java.util.Date;
 public abstract class Event implements Serializable {
     private static final long serialVersionUID = 1L;
 
-    private String id;
+    private int id;
     private Date createdDate;
     private String description;
     private String batchId;
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String eventId) {
+    public void setId(int eventId) {
         this.id = eventId;
     }
 
@@ -65,6 +65,6 @@ public abstract class Event implements Serializable {
     }
 
     public boolean sameIdentityAs(final Event other) {
-        return other != null && this.getId().equals(other.getId());
+        return other != null && this.getId() == other.getId();
     }
 }
