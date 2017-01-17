@@ -32,6 +32,7 @@ import static com.github.jmuthu.poovali.R.id.date;
 public class AddPlantBatchActivity extends AppCompatActivity {
 
     PlantBatch mPlantBatch = null;
+    Plant mPlant = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,6 +46,7 @@ public class AddPlantBatchActivity extends AppCompatActivity {
             plantId = extras.getInt(Helper.ARG_PLANT_ID, -1);
             if (plantBatchId != -1) {
                 mPlantBatch = PlantBatchRepository.find(plantBatchId);
+                mPlant = mPlantBatch.getPlant();
             }
         }
 
@@ -66,19 +68,19 @@ public class AddPlantBatchActivity extends AppCompatActivity {
             plantSpinner.setVisibility(View.GONE);
             TextView descriptionView = (TextView) findViewById(R.id.description);
             descriptionView.setText(mPlantBatch.getDescription());
-
         } else {
             label = getResources().getString(R.string.plant_label);
-            SpinnerAdapter plantSpinnerAdapter = new CustomSpinnerAdapter<Plant>(this,
-                    PlantRepository.findAll());
-            plantSpinner.setAdapter(plantSpinnerAdapter);
             if (plantId != -1) {
-                plantSpinner.setSelection(PlantRepository.findAll()
-                        .indexOf(PlantRepository.find(plantId)));
-                plantSpinner.setEnabled(false);
+                mPlant = PlantRepository.find(plantId);
+                plant_label.setTextAppearance(this, R.style.Label);
+                label += " " + mPlant.getName();
+                plantSpinner.setVisibility(View.GONE);
+            } else {
+                SpinnerAdapter plantSpinnerAdapter = new CustomSpinnerAdapter<Plant>(this,
+                        PlantRepository.findAll());
+                plantSpinner.setAdapter(plantSpinnerAdapter);
             }
         }
-
 
         plant_label.setText(label);
 
@@ -102,15 +104,13 @@ public class AddPlantBatchActivity extends AppCompatActivity {
             Helper.alertSaveFailure(this, R.string.invalid_date);
             return;
         }
-        Plant plant;
-        if (mPlantBatch == null) {
+
+        if (mPlant == null) {
             Spinner spinner = (Spinner) findViewById(R.id.plant_type_spinner);
-            plant = (Plant) spinner.getSelectedItem();
-        } else {
-            plant = mPlantBatch.getPlant();
+            mPlant = (Plant) spinner.getSelectedItem();
         }
 
-        PlantBatch plantBatch = plant.findBatch(date);
+        PlantBatch plantBatch = mPlant.findBatch(date);
         if (plantBatch != null && !plantBatch.sameIdentityAs(mPlantBatch)) {
             Helper.alertSaveFailure(this, R.string.duplicate_batch);
             return;
@@ -121,13 +121,13 @@ public class AddPlantBatchActivity extends AppCompatActivity {
             mPlantBatch.setId(PlantBatchRepository.nextPlantBatchId());
         }
         SimpleDateFormat format = new SimpleDateFormat("d MMM yy");
-        mPlantBatch.setName(plant.getName() + " - " +
+        mPlantBatch.setName(mPlant.getName() + " - " +
                 format.format(date));
         EditText desc = (EditText) findViewById(R.id.description);
         mPlantBatch.setDescription(desc.getText().toString().trim());
         mPlantBatch.setCreatedDate(date);
 
-        plant.addOrUpdatePlantBatch(mPlantBatch);
+        mPlant.addOrUpdatePlantBatch(mPlantBatch);
         PlantBatchRepository.store(mPlantBatch);
         finish();
     }
