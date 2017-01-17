@@ -1,6 +1,7 @@
 package com.github.jmuthu.poovali.utility;
 
 import android.content.Context;
+import android.support.v7.app.AlertDialog;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -91,6 +92,15 @@ public class Helper {
 
     public static String getBatchEventName(int id) {
         return batchEventNameList[id];
+    }
+
+    public static void alertSaveFailure(Context context, int messageId) {
+        AlertDialog.Builder builder = new AlertDialog.Builder(context,
+                R.style.AlertDialogTheme);
+        builder.setMessage(messageId);
+        builder.setTitle(R.string.save_failed);
+        builder.setPositiveButton(android.R.string.ok, null);
+        builder.show();
     }
 
 }

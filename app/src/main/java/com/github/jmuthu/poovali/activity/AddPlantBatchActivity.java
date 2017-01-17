@@ -1,7 +1,6 @@
 package com.github.jmuthu.poovali.activity;
 
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -101,21 +100,20 @@ public class AddPlantBatchActivity extends AppCompatActivity {
             date = df.parse(dateString);
         } catch (ParseException e) {
             Log.e(this.getClass().getName(), "Unable to parse date : " + dateString, e);
-            alertDateValidation(R.string.invalid_date);
+            Helper.alertSaveFailure(this, R.string.invalid_date);
             return;
         }
         Plant plant;
-        String plantBatchId = null;
         if (mPlantBatch == null) {
             Spinner spinner = (Spinner) findViewById(R.id.plant_type_spinner);
             plant = (Plant) spinner.getSelectedItem();
         } else {
             plant = mPlantBatch.getPlant();
-            plantBatchId = mPlantBatch.getId();
         }
 
-        if (plant.isDuplicateBatch(plantBatchId, date)) {
-            alertDateValidation(R.string.duplicate_batch);
+        PlantBatch plantBatch = plant.findBatch(date);
+        if (plantBatch != null && !plantBatch.sameIdentityAs(mPlantBatch)) {
+            Helper.alertSaveFailure(this, R.string.duplicate_batch);
             return;
         }
 
@@ -153,15 +151,6 @@ public class AddPlantBatchActivity extends AppCompatActivity {
         TimePickerFragment timePickerFragment = new TimePickerFragment();
         timePickerFragment.setTimeView((TextView) findViewById(R.id.time));
         timePickerFragment.show(getSupportFragmentManager(), "timePicker");
-    }
-
-    public void alertDateValidation(int messageId) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this,
-                R.style.AlertDialogTheme);
-        builder.setMessage(messageId);
-        builder.setTitle(R.string.save_failed);
-        builder.setPositiveButton(android.R.string.ok, null);
-        builder.show();
     }
 
 }

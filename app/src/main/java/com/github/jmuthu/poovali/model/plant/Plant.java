@@ -91,6 +91,16 @@ public class Plant implements Serializable, DisplayableItem {
         this.plantBatchList = plantBatchList;
     }
 
+    public PlantBatch findBatch(Date inputDate) {
+        Date date = Helper.getStartOfDay(inputDate);
+        for (PlantBatch plantBatch : plantBatchList) {
+            if (date.compareTo(Helper.getStartOfDay(plantBatch.getCreatedDate())) == 0) {
+                return plantBatch;
+            }
+        }
+        return null;
+    }
+
     public Uri getImageUri() {
         if (this.imageUri != null) {
             return Uri.parse(this.imageUri);
@@ -160,6 +170,10 @@ public class Plant implements Serializable, DisplayableItem {
         plantBatchList = new LinkedList<>();
     }
 
+    public boolean sameIdentityAs(final Plant other) {
+        return other != null && this.id.equals(other.id);
+    }
+
     public enum GrowthStage {
         SEEDLING {
             public String toString() {
@@ -193,9 +207,5 @@ public class Plant implements Serializable, DisplayableItem {
         public int compare(Plant p1, Plant p2) {
             return p1.getName().compareTo(p2.getName());
         }
-    }
-
-    public boolean sameIdentityAs(final Plant other) {
-        return other != null && this.id.equals(other.id);
     }
 }

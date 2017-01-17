@@ -3,7 +3,6 @@ package com.github.jmuthu.poovali.activity;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -102,22 +101,20 @@ public class AddEventActivity extends AppCompatActivity {
             date = df.parse(dateString);
         } catch (ParseException e) {
             Log.e(this.getClass().getName(), "Unable to parse date : " + dateString, e);
-            AlertDialog.Builder builder = new AlertDialog.Builder(this,
-                    R.style.AlertDialogTheme);
-            builder.setMessage(R.string.invalid_date);
-            builder.setTitle(R.string.save_failed);
-            builder.setPositiveButton(android.R.string.ok, null);
-            builder.show();
+            Helper.alertSaveFailure(this, R.string.invalid_date);
             return;
         }
-
         Spinner eventTypeSpinner = (Spinner) findViewById(R.id.event_type_spinner);
         if (mEvent == null) {
             mEvent = BatchEventFactory.createEvent((BatchActivityEvent.Type) eventTypeSpinner.getSelectedItem());
-        } else {
-            ((BatchActivityEvent) mEvent).
-                    setType((BatchActivityEvent.Type) eventTypeSpinner.getSelectedItem());
         }
+
+        Event event = mPlantBatch.findEvent(mEvent.getName(), date);
+        if (event != null && !event.sameIdentityAs(mEvent)) {
+            Helper.alertSaveFailure(this, R.string.duplicate_event);
+            return;
+        }
+
         EditText desc = (EditText) findViewById(R.id.event_description);
         mEvent.setCreatedDate(date);
         mEvent.setDescription(desc.getText().toString().trim());

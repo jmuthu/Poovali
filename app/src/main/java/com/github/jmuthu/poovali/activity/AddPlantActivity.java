@@ -3,7 +3,6 @@ package com.github.jmuthu.poovali.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -109,31 +108,22 @@ public class AddPlantActivity extends AppCompatActivity {
     Integer parseText(EditText editText) {
         if (editText.getText() == null || editText.getText().toString().isEmpty()
                 || parseInt(editText.getText().toString()) == 0) {
-            saveFailedAlert(getResources().getString(R.string.growth_stage_invalid_days));
+            Helper.alertSaveFailure(this, R.string.growth_stage_invalid_days);
             return -1;
         }
         return parseInt(editText.getText().toString());
     }
 
-    void saveFailedAlert(String message) {
-        AlertDialog.Builder builder = new AlertDialog.Builder(this,
-                R.style.AlertDialogTheme);
-        builder.setMessage(message);
-        builder.setTitle(R.string.save_failed);
-        builder.setPositiveButton(android.R.string.ok, null);
-
-        builder.show();
-    }
-
     public void savePlant(View v) {
         if (nameView.getText() == null || nameView.getText().toString().trim().isEmpty()) {
-            saveFailedAlert(getString(R.string.invalid_name));
+            Helper.alertSaveFailure(this, R.string.invalid_name);
             return;
         }
         String plantName = nameView.getText().toString().trim();
         Plant plant = PlantRepository.findByName(plantName);
-        if (plant != null && (mPlant == null || !mPlant.sameIdentityAs(plant))) {
-            saveFailedAlert(getString(R.string.duplicate_plant));
+
+        if (plant != null && !plant.sameIdentityAs(mPlant)) {
+            Helper.alertSaveFailure(this, R.string.duplicate_plant);
             return;
         }
         EditText seedling = (EditText) findViewById(R.id.seedling_days);

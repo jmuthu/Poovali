@@ -4,6 +4,7 @@ import android.net.Uri;
 
 import com.github.jmuthu.poovali.interfaces.DisplayableItem;
 import com.github.jmuthu.poovali.model.event.Event;
+import com.github.jmuthu.poovali.utility.Helper;
 
 import java.io.IOException;
 import java.io.ObjectInputStream;
@@ -74,6 +75,17 @@ public class PlantBatch implements Serializable, DisplayableItem {
 
     public void deleteEvent(Event event) {
         eventsList.remove(event);
+    }
+
+    public Event findEvent(String name, Date inputDate) {
+        Date date = Helper.getStartOfDay(inputDate);
+        for (Event event : eventsList) {
+            if (event.getName().equals(name) &&
+                    date.compareTo(Helper.getStartOfDay(event.getCreatedDate())) == 0) {
+                return event;
+            }
+        }
+        return null;
     }
 
     public String getName() {
@@ -172,5 +184,9 @@ public class PlantBatch implements Serializable, DisplayableItem {
         public int compare(PlantBatch b1, PlantBatch b2) {
             return b1.getName().compareTo(b2.getName());
         }
+    }
+
+    public boolean sameIdentityAs(final PlantBatch other) {
+        return other != null && this.getId().equals(other.getId());
     }
 }

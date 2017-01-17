@@ -63,4 +63,8 @@ public abstract class Event implements Serializable {
             return b2.getCreatedDate().compareTo(b1.getCreatedDate());
         }
     }
+
+    public boolean sameIdentityAs(final Event other) {
+        return other != null && this.getId().equals(other.getId());
+    }
 }
