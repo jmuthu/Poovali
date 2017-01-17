@@ -26,7 +26,6 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.UUID;
 
 import static com.github.jmuthu.poovali.R.id.date;
 
@@ -39,12 +38,12 @@ public class AddPlantBatchActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
 
-        String plantId = null;
+        int plantId = -1;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            String plantBatchId = extras.getString(Helper.ARG_BATCH_ID);
-            plantId = extras.getString(Helper.ARG_PLANT_ID);
-            if (plantBatchId != null) {
+            int plantBatchId = extras.getInt(Helper.ARG_BATCH_ID, -1);
+            plantId = extras.getInt(Helper.ARG_PLANT_ID, -1);
+            if (plantBatchId != -1) {
                 mPlantBatch = PlantBatchRepository.find(plantBatchId);
             }
         }
@@ -73,7 +72,7 @@ public class AddPlantBatchActivity extends AppCompatActivity {
             SpinnerAdapter plantSpinnerAdapter = new CustomSpinnerAdapter<Plant>(this,
                     PlantRepository.findAll());
             plantSpinner.setAdapter(plantSpinnerAdapter);
-            if (plantId != null) {
+            if (plantId != -1) {
                 plantSpinner.setSelection(PlantRepository.findAll()
                         .indexOf(PlantRepository.find(plantId)));
                 plantSpinner.setEnabled(false);
@@ -119,7 +118,7 @@ public class AddPlantBatchActivity extends AppCompatActivity {
 
         if (mPlantBatch == null) {
             mPlantBatch = new PlantBatch();
-            mPlantBatch.setId(UUID.randomUUID().toString());
+            mPlantBatch.setId(PlantBatchRepository.nextPlantBatchId());
         }
         SimpleDateFormat format = new SimpleDateFormat("d MMM yy");
         mPlantBatch.setName(plant.getName() + " - " +

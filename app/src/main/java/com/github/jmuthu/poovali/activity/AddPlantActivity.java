@@ -15,8 +15,6 @@ import com.github.jmuthu.poovali.model.plant.Plant;
 import com.github.jmuthu.poovali.model.plant.PlantRepository;
 import com.github.jmuthu.poovali.utility.Helper;
 
-import java.util.UUID;
-
 import static java.lang.Integer.parseInt;
 
 public class AddPlantActivity extends AppCompatActivity {
@@ -31,9 +29,9 @@ public class AddPlantActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_plant);
         Bundle extras = getIntent().getExtras();
-        String plantId = null;
+        int plantId = -1;
         if (extras != null) {
-            plantId = extras.getString(Helper.ARG_PLANT_ID);
+            plantId = extras.getInt(Helper.ARG_PLANT_ID, -1);
         }
         mPlantIcon = (ImageView) findViewById(R.id.plant_image);
         nameView = (EditText) findViewById(R.id.plant_name);
@@ -55,7 +53,7 @@ public class AddPlantActivity extends AppCompatActivity {
             }
         });
 
-        if (plantId != null) {
+        if (plantId != -1) {
             mPlant = PlantRepository.find(plantId);
             nameView.setText(mPlant.getName());
             mSelectedImage = mPlant.getImageUri();
@@ -152,7 +150,7 @@ public class AddPlantActivity extends AppCompatActivity {
             mPlant.getGrowthStageMap().put(Plant.GrowthStage.RIPENING, ripeningDays);
         } else {
             mPlant = new Plant(
-                    UUID.randomUUID().toString(),
+                    PlantRepository.nextPlantId(),
                     plantName,
                     mSelectedImage,
                     seedlingDays,

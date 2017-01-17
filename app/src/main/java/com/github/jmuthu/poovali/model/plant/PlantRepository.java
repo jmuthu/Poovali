@@ -7,15 +7,19 @@ import java.util.HashMap;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
-import java.util.UUID;
 
 public class PlantRepository {
     private static final String ENTITY_NAME = "Plant";
-    private static Map<String, Plant> plantMap = new HashMap<>();
+    private static Map<Integer, Plant> plantMap = new HashMap<>();
     private static List<Plant> plantList = new LinkedList<Plant>(); // To make findAll really fast
     private static Plant.PlantNameComparator plantNameComparator = new Plant.PlantNameComparator();
+    private static int maxPlantId = 10000; // 1 -10000 reserved for default plants
 
-    public static Plant find(String plantId) {
+    public static int nextPlantId() {
+        return ++maxPlantId;
+    }
+
+    public static Plant find(int plantId) {
         return plantMap.get(plantId);
     }
 
@@ -46,12 +50,17 @@ public class PlantRepository {
     public static void initialize() {
         Object result = FileRepository.readAll(ENTITY_NAME);
         if (result != null) {
-            plantMap = (Map<String, Plant>) result;
+            plantMap = (Map<Integer, Plant>) result;
             plantList = new LinkedList<Plant>(plantMap.values());
-            Collections.sort(plantList, plantNameComparator);
+            for (Plant plant : plantList) {
+                if (plant.getId() > maxPlantId) {
+                    maxPlantId = plant.getId();
+                }
+            }
         } else {
             initializeDefaultItems();
         }
+        Collections.sort(plantList, plantNameComparator);
     }
 
     private static void addPlant(Plant plant) {
@@ -65,31 +74,31 @@ public class PlantRepository {
     private static void initializeDefaultItems() {
         addPlant(
                 new Plant(
-                        UUID.randomUUID().toString(),
+                        1,
                         "Brinjal",
                         null,
                         10, 30, 30, 80));
         addPlant(
                 new Plant(
-                        UUID.randomUUID().toString(),
+                        2,
                         "Chilli",
                         null,
                         10, 30, 40, 80));
         addPlant(
                 new Plant(
-                        UUID.randomUUID().toString(),
+                        3,
                         "Lady's Finger",
                         null,
                         10, 30, 30, 30));
         addPlant(
                 new Plant(
-                        UUID.randomUUID().toString(),
+                        4,
                         "Radish",
                         null,
                         15, 20, 10, 10));
         addPlant(
                 new Plant(
-                        UUID.randomUUID().toString(),
+                        5,
                         "Tomato",
                         null,
                         10, 30, 30, 80));

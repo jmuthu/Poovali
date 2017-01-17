@@ -52,7 +52,7 @@ public class PlantDetailActivity extends AppCompatActivity {
         Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
         setContentView(R.layout.activity_plant_detail);
 
-        String plantId = getIntent().getStringExtra(Helper.ARG_PLANT_ID);
+        int plantId = getIntent().getIntExtra(Helper.ARG_PLANT_ID, -1);
         mPlant = PlantRepository.find(plantId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
@@ -94,7 +94,7 @@ public class PlantDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(Helper.ARG_PLANT_ID, plantId);
+            arguments.putInt(Helper.ARG_PLANT_ID, plantId);
             BatchListFragment fragment = new BatchListFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

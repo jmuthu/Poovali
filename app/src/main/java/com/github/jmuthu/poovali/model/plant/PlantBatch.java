@@ -21,9 +21,9 @@ import static com.github.jmuthu.poovali.utility.Helper.getStartOfDay;
 
 public class PlantBatch implements Serializable, DisplayableItem {
     private static final long serialVersionUID = 1L;
-    private String id;
+    private int id;
     transient private Plant plant;
-    private String plantId;
+    private int plantId;
     private String name;
     private Date createdDate;
     private Date latestEventCreatedDate;
@@ -33,11 +33,11 @@ public class PlantBatch implements Serializable, DisplayableItem {
     public PlantBatch() {
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -50,7 +50,7 @@ public class PlantBatch implements Serializable, DisplayableItem {
         this.plantId = plant.getId();
     }
 
-    public String getPlantId() {
+    public int getPlantId() {
         return plantId;
     }
 
@@ -187,6 +187,6 @@ public class PlantBatch implements Serializable, DisplayableItem {
     }
 
     public boolean sameIdentityAs(final PlantBatch other) {
-        return other != null && this.getId().equals(other.getId());
+        return other != null && this.getId() == other.getId();
     }
 }

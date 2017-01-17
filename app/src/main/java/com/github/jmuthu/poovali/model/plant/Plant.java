@@ -18,7 +18,7 @@ import java.util.List;
 
 public class Plant implements Serializable, DisplayableItem {
     private static final long serialVersionUID = 1L;
-    private String id;
+    private int id;
     private String name;
     //Storing uri as string as it is not serializable
     private String imageUri;
@@ -29,7 +29,7 @@ public class Plant implements Serializable, DisplayableItem {
     public Plant() {
     }
 
-    public Plant(String id,
+    public Plant(int id,
                  String name,
                  Uri imageUri,
                  Integer seedling,
@@ -47,11 +47,11 @@ public class Plant implements Serializable, DisplayableItem {
         this.growthStageMap.put(GrowthStage.RIPENING, ripening);
     }
 
-    public String getId() {
+    public int getId() {
         return id;
     }
 
-    public void setId(String id) {
+    public void setId(int id) {
         this.id = id;
     }
 
@@ -126,17 +126,6 @@ public class Plant implements Serializable, DisplayableItem {
         return c.getTime();
     }
 
-    public boolean isDuplicateBatch(String plantBatchId, Date inputDate) {
-        Date date = Helper.getStartOfDay(inputDate);
-        for (PlantBatch plantBatch : plantBatchList) {
-            if (plantBatch.getId() != plantBatchId &&
-                    date.compareTo(Helper.getStartOfDay(plantBatch.getCreatedDate())) == 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     public PlantBatch getLatestBatch() {
         if (plantBatchList.isEmpty()) {
             return null;
@@ -171,7 +160,7 @@ public class Plant implements Serializable, DisplayableItem {
     }
 
     public boolean sameIdentityAs(final Plant other) {
-        return other != null && this.id.equals(other.id);
+        return other != null && this.getId() == other.getId();
     }
 
     public enum GrowthStage {

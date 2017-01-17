@@ -33,7 +33,7 @@ public class EventListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            String batchId = getArguments().getString(Helper.ARG_BATCH_ID);
+            int batchId = getArguments().getInt(Helper.ARG_BATCH_ID);
             mPlantBatch = PlantBatchRepository.find(batchId);
         }
     }

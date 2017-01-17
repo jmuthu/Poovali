@@ -3,7 +3,7 @@ package com.github.jmuthu.poovali.interfaces;
 import android.net.Uri;
 
 public interface DisplayableItem {
-    String getId();
+    int getId();
 
     String getName();
 

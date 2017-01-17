@@ -43,10 +43,10 @@ public class AddEventActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
 
-        String batchId = null;
+        int batchId = -1;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
-            batchId = extras.getString(Helper.ARG_BATCH_ID);
+            batchId = extras.getInt(Helper.ARG_BATCH_ID, -1);
             int eventId = extras.getInt(Helper.ARG_EVENT_ID, -1);
             if (eventId != -1) {
                 mEvent = EventRepository.find(eventId);

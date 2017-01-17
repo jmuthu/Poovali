@@ -12,7 +12,7 @@ public abstract class Event implements Serializable {
     private int id;
     private Date createdDate;
     private String description;
-    private String batchId;
+    private int batchId;
 
     public int getId() {
         return id;
@@ -38,11 +38,11 @@ public abstract class Event implements Serializable {
         this.description = description;
     }
 
-    public String getBatchId() {
+    public int getBatchId() {
         return batchId;
     }
 
-    public void setBatchId(String batchId) {
+    public void setBatchId(int batchId) {
         this.batchId = batchId;
     }
 

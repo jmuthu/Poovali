@@ -38,7 +38,7 @@ public class BatchDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_batch_detail);
-        String batchId = getIntent().getStringExtra(Helper.ARG_BATCH_ID);
+        int batchId = getIntent().getIntExtra(Helper.ARG_BATCH_ID, -1);
         mPlantBatch = PlantBatchRepository.find(batchId);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -72,7 +72,7 @@ public class BatchDetailActivity extends AppCompatActivity {
 
         if (savedInstanceState == null) {
             Bundle arguments = new Bundle();
-            arguments.putString(Helper.ARG_BATCH_ID, batchId);
+            arguments.putInt(Helper.ARG_BATCH_ID, batchId);
             EventListFragment fragment = new EventListFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()

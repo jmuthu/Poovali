@@ -10,11 +10,12 @@ import java.util.Map;
 
 public class PlantBatchRepository {
     private static final String ENTITY_NAME = "PlantBatch";
-    private static Map<String, PlantBatch> batchMap = new HashMap<>();
+    private static Map<Integer, PlantBatch> batchMap = new HashMap<>();
     private static List<PlantBatch> plantBatchList = new LinkedList<PlantBatch>(); // To make findAll really fast
     private static PlantBatch.BatchNameComparator batchNameComparator = new PlantBatch.BatchNameComparator();
     private static PlantBatch.BatchModifiedDescendingComparator batchModifiedDescendingComparator =
             new PlantBatch.BatchModifiedDescendingComparator();
+    private static int maxPlantBatchId = 0;
 
     public static void store(PlantBatch plantBatch) {
         batchMap.put(plantBatch.getId(), plantBatch);
@@ -31,7 +32,7 @@ public class PlantBatchRepository {
         FileRepository.writeAll(ENTITY_NAME, batchMap);
     }
 
-    public static PlantBatch find(String batchId) {
+    public static PlantBatch find(int batchId) {
         return batchMap.get(batchId);
     }
 
@@ -53,13 +54,20 @@ public class PlantBatchRepository {
     public static void initialize() {
         Object result = FileRepository.readAll(ENTITY_NAME);
         if (result != null) {
-            batchMap = (Map<String, PlantBatch>) result;
+            batchMap = (Map<Integer, PlantBatch>) result;
             plantBatchList = new LinkedList<>(batchMap.values());
             Collections.sort(plantBatchList, batchModifiedDescendingComparator);
         }
         for (PlantBatch plantBatch : batchMap.values()) {
             Plant plant = PlantRepository.find(plantBatch.getPlantId());
             plant.addOrUpdatePlantBatch(plantBatch);
+            if (plantBatch.getId() > maxPlantBatchId) {
+                maxPlantBatchId = plantBatch.getId();
+            }
         }
+    }
+
+    public static int nextPlantBatchId() {
+        return ++maxPlantBatchId;
     }
 }

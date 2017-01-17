@@ -35,7 +35,7 @@ public class BatchListFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
-            String plantId = getArguments().getString(Helper.ARG_PLANT_ID);
+            int plantId = getArguments().getInt(Helper.ARG_PLANT_ID);
             mPlant = PlantRepository.find(plantId);
         }
     }
