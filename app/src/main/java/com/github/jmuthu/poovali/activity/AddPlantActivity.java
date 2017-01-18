@@ -1,11 +1,15 @@
 package com.github.jmuthu.poovali.activity;
 
 import android.content.Intent;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
 import android.support.v7.app.AppCompatActivity;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.ImageView;
@@ -14,6 +18,12 @@ import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.model.plant.Plant;
 import com.github.jmuthu.poovali.model.plant.PlantRepository;
 import com.github.jmuthu.poovali.utility.Helper;
+import com.github.jmuthu.poovali.utility.MyExceptionHandler;
+
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 
 import static java.lang.Integer.parseInt;
 
@@ -70,9 +80,16 @@ public class AddPlantActivity extends AppCompatActivity {
     }
 
     void setImageIcon() {
+        File file = null;
         if (mSelectedImage != null) {
-            mPlantIcon.setImageURI(mSelectedImage);
-        } else {
+            file = new File(mSelectedImage.getPath());
+            if (file.exists()) {
+                mPlantIcon.setImageURI(mSelectedImage);
+            } else {
+                file = null;
+            }
+        }
+        if (file == null) {
             int resId = getResources().getIdentifier(
                     Helper.getImageFileName(nameView.getText().toString().toLowerCase().trim()),
                     "drawable",
@@ -87,20 +104,55 @@ public class AddPlantActivity extends AppCompatActivity {
 
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
-        switch (requestCode) {
-            case SELECT_IMAGE_REQUEST:
-                if (resultCode == RESULT_OK) {
-                    mSelectedImage = imageReturnedIntent.getData();
-                    mPlantIcon.setImageURI(mSelectedImage);
+        if (requestCode == SELECT_IMAGE_REQUEST && resultCode == RESULT_OK) {
+            String plantName = nameView.getText().toString().trim();
+            FileOutputStream fos = null;
+
+            File path = Environment.getExternalStoragePublicDirectory(
+                    Environment.DIRECTORY_PICTURES);
+
+            File outFile = new File(path, plantName + ".png");
+            try {
+                path.mkdirs();
+                Bitmap photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(),
+                        imageReturnedIntent.getData());
+                int px = Math.round(Helper.dipToPixels(this, 64));
+                photo = Bitmap.createScaledBitmap(photo, px, px, false);
+                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+                photo.compress(Bitmap.CompressFormat.PNG, 50, bytes);
+
+                if (!outFile.exists()) {
+                    outFile.createNewFile();
                 }
-                break;
+                fos = new FileOutputStream(outFile);
+                fos.write(bytes.toByteArray());
+
+                bytes.close();
+                photo.recycle();
+
+            } catch (IOException e) {
+                Log.e(imageReturnedIntent.getData().toString(), "Unable to read image file", e);
+                MyExceptionHandler.alertAndCloseApp(this, null);
+            } finally {
+                try {
+                    if (fos != null) {
+                        fos.close();
+                    }
+                } catch (IOException e) {
+                    MyExceptionHandler.alertAndCloseApp(this, null);
+                }
+            }
+            mSelectedImage = Uri.fromFile(outFile);
+            mPlantIcon.setImageDrawable(null); // Forcing refresh after editing plant image
+            mPlantIcon.setImageURI(mSelectedImage);
         }
     }
 
     public void selectImage(View v) {
-        Intent pickPhoto = new Intent(Intent.ACTION_PICK,
-                android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        startActivityForResult(pickPhoto, SELECT_IMAGE_REQUEST);
+        Intent intent = new Intent();
+        intent.setType("image/*");
+        intent.setAction(Intent.ACTION_PICK);//
+        startActivityForResult(Intent.createChooser(intent, getString(R.string.select_plant_image)), SELECT_IMAGE_REQUEST);
     }
 
     Integer parseText(EditText editText) {

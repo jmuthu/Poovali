@@ -23,7 +23,7 @@
     <string name="add_batch">New batch</string>
     <string name="add_plant">New plant</string>
     <string name="plant_name">Plant name</string>
-    <string name="select_plant_image">Select plant image</string>
+    <string name="select_plant_image">Select image</string>
     <string name="plant_growth_stage">Plant growth stages in days</string>
     <string name="seedling">Seedling</string>
     <string name="flowering">Flowering</string>

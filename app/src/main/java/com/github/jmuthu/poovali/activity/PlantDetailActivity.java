@@ -135,6 +135,7 @@ public class PlantDetailActivity extends AppCompatActivity {
             appBarLayout.setTitle(mPlant.getName());
         }
         ImageView plantIcon = (ImageView) findViewById(R.id.plant_type_icon);
+        plantIcon.setImageDrawable(null); // Forcing refresh after editing plant image
         Helper.setImageSrc(plantIcon, mPlant);
 
         TextView batchLabel = (TextView) findViewById(R.id.batch_label);

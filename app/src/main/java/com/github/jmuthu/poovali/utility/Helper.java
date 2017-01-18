@@ -2,6 +2,8 @@ package com.github.jmuthu.poovali.utility;
 
 import android.content.Context;
 import android.support.v7.app.AlertDialog;
+import android.util.DisplayMetrics;
+import android.util.TypedValue;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -9,6 +11,7 @@ import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.interfaces.DisplayableItem;
 import com.github.jmuthu.poovali.model.plant.Plant;
 
+import java.io.File;
 import java.text.DateFormat;
 import java.util.Calendar;
 import java.util.Date;
@@ -24,9 +27,16 @@ public class Helper {
     public static String[] batchEventNameList = null;
 
     public static void setImageSrc(ImageView imageView, DisplayableItem item) {
+        File file = null;
         if (item.getImageUri() != null) {
-            imageView.setImageURI(item.getImageUri());
-        } else {
+            file = new File(item.getImageUri().getPath());
+            if (file.exists()) {
+                imageView.setImageURI(item.getImageUri());
+            } else {
+                file = null;
+            }
+        }
+        if (file == null) {
             String name = getImageFileName(item.getTypeName());
             Context context = imageView.getContext();
             int resId = context.getResources().getIdentifier(name,
@@ -101,6 +111,11 @@ public class Helper {
         builder.setTitle(R.string.save_failed);
         builder.setPositiveButton(android.R.string.ok, null);
         builder.show();
+    }
+
+    public static float dipToPixels(Context context, float dipValue) {
+        DisplayMetrics metrics = context.getResources().getDisplayMetrics();
+        return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
     }
 
 }
