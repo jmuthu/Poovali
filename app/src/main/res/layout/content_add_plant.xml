@@ -18,6 +18,7 @@
         <TextView
             android:id="@+id/plant_name_label"
             style="@style/AddPlantLabel"
+            android:labelFor="@+id/plant_name"
             android:text="@string/plant_name" />
 
         <EditText
@@ -51,6 +52,7 @@
             android:layout_marginEnd="@dimen/list_text_padding_end"
             android:scaleType="fitEnd"
             android:clickable="true"
+            android:contentDescription="@string/select_plant_image"
             android:onClick="selectImage" />
 
         <TextView
@@ -62,6 +64,7 @@
         <TextView
             android:id="@+id/seedling_label"
             style="@style/GrowthStageLabel"
+            android:labelFor="@+id/seedling_days"
             android:layout_below="@+id/plant_growth_stage_label"
             android:text="@string/seedling" />
 
@@ -75,6 +78,7 @@
         <TextView
             android:id="@+id/flowering_label"
             style="@style/GrowthStageLabel"
+            android:labelFor="@+id/flowering_days"
             android:layout_below="@+id/seedling_label"
             android:text="@string/flowering" />
 
@@ -88,6 +92,7 @@
         <TextView
             android:id="@+id/fruiting_label"
             style="@style/GrowthStageLabel"
+            android:labelFor="@+id/fruiting_days"
             android:layout_below="@+id/flowering_label"
             android:text="@string/fruiting" />
 
@@ -101,6 +106,7 @@
         <TextView
             android:id="@+id/ripening_label"
             style="@style/GrowthStageLabel"
+            android:labelFor="@+id/ripening_days"
             android:layout_below="@+id/fruiting_label"
             android:text="@string/ripening" />
 

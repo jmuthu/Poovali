@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android= "http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
     android:padding="5dp"
@@ -9,6 +10,7 @@
         android:id="@+id/img"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        tools:ignore="ContentDescription"
         android:scaleType="fitCenter" />
     <TextView
         android:id="@+id/txt"

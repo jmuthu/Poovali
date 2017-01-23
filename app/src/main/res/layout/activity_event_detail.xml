@@ -42,6 +42,7 @@
                     android:layout_height="64dp"
                     android:layout_marginBottom="@dimen/list_padding_top"
                     android:layout_marginStart="@dimen/list_icon_padding_start"
+                    android:contentDescription="@string/events"
                     android:scaleType="centerCrop" />
             </RelativeLayout>
 
@@ -71,6 +72,7 @@
                 android:layout_height="24dp"
                 android:layout_marginEnd="15dp"
                 android:layout_marginTop="10dip"
+                android:contentDescription="@string/plants"
                 android:scaleType="fitEnd" />
 
             <TextView
@@ -91,6 +93,7 @@
                 android:layout_marginEnd="15dp"
                 android:layout_marginTop="30dip"
                 android:scaleType="fitEnd"
+                tools:ignore="contentDescription"
                 android:src="@drawable/ic_access_time_black_24dp" />
 
 
@@ -125,6 +128,7 @@
                 android:layout_marginEnd="15dp"
                 android:layout_marginTop="30dip"
                 android:scaleType="fitEnd"
+                tools:ignore="contentDescription"
                 android:src="@drawable/ic_note_black_24dp" />
 
             <TextView

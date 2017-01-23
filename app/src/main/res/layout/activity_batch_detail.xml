@@ -43,6 +43,7 @@
                     android:layout_height="64dp"
                     android:layout_marginBottom="@dimen/list_padding_top"
                     android:layout_marginStart="@dimen/list_icon_padding_start"
+                    android:contentDescription="@string/plants"
                     android:scaleType="centerCrop" />
 
                 <TextView
@@ -125,6 +126,7 @@
                     android:layout_marginStart="@dimen/list_icon_padding_start"
                     android:layout_marginTop="32dp"
                     android:scaleType="fitEnd"
+                    tools:ignore="contentDescription"
                     android:src="@drawable/ic_note_black_36dp" />
 
                 <TextView
