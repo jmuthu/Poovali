@@ -24,6 +24,8 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.NumberFormat;
+import java.util.EnumMap;
 
 import static java.lang.Integer.parseInt;
 
@@ -67,14 +69,16 @@ public class AddPlantActivity extends AppCompatActivity {
             mPlant = PlantRepository.find(plantId);
             nameView.setText(mPlant.getName());
             mSelectedImage = mPlant.getImageUri();
+            EnumMap<Plant.GrowthStage, Integer> growthStageMap = mPlant.getGrowthStageMap();
+            NumberFormat numberFormat = NumberFormat.getInstance();
             EditText seedling = (EditText) findViewById(R.id.seedling_days);
-            seedling.setText(mPlant.getGrowthStageMap().get(Plant.GrowthStage.SEEDLING).toString());
+            seedling.setText(numberFormat.format(growthStageMap.get(Plant.GrowthStage.SEEDLING)));
             EditText flowering = (EditText) findViewById(R.id.flowering_days);
-            flowering.setText(mPlant.getGrowthStageMap().get(Plant.GrowthStage.FLOWERING).toString());
+            flowering.setText(numberFormat.format(growthStageMap.get(Plant.GrowthStage.FLOWERING)));
             EditText fruiting = (EditText) findViewById(R.id.fruiting_days);
-            fruiting.setText(mPlant.getGrowthStageMap().get(Plant.GrowthStage.FRUITING).toString());
+            fruiting.setText(numberFormat.format(growthStageMap.get(Plant.GrowthStage.FRUITING)));
             EditText ripening = (EditText) findViewById(R.id.ripening_days);
-            ripening.setText(mPlant.getGrowthStageMap().get(Plant.GrowthStage.RIPENING).toString());
+            ripening.setText(numberFormat.format(growthStageMap.get(Plant.GrowthStage.RIPENING)));
         }
         setImageIcon();
     }
