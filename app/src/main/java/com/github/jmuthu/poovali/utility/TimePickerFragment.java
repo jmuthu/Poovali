@@ -9,6 +9,8 @@ import android.util.Log;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.github.jmuthu.poovali.R;
+
 import java.text.ParseException;
 import java.util.Calendar;
 
@@ -34,7 +36,7 @@ public class TimePickerFragment extends DialogFragment
         int hour = calendar.get(Calendar.HOUR_OF_DAY);
         int minute = calendar.get(Calendar.MINUTE);
 
-        return new TimePickerDialog(getActivity(), this, hour, minute,
+        return new TimePickerDialog(getActivity(), R.style.TimePickerDialogTheme, this, hour, minute,
                 android.text.format.DateFormat.is24HourFormat(getActivity()));
     }
 

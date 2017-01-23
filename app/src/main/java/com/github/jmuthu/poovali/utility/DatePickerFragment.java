@@ -9,6 +9,8 @@ import android.util.Log;
 import android.widget.DatePicker;
 import android.widget.TextView;
 
+import com.github.jmuthu.poovali.R;
+
 import java.text.ParseException;
 import java.util.Calendar;
 import java.util.Date;
@@ -47,7 +49,8 @@ public class DatePickerFragment extends DialogFragment
         int month = calendar.get(Calendar.MONTH);
         int day = calendar.get(Calendar.DAY_OF_MONTH);
 
-        DatePickerDialog dialog = new DatePickerDialog(getActivity(), this, year, month, day);
+        DatePickerDialog dialog = new DatePickerDialog(getActivity(),
+                R.style.DatePickerDialogTheme, this, year, month, day);
         if (mMinDate != null) {
             dialog.getDatePicker().setMinDate(Helper.getStartOfDay(mMinDate).getTime());
         }

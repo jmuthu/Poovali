@@ -16,6 +16,10 @@
 
     <style name="AlertDialogTheme" parent="Theme.AppCompat.Light.Dialog.Alert" />
 
+    <style name="DatePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog" />
+
+    <style name="TimePickerDialogTheme" parent="Theme.AppCompat.Light.Dialog" />
+
     <style name="Label" parent="@android:style/TextAppearance.Material.Title">
         <item name="android:layout_marginTop">@dimen/list_padding_top</item>
         <item name="android:layout_width">match_parent</item>
