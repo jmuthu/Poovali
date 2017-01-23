@@ -51,6 +51,7 @@ public class PlantBatchRepository {
         return batchMap.isEmpty();
     }
 
+    @SuppressWarnings("unchecked")
     public static void initialize() {
         Object result = FileRepository.readAll(ENTITY_NAME);
         if (result != null) {

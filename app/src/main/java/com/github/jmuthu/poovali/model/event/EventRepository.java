@@ -32,6 +32,7 @@ public class EventRepository {
         FileRepository.writeAll(ENTITY_NAME, eventMap);
     }
 
+    @SuppressWarnings("unchecked")
     public static void initialize() {
         Object result = FileRepository.readAll(ENTITY_NAME);
         if (result != null) {
