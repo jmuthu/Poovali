@@ -11,7 +11,7 @@ import java.util.Map;
 public class PlantBatchRepository {
     private static final String ENTITY_NAME = "PlantBatch";
     private static Map<Integer, PlantBatch> batchMap = new HashMap<>();
-    private static List<PlantBatch> plantBatchList = new LinkedList<PlantBatch>(); // To make findAll really fast
+    private static List<PlantBatch> plantBatchList = new LinkedList<>(); // To make findAll really fast
     private static PlantBatch.BatchNameComparator batchNameComparator = new PlantBatch.BatchNameComparator();
     private static PlantBatch.BatchModifiedDescendingComparator batchModifiedDescendingComparator =
             new PlantBatch.BatchModifiedDescendingComparator();
@@ -41,9 +41,9 @@ public class PlantBatchRepository {
     }
 
     public static List<PlantBatch> findAll(boolean sortByModifiedDate) {
-        if (!sortByModifiedDate) {
+        //if (!sortByModifiedDate) {
             //Collections.sort(plantBatchList, batchNameComparator);
-        }
+        //}
         return Collections.unmodifiableList(plantBatchList);
     }
 

@@ -23,8 +23,8 @@ import java.text.DateFormat;
 import java.util.List;
 
 public class EventListFragment extends Fragment {
-    PlantBatch mPlantBatch = null;
-    RecyclerView recyclerView;
+    private PlantBatch mPlantBatch = null;
+    private RecyclerView recyclerView;
 
     public EventListFragment() {
     }

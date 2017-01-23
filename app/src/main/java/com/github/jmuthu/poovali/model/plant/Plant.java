@@ -22,7 +22,7 @@ public class Plant implements Serializable, DisplayableItem {
     private String name;
     //Storing uri as string as it is not serializable
     private String imageUri;
-    private EnumMap<GrowthStage, Integer> growthStageMap = new EnumMap<GrowthStage, Integer>(GrowthStage.class);
+    private EnumMap<GrowthStage, Integer> growthStageMap = new EnumMap<>(GrowthStage.class);
     transient private List<PlantBatch> plantBatchList = new LinkedList<>();
     //public final Map fertilizerSchedule;
 

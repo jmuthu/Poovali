@@ -32,7 +32,7 @@ import java.text.MessageFormat;
 import static com.github.jmuthu.poovali.utility.Helper.DATE_FORMAT;
 
 public class BatchDetailActivity extends AppCompatActivity {
-    PlantBatch mPlantBatch;
+    private PlantBatch mPlantBatch;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

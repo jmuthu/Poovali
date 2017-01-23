@@ -28,11 +28,11 @@ import java.io.IOException;
 import static java.lang.Integer.parseInt;
 
 public class AddPlantActivity extends AppCompatActivity {
-    static final int SELECT_IMAGE_REQUEST = 1;
-    ImageView mPlantIcon;
-    Uri mSelectedImage;
-    Plant mPlant = null;
-    EditText nameView;
+    private static final int SELECT_IMAGE_REQUEST = 1;
+    private ImageView mPlantIcon;
+    private Uri mSelectedImage;
+    private Plant mPlant = null;
+    private EditText nameView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +79,7 @@ public class AddPlantActivity extends AppCompatActivity {
         setImageIcon();
     }
 
-    void setImageIcon() {
+    private void setImageIcon() {
         File file = null;
         if (mSelectedImage != null) {
             file = new File(mSelectedImage.getPath());

@@ -1,5 +1,6 @@
 package com.github.jmuthu.poovali.activity;
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -26,13 +27,12 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-
-import static com.github.jmuthu.poovali.R.id.date;
+import java.util.Locale;
 
 public class AddPlantBatchActivity extends AppCompatActivity {
 
-    PlantBatch mPlantBatch = null;
-    Plant mPlant = null;
+    private PlantBatch mPlantBatch = null;
+    private Plant mPlant = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,7 +62,11 @@ public class AddPlantBatchActivity extends AppCompatActivity {
 
         TextView plant_label = (TextView) findViewById(R.id.plant_label);
         if (mPlantBatch != null) {
-            plant_label.setTextAppearance(this, R.style.Label);
+            if (Build.VERSION.SDK_INT < 23) {
+                plant_label.setTextAppearance(this, R.style.Label);
+            } else {
+                plant_label.setTextAppearance(R.style.Label);
+            }
             label = mPlantBatch.getName();
             date = mPlantBatch.getCreatedDate();
             plantSpinner.setVisibility(View.GONE);
@@ -72,11 +76,16 @@ public class AddPlantBatchActivity extends AppCompatActivity {
             label = getResources().getString(R.string.plant_label);
             if (plantId != -1) {
                 mPlant = PlantRepository.find(plantId);
-                plant_label.setTextAppearance(this, R.style.Label);
+                if (Build.VERSION.SDK_INT < 23) {
+                    plant_label.setTextAppearance(this, R.style.Label);
+                } else {
+                    plant_label.setTextAppearance(R.style.Label);
+                }
+
                 label += " " + mPlant.getName();
                 plantSpinner.setVisibility(View.GONE);
             } else {
-                SpinnerAdapter plantSpinnerAdapter = new CustomSpinnerAdapter<Plant>(this,
+                SpinnerAdapter plantSpinnerAdapter = new CustomSpinnerAdapter<>(this,
                         PlantRepository.findAll());
                 plantSpinner.setAdapter(plantSpinnerAdapter);
             }
@@ -120,7 +129,7 @@ public class AddPlantBatchActivity extends AppCompatActivity {
             mPlantBatch = new PlantBatch();
             mPlantBatch.setId(PlantBatchRepository.nextPlantBatchId());
         }
-        SimpleDateFormat format = new SimpleDateFormat("d MMM yy");
+        SimpleDateFormat format = new SimpleDateFormat("d MMM yy", Locale.getDefault());
         mPlantBatch.setName(mPlant.getName() + " - " +
                 format.format(date));
         EditText desc = (EditText) findViewById(R.id.description);
@@ -138,7 +147,7 @@ public class AddPlantBatchActivity extends AppCompatActivity {
 
     public void showDatePickerDialog(View v) {
         DatePickerFragment datePickerFragment = new DatePickerFragment();
-        datePickerFragment.setDateView((TextView) findViewById(date));
+        datePickerFragment.setDateView((TextView) findViewById(R.id.date));
         if (mPlantBatch != null && !mPlantBatch.getEvents().isEmpty()) {
             int size = mPlantBatch.getEvents().size();
             datePickerFragment.setMaxDate(mPlantBatch.getEvents().get(size - 1).getCreatedDate());

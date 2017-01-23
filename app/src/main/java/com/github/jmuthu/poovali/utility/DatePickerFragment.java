@@ -16,9 +16,9 @@ import java.util.Date;
 public class DatePickerFragment extends DialogFragment
         implements DatePickerDialog.OnDateSetListener {
 
-    TextView mDateView;
-    Date mMinDate;
-    Date mMaxDate;
+    private TextView mDateView;
+    private Date mMinDate;
+    private Date mMaxDate;
 
     public void setDateView(TextView mDateView) {
         this.mDateView = mDateView;

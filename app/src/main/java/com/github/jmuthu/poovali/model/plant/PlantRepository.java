@@ -11,7 +11,7 @@ import java.util.Map;
 public class PlantRepository {
     private static final String ENTITY_NAME = "Plant";
     private static Map<Integer, Plant> plantMap = new HashMap<>();
-    private static List<Plant> plantList = new LinkedList<Plant>(); // To make findAll really fast
+    private static List<Plant> plantList = new LinkedList<>(); // To make findAll really fast
     private static Plant.PlantNameComparator plantNameComparator = new Plant.PlantNameComparator();
     private static int maxPlantId = 10000; // 1 -10000 reserved for default plants
 
@@ -51,7 +51,7 @@ public class PlantRepository {
         Object result = FileRepository.readAll(ENTITY_NAME);
         if (result != null) {
             plantMap = (Map<Integer, Plant>) result;
-            plantList = new LinkedList<Plant>(plantMap.values());
+            plantList = new LinkedList<>(plantMap.values());
             for (Plant plant : plantList) {
                 if (plant.getId() > maxPlantId) {
                     maxPlantId = plant.getId();

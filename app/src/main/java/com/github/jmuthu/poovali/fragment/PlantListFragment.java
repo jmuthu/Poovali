@@ -24,7 +24,7 @@ import java.text.MessageFormat;
 import java.util.List;
 
 public class PlantListFragment extends Fragment {
-    RecyclerView mRecyclerView;
+    private RecyclerView mRecyclerView;
 
     public PlantListFragment() {
         // Required empty public constructor

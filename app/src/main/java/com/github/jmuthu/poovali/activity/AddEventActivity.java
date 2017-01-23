@@ -35,15 +35,15 @@ import java.util.Date;
 
 public class AddEventActivity extends AppCompatActivity {
 
-    Event mEvent = null;
-    PlantBatch mPlantBatch = null;
+    private Event mEvent = null;
+    private PlantBatch mPlantBatch = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
 
-        int batchId = -1;
+        int batchId;
         Bundle extras = getIntent().getExtras();
         if (extras != null) {
             batchId = extras.getInt(Helper.ARG_BATCH_ID, -1);

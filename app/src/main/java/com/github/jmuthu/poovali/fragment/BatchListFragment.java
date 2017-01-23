@@ -25,8 +25,8 @@ import java.text.DateFormat;
 import java.util.List;
 
 public class BatchListFragment extends Fragment {
-    Plant mPlant = null;
-    RecyclerView mRecyclerView;
+    private Plant mPlant = null;
+    private RecyclerView mRecyclerView;
 
     public BatchListFragment() {
     }

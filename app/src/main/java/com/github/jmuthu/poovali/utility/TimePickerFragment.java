@@ -14,7 +14,7 @@ import java.util.Calendar;
 
 public class TimePickerFragment extends DialogFragment
         implements TimePickerDialog.OnTimeSetListener {
-    TextView mTimeView;
+    private TextView mTimeView;
 
     public void setTimeView(TextView mDateView) {
         this.mTimeView = mDateView;

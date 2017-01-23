@@ -14,7 +14,6 @@ import java.io.StringWriter;
 public class MyExceptionHandler implements
         java.lang.Thread.UncaughtExceptionHandler {
     private final Activity myContext;
-    private final String LINE_SEPARATOR = "\n";
     final static String DEFAULT_MESSAGE =
             "Please check phone data storage and contact Poovali for further help!";
 
@@ -32,6 +31,7 @@ public class MyExceptionHandler implements
         errorReport.append("\n************ DEVICE INFORMATION ***********\n");
         errorReport.append("Brand: ");
         errorReport.append(Build.BRAND);
+        String LINE_SEPARATOR = "\n";
         errorReport.append(LINE_SEPARATOR);
         errorReport.append("Device: ");
         errorReport.append(Build.DEVICE);
@@ -47,7 +47,7 @@ public class MyExceptionHandler implements
         errorReport.append(LINE_SEPARATOR);
         errorReport.append("\n************ FIRMWARE ************\n");
         errorReport.append("SDK: ");
-        errorReport.append(Build.VERSION.SDK);
+        errorReport.append(Build.VERSION.SDK_INT);
         errorReport.append(LINE_SEPARATOR);
         errorReport.append("Release: ");
         errorReport.append(Build.VERSION.RELEASE);

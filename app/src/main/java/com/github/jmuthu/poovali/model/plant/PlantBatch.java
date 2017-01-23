@@ -126,7 +126,7 @@ public class PlantBatch implements Serializable, DisplayableItem {
     }
 
     public int getProgress() {
-        return (int) getDurationInDays() * 100 / plant.getCropDuration();
+        return getDurationInDays() * 100 / plant.getCropDuration();
     }
 
     public Plant.GrowthStage getStage() {

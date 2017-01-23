@@ -38,13 +38,12 @@ import java.text.DecimalFormat;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.EnumMap;
-import java.util.Iterator;
 import java.util.List;
 
 
 public class PlantDetailActivity extends AppCompatActivity {
-    Plant mPlant;
-    PieChart mPieChart;
+    private Plant mPlant;
+    private PieChart mPieChart;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -129,7 +128,7 @@ public class PlantDetailActivity extends AppCompatActivity {
         invalidateOptionsMenu();
     }
 
-    public void setupUpdatableViews() {
+    private void setupUpdatableViews() {
         CollapsingToolbarLayout appBarLayout = (CollapsingToolbarLayout) findViewById(R.id.toolbar_layout);
         if (appBarLayout != null) {
             appBarLayout.setTitle(mPlant.getName());
@@ -151,9 +150,7 @@ public class PlantDetailActivity extends AppCompatActivity {
 
         List<PieEntry> entries = new ArrayList<>();
         EnumMap<Plant.GrowthStage, Integer> growthStages = mPlant.getGrowthStageMap();
-        Iterator<Plant.GrowthStage> enumKeySet = growthStages.keySet().iterator();
-        while (enumKeySet.hasNext()) {
-            Plant.GrowthStage currentStage = enumKeySet.next();
+        for (Plant.GrowthStage currentStage : growthStages.keySet()) {
             entries.add(new PieEntry(growthStages.get(currentStage), currentStage.toString()));
         }
 
