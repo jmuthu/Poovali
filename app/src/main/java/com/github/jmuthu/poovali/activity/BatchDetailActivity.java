@@ -90,7 +90,7 @@ public class BatchDetailActivity extends AppCompatActivity {
 
         createdDateView.setText(getString(R.string.created_on) + " " +
                 DATE_FORMAT.format(mPlantBatch.getCreatedDate()));
-        batchStatusView.setText(mPlantBatch.getStage().toString());
+        batchStatusView.setText(Helper.getLocalizedString(R.array.plant_growth_stages, mPlantBatch.getStage().getValue()));
 
         int duration = mPlantBatch.getDurationInDays();
         String fmt = getResources().getText(R.string.days_due).toString();

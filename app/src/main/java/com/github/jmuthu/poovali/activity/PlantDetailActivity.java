@@ -151,7 +151,8 @@ public class PlantDetailActivity extends AppCompatActivity {
         List<PieEntry> entries = new ArrayList<>();
         EnumMap<Plant.GrowthStage, Integer> growthStages = mPlant.getGrowthStageMap();
         for (Plant.GrowthStage currentStage : growthStages.keySet()) {
-            entries.add(new PieEntry(growthStages.get(currentStage), currentStage.toString()));
+            entries.add(new PieEntry(growthStages.get(currentStage),
+                    Helper.getLocalizedString(R.array.plant_growth_stages, currentStage.getValue())));
         }
 
         String days = MessageFormat.format(getString(R.string.no_of_days), mPlant.getCropDuration());

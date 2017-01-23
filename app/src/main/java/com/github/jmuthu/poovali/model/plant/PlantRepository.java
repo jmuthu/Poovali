@@ -1,6 +1,8 @@
 package com.github.jmuthu.poovali.model.plant;
 
+import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.utility.FileRepository;
+import com.github.jmuthu.poovali.utility.Helper;
 
 import java.util.Collections;
 import java.util.HashMap;
@@ -75,34 +77,52 @@ public class PlantRepository {
     private static void initializeDefaultItems() {
         addPlant(
                 new Plant(
-                        1,
-                        "Brinjal",
+                        PlantName.Brinjal.getValue(),
+                        Helper.getLocalizedString(R.array.plant_name, PlantName.Brinjal.getValue()),
                         null,
                         10, 30, 30, 80));
         addPlant(
                 new Plant(
-                        2,
-                        "Chilli",
+                        PlantName.Chilli.getValue(),
+                        Helper.getLocalizedString(R.array.plant_name, PlantName.Chilli.getValue()),
                         null,
                         10, 30, 40, 80));
         addPlant(
                 new Plant(
-                        3,
-                        "Lady's Finger",
+                        PlantName.LadysFinger.getValue(),
+                        Helper.getLocalizedString(R.array.plant_name, PlantName.LadysFinger.getValue()),
                         null,
                         10, 30, 30, 30));
         addPlant(
                 new Plant(
-                        4,
-                        "Radish",
+                        PlantName.Radish.getValue(),
+                        Helper.getLocalizedString(R.array.plant_name, PlantName.Radish.getValue()),
                         null,
                         15, 20, 10, 10));
         addPlant(
                 new Plant(
-                        5,
-                        "Tomato",
+                        PlantName.Tomato.getValue(),
+                        Helper.getLocalizedString(R.array.plant_name, PlantName.Tomato.getValue()),
                         null,
                         10, 30, 30, 80));
         FileRepository.writeAll(ENTITY_NAME, plantMap);
+    }
+
+    enum PlantName {
+        Brinjal(0),
+        Chilli(1),
+        LadysFinger(2),
+        Radish(3),
+        Tomato(4);
+
+        private final int value;
+
+        PlantName(final int newValue) {
+            value = newValue;
+        }
+
+        public int getValue() {
+            return value;
+        }
     }
 }

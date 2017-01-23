@@ -93,7 +93,9 @@ public class BatchListFragment extends Fragment {
                 holder.mNameView.setText(Helper.DATE_FORMAT.format(holder.mPlantBatch.getCreatedDate()));
             }
 
-            holder.mBatchStatusView.setText(holder.mPlantBatch.getStage().toString());
+            holder.mBatchStatusView.setText(
+                    Helper.getLocalizedString(R.array.plant_growth_stages,
+                            holder.mPlantBatch.getStage().getValue()));
             holder.mProgressBar.setProgress(holder.mPlantBatch.getProgress());
             String description = holder.mPlantBatch.getDescription();
             if (!holder.mPlantBatch.getEvents().isEmpty()) {

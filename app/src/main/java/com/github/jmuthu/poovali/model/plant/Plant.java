@@ -164,30 +164,20 @@ public class Plant implements Serializable, DisplayableItem {
     }
 
     public enum GrowthStage {
-        SEEDLING {
-            public String toString() {
-                return "Seedling";
-            }
-        },
-        FLOWERING {
-            public String toString() {
-                return "Flowering";
-            }
-        },
-        FRUITING {
-            public String toString() {
-                return "Fruiting";
-            }
-        },
-        RIPENING {
-            public String toString() {
-                return "Ripening";
-            }
-        },
-        DORMANT {
-            public String toString() {
-                return "Dormant";
-            }
+        SEEDLING(0),
+        FLOWERING(1),
+        FRUITING(2),
+        RIPENING(3),
+        DORMANT(4);
+
+        private final int value;
+
+        GrowthStage(final int newValue) {
+            value = newValue;
+        }
+
+        public int getValue() {
+            return value;
         }
     }
 
