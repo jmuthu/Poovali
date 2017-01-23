@@ -13,6 +13,7 @@ import com.github.jmuthu.poovali.model.plant.Plant;
 
 import java.io.File;
 import java.text.DateFormat;
+import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.Date;
 
@@ -80,19 +81,15 @@ public class Helper {
     public static void setOverDueText(Plant plant, TextView textView, int warnColor) {
         Integer overDue = plant.pendingSowDays();
         if (overDue != null) {
-            if (overDue == 0) {
-                textView.setText("sow today");
-            } else if (overDue > 0) {
-                String text = overDue == 1 ?
-                        overDue + " day overdue" : overDue + " days overdue";
-                textView.setText(text);
+            String fmt;
+            if (overDue > 0) {
                 textView.setTextColor(warnColor);
+                fmt = textView.getContext().getResources().getText(R.string.sow_over_due).toString();
             } else {
-                overDue = overDue * -1;
-                String text = overDue == 1 ?
-                        overDue + " day" : overDue + " days";
-                textView.setText("sow in " + text);
+                fmt = textView.getContext().getResources().getText(R.string.sow_next).toString();
+                overDue *= -1;
             }
+            textView.setText(MessageFormat.format(fmt, overDue));
         }
     }
 

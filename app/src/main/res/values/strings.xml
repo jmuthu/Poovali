@@ -39,6 +39,8 @@
     <string name="duplicate_event">Activity already exists for this date, select another date!</string>
     <string name="save_failed">Save failed</string>
     <string name="days_due">{0,choice,0#planted today|1#1 day old|1&lt;{0} days old}</string>
+    <string name="sow_over_due">{0,choice,1#1 day overdue|1&lt;{0} days overdue}</string>
+    <string name="sow_next">{0,choice,0#sow today|1#sow in 1 day|1&lt;sow in {0} days}</string>
     <string name="sow_type">Sow</string>
     <string-array name="batch_activity_type">
         <item>DeWeed</item>
@@ -50,5 +52,12 @@
         <item>Prune</item>
         <item>Re-plant</item>
         <item>Water</item>
+    </string-array>
+    <string-array name="plant_name">
+        <item>Brinjal</item>
+        <item>Chilli</item>
+        <item>"Lady's Finger"</item>
+        <item>Radish</item>
+        <item>Tomato</item>
     </string-array>
 </resources>
