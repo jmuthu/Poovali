@@ -1,5 +1,6 @@
 package com.github.jmuthu.poovali.model.event;
 
+import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.utility.Helper;
 
 import java.io.Serializable;
@@ -10,7 +11,7 @@ public class BatchActivityEvent extends Event implements Serializable {
 
     @Override
     public String getName() {
-        return Helper.getBatchEventName(type.getValue());
+        return Helper.getLocalizedString(R.array.batch_activity_type, type.getValue());
     }
 
     public Type getType() {

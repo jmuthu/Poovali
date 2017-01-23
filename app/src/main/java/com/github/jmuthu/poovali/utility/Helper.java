@@ -7,6 +7,7 @@ import android.util.TypedValue;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+import com.github.jmuthu.poovali.MyApplication;
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.interfaces.DisplayableItem;
 import com.github.jmuthu.poovali.model.plant.Plant;
@@ -16,6 +17,8 @@ import java.text.DateFormat;
 import java.text.MessageFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 public class Helper {
     public static final String DETAIL_IMAGE_SUFFIX = "_detail";
@@ -25,7 +28,7 @@ public class Helper {
     public static final String ARG_BATCH_ID = "BATCH_ID";
     public static final DateFormat DATE_FORMAT = DateFormat.getDateInstance(DateFormat.MEDIUM);
     public static final DateFormat TIME_FORMAT = DateFormat.getTimeInstance(DateFormat.SHORT);
-    public static String[] batchEventNameList = null;
+    public static Map<Integer, String[]> localizedMap = new HashMap<>();
 
     public static void setImageSrc(ImageView imageView, DisplayableItem item) {
         File file = null;
@@ -93,12 +96,11 @@ public class Helper {
         }
     }
 
-    public static void setBatchEventName(Context context) {
-        batchEventNameList = context.getResources().getStringArray(R.array.batch_activity_type);
-    }
-
-    public static String getBatchEventName(int id) {
-        return batchEventNameList[id];
+    public static String getLocalizedString(int resId, int id) {
+        if (!localizedMap.containsKey(resId)) {
+            localizedMap.put(resId, MyApplication.getContext().getResources().getStringArray(resId));
+        }
+        return localizedMap.get(resId)[id];
     }
 
     public static void alertSaveFailure(Context context, int messageId) {

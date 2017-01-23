@@ -4,6 +4,7 @@ package com.github.jmuthu.poovali.utility;
 import android.content.Context;
 import android.util.Log;
 
+import com.github.jmuthu.poovali.MyApplication;
 import com.github.jmuthu.poovali.model.plant.PlantRepository;
 
 import java.io.File;
@@ -14,11 +15,10 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class FileRepository {
-    public static String FILE_PREFIX = "poovali_";
-
-    public static Context context = null;
+    public final static String FILE_PREFIX = "poovali_";
 
     public static Object readAll(String entityName) {
+        Context context = MyApplication.getContext();
         Object result = null;
         try {
             File file = new File(context.getFilesDir(), FILE_PREFIX + entityName.toLowerCase());
@@ -36,6 +36,7 @@ public class FileRepository {
     }
 
     public static void writeAll(String entityName, Object data) {
+        Context context = MyApplication.getContext();
         try {
             File file = new File(context.getFilesDir(), FILE_PREFIX + entityName.toLowerCase());
             if (!file.isFile()) {

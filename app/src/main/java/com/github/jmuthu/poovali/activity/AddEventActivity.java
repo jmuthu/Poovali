@@ -149,7 +149,7 @@ public class AddEventActivity extends AppCompatActivity {
 
         @NonNull
         public View getView(int position, View convertView, @NonNull ViewGroup parent) {
-            String typeName = Helper.getBatchEventName(getItem(position).getValue());
+            String typeName = Helper.getLocalizedString(R.array.batch_activity_type, getItem(position).getValue());
             if (convertView == null) {
                 convertView = LayoutInflater.from(getContext())
                         .inflate(R.layout.spinner_item, parent, false);

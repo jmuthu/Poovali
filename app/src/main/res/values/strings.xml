@@ -60,4 +60,10 @@
         <item>Radish</item>
         <item>Tomato</item>
     </string-array>
+    <string-array name="plant_growth_stages">
+        <item>Seedling</item>
+        <item>Flowering</item>
+        <item>Fruiting</item>
+        <item>Ripening</item>
+    </string-array>
 </resources>
