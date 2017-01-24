@@ -117,4 +117,24 @@ public class Helper {
         return TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, dipValue, metrics);
     }
 
+    public static void alertAndCloseApp(String message) {
+        //Intent intent = new Intent(myContext, AnotherActivity.class);
+        //intent.putExtra("error", errorReport.toString());
+        //myContext.startActivity(intent);
+        if (message == null) {
+            message = MyApplication.getContext().getString(R.string.fatal_error_message);
+        }
+       /* Toast toast = Toast.makeText(MyApplication.getContext(), message, Toast.LENGTH_LONG);
+        toast.setGravity(Gravity.TOP | Gravity.LEFT, 0, 0);
+        toast.show();
+        new android.app.AlertDialog.Builder(context, R.style.AlertDialogTheme)
+                .setTitle("Application stopped")
+                .setMessage(message)
+                .setPositiveButton(android.R.string.ok, null)
+                .setIcon(android.R.drawable.ic_dialog_alert)
+                .show();
+       */
+        android.os.Process.killProcess(android.os.Process.myPid());
+        System.exit(10);
+    }
 }

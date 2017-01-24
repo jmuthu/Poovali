@@ -1,12 +1,8 @@
 package com.github.jmuthu.poovali.utility;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.Context;
 import android.os.Build;
 import android.util.Log;
-
-import com.github.jmuthu.poovali.R;
 
 import java.io.PrintWriter;
 import java.io.StringWriter;
@@ -14,8 +10,6 @@ import java.io.StringWriter;
 public class MyExceptionHandler implements
         java.lang.Thread.UncaughtExceptionHandler {
     private final Activity myContext;
-    private final static String DEFAULT_MESSAGE =
-            "Please check phone data storage and contact Poovali for further help!";
 
     public MyExceptionHandler(Activity context) {
         myContext = context;
@@ -56,24 +50,8 @@ public class MyExceptionHandler implements
         errorReport.append(Build.VERSION.INCREMENTAL);
         errorReport.append(LINE_SEPARATOR);
         Log.e(myContext.getPackageName(), exception.getMessage(), exception);
-        alertAndCloseApp(myContext, null);
+        Log.i(myContext.getPackageName(), errorReport.toString());
+        Helper.alertAndCloseApp(null);
     }
 
-    public static void alertAndCloseApp(Context context, String message) {
-        //Intent intent = new Intent(myContext, AnotherActivity.class);
-        //intent.putExtra("error", errorReport.toString());
-        //myContext.startActivity(intent);
-        if (message == null) {
-            message = DEFAULT_MESSAGE;
-        }
-        new AlertDialog.Builder(context, R.style.AlertDialogTheme)
-                .setTitle("Application stopped")
-                .setMessage(message)
-                .setPositiveButton(android.R.string.ok, null)
-                .setIcon(android.R.drawable.ic_dialog_alert)
-                .show();
-
-        android.os.Process.killProcess(android.os.Process.myPid());
-        System.exit(10);
-    }
 }

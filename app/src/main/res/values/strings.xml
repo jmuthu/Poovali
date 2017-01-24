@@ -67,4 +67,5 @@
         <item>Ripening</item>
         <item>Dormant</item>
     </string-array>
+    <string name="fatal_error_message">Please check phone data storage and contact Poovali for further help!</string>
 </resources>

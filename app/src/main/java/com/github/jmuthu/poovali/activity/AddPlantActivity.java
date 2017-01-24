@@ -18,7 +18,6 @@ import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.model.plant.Plant;
 import com.github.jmuthu.poovali.model.plant.PlantRepository;
 import com.github.jmuthu.poovali.utility.Helper;
-import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -136,14 +135,14 @@ public class AddPlantActivity extends AppCompatActivity {
 
             } catch (IOException e) {
                 Log.e(imageReturnedIntent.getData().toString(), "Unable to read image file", e);
-                MyExceptionHandler.alertAndCloseApp(this, null);
+                Helper.alertAndCloseApp(null);
             } finally {
                 try {
                     if (fos != null) {
                         fos.close();
                     }
                 } catch (IOException e) {
-                    MyExceptionHandler.alertAndCloseApp(this, null);
+                    Helper.alertAndCloseApp(null);
                 }
             }
             mSelectedImage = Uri.fromFile(outFile);

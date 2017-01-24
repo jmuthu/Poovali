@@ -30,7 +30,7 @@ public class FileRepository {
             }
         } catch (IOException | ClassNotFoundException e) {
             Log.e(PlantRepository.class.getName(), "Unable to read data file", e);
-            MyExceptionHandler.alertAndCloseApp(context, null);
+            Helper.alertAndCloseApp(null);
         }
         return result;
     }
@@ -48,7 +48,7 @@ public class FileRepository {
             oos.close();
         } catch (IOException e) {
             Log.e(FileRepository.class.getName(), "Unable to save data to file", e);
-            MyExceptionHandler.alertAndCloseApp(context, null);
+            Helper.alertAndCloseApp(null);
         }
     }
 }
