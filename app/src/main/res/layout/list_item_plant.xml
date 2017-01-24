@@ -44,6 +44,7 @@
         android:layout_alignParentStart="true"
         android:paddingStart="@dimen/list_text_padding_start"
         android:layout_toEndOf="@+id/image_icon"
+        android:layout_toStartOf="@+id/last_batch_date"
         android:ellipsize="end"
         android:maxLines="1" />
 

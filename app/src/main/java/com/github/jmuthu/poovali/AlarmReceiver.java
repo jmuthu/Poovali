@@ -20,9 +20,9 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     private static int notificationID = 1;
 
-    final static String ACTIVITY_GROUP = "activity_group";
+    //final static String ACTIVITY_GROUP = "activity_group";
 
-    public static List<Notification> pendingActivities() {
+    private static List<Notification> pendingActivities() {
         List<Notification> notification = new ArrayList<>();
         if (PlantRepository.findAll().size() == 0) {
             return notification;

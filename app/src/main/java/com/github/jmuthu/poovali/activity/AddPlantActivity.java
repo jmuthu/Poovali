@@ -159,7 +159,7 @@ public class AddPlantActivity extends AppCompatActivity {
         startActivityForResult(Intent.createChooser(intent, getString(R.string.select_plant_image)), SELECT_IMAGE_REQUEST);
     }
 
-    Integer parseText(EditText editText) {
+    private Integer parseText(EditText editText) {
         if (editText.getText() == null || editText.getText().toString().isEmpty()
                 || parseInt(editText.getText().toString()) == 0) {
             Helper.alertSaveFailure(this, R.string.growth_stage_invalid_days);

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -25,8 +26,8 @@ import com.github.jmuthu.poovali.utility.Helper;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 
 public class EventDetailActivity extends AppCompatActivity {
-    PlantBatch mPlantBatch;
-    Event mEvent;
+    private PlantBatch mPlantBatch;
+    private Event mEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -70,7 +71,7 @@ public class EventDetailActivity extends AppCompatActivity {
         setupUpdatableViews();
     }
 
-    public void setupUpdatableViews() {
+    private void setupUpdatableViews() {
         TextView dateView = (TextView) findViewById(R.id.date);
         dateView.setText(Helper.DATE_FORMAT.format(mEvent.getCreatedDate()));
         TextView timeView = (TextView) findViewById(R.id.time);
@@ -127,6 +128,7 @@ public class EventDetailActivity extends AppCompatActivity {
             mEvent = event;
         }
 
+        @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the Builder class for convenient dialog construction

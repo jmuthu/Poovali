@@ -14,7 +14,7 @@ import java.io.StringWriter;
 public class MyExceptionHandler implements
         java.lang.Thread.UncaughtExceptionHandler {
     private final Activity myContext;
-    final static String DEFAULT_MESSAGE =
+    private final static String DEFAULT_MESSAGE =
             "Please check phone data storage and contact Poovali for further help!";
 
     public MyExceptionHandler(Activity context) {

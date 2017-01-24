@@ -12,8 +12,8 @@ public class PlantBatchRepository {
     private static final String ENTITY_NAME = "PlantBatch";
     private static Map<Integer, PlantBatch> batchMap = new HashMap<>();
     private static List<PlantBatch> plantBatchList = new LinkedList<>(); // To make findAll really fast
-    private static PlantBatch.BatchNameComparator batchNameComparator = new PlantBatch.BatchNameComparator();
-    private static PlantBatch.BatchModifiedDescendingComparator batchModifiedDescendingComparator =
+    //private static PlantBatch.BatchNameComparator batchNameComparator = new PlantBatch.BatchNameComparator();
+    private static final PlantBatch.BatchModifiedDescendingComparator batchModifiedDescendingComparator =
             new PlantBatch.BatchModifiedDescendingComparator();
     private static int maxPlantBatchId = 0;
 

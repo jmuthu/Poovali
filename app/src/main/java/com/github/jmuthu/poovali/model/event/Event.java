@@ -1,7 +1,5 @@
 package com.github.jmuthu.poovali.model.event;
 
-import android.net.Uri;
-
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Date;
@@ -52,10 +50,6 @@ public abstract class Event implements Serializable {
     }
 
     public abstract String getName();
-
-    public Uri getImageUri() {
-        return null;
-    }
 
     public static class EventModifiedDescendingComparator implements Comparator<Event> {
         @Override

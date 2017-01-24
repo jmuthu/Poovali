@@ -11,7 +11,7 @@
         android:layout_height="56dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="8dp"
-        android:background="@drawable/backgroud_progress_bar"
+        android:background="@drawable/background_progress_bar"
         android:max="100"
         android:progress="10"
         android:progressDrawable="@drawable/circular_progress" />

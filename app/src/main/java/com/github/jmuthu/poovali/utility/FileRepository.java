@@ -15,7 +15,7 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 
 public class FileRepository {
-    public final static String FILE_PREFIX = "poovali_";
+    private final static String FILE_PREFIX = "poovali_";
 
     public static Object readAll(String entityName) {
         Context context = MyApplication.getContext();
@@ -42,8 +42,8 @@ public class FileRepository {
             if (!file.isFile()) {
                 file.createNewFile();
             }
-            FileOutputStream fout = new FileOutputStream(file);
-            ObjectOutputStream oos = new ObjectOutputStream(fout);
+            FileOutputStream fileOutputStream = new FileOutputStream(file);
+            ObjectOutputStream oos = new ObjectOutputStream(fileOutputStream);
             oos.writeObject(data);
             oos.close();
         } catch (IOException e) {

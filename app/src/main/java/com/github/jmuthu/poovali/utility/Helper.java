@@ -28,7 +28,7 @@ public class Helper {
     public static final String ARG_BATCH_ID = "BATCH_ID";
     public static final DateFormat DATE_FORMAT = DateFormat.getDateInstance(DateFormat.MEDIUM);
     public static final DateFormat TIME_FORMAT = DateFormat.getTimeInstance(DateFormat.SHORT);
-    public static Map<Integer, String[]> localizedMap = new HashMap<>();
+    private static final Map<Integer, String[]> localizedMap = new HashMap<>();
 
     public static void setImageSrc(ImageView imageView, DisplayableItem item) {
         File file = null;

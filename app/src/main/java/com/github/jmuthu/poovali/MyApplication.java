@@ -12,7 +12,7 @@ public class MyApplication extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        context = this;
+        context = getApplicationContext();
         PlantRepository.initialize();
         PlantBatchRepository.initialize();
         EventRepository.initialize();

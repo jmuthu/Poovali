@@ -14,7 +14,7 @@ public class PlantRepository {
     private static final String ENTITY_NAME = "Plant";
     private static Map<Integer, Plant> plantMap = new HashMap<>();
     private static List<Plant> plantList = new LinkedList<>(); // To make findAll really fast
-    private static Plant.PlantNameComparator plantNameComparator = new Plant.PlantNameComparator();
+    private static final Plant.PlantNameComparator plantNameComparator = new Plant.PlantNameComparator();
     private static int maxPlantId = 10000; // 1 -10000 reserved for default plants
 
     public static int nextPlantId() {

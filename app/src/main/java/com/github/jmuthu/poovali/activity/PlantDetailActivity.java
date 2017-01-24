@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.DialogFragment;
 import android.support.v7.app.AlertDialog;
@@ -70,9 +71,6 @@ public class PlantDetailActivity extends AppCompatActivity {
 
         mPieChart.setExtraOffsets(0.f, 5.f, 0.f, 5.f);
         mPieChart.setDrawEntryLabels(false);
-        // mPieChart.setEntryLabelTextSize(12);
-        // mPieChart.setEntryLabelTypeface(Typeface.DEFAULT);
-        // mPieChart.setEntryLabelColor(Color.DKGRAY);
         mPieChart.setHighlightPerTapEnabled(true);
         mPieChart.setRotationEnabled(false);
         mPieChart.animateY(1400, Easing.EasingOption.EaseInOutQuad);
@@ -211,6 +209,8 @@ public class PlantDetailActivity extends AppCompatActivity {
             mPlantToDelete = plant;
         }
 
+
+        @NonNull
         @Override
         public Dialog onCreateDialog(Bundle savedInstanceState) {
             // Use the Builder class for convenient dialog construction
@@ -234,7 +234,7 @@ public class PlantDetailActivity extends AppCompatActivity {
 
     public class MyValueFormatter implements IValueFormatter {
 
-        private DecimalFormat mFormat;
+        private final DecimalFormat mFormat;
 
         public MyValueFormatter() {
             mFormat = new DecimalFormat("###");
