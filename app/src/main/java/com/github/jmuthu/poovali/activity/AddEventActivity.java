@@ -157,7 +157,7 @@ public class AddEventActivity extends AppCompatActivity {
 
             ImageView imageView = (ImageView) convertView.findViewById(R.id.img);
             imageView.setImageResource(getResources().getIdentifier(
-                    Helper.getImageFileName(typeName),
+                    Helper.getImageFileName(getItem(position).name()),
                     "drawable",
                     imageView.getContext().getPackageName()));
 

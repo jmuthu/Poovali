@@ -31,26 +31,19 @@ public class Helper {
     private static final Map<Integer, String[]> localizedMap = new HashMap<>();
 
     public static void setImageSrc(ImageView imageView, DisplayableItem item) {
-        File file = null;
+
         if (item.getImageUri() != null) {
-            file = new File(item.getImageUri().getPath());
+            File file = new File(item.getImageUri().getPath());
             if (file.exists()) {
                 imageView.setImageURI(item.getImageUri());
-            } else {
-                file = null;
+                return;
             }
+        } else if (item.getImageResourceId() > -1) {
+            imageView.setImageResource(item.getImageResourceId());
+            return;
         }
-        if (file == null) {
-            String name = getImageFileName(item.getTypeName());
-            Context context = imageView.getContext();
-            int resId = context.getResources().getIdentifier(name,
-                    "drawable",
-                    context.getPackageName());
-            if (resId == 0) {
-                resId = R.drawable.add_plant;
-            }
-            imageView.setImageResource(resId);
-        }
+
+        imageView.setImageResource(R.drawable.add_plant);
     }
 
     public static String getImageFileName(String name) {
@@ -136,5 +129,13 @@ public class Helper {
        */
         android.os.Process.killProcess(android.os.Process.myPid());
         System.exit(10);
+    }
+
+    public static int getResourceIdFromName(String name) {
+        Context context = MyApplication.getContext();
+        return context.getResources().getIdentifier(
+                getImageFileName(name),
+                "drawable",
+                context.getPackageName());
     }
 }

@@ -79,7 +79,7 @@ public class PlantListFragment extends Fragment {
 
             holder.mNameView.setText(name);
             String text = MessageFormat.format(getString(R.string.no_of_days), holder.mPlant.getCropDuration());
-            holder.mContentView.setText(getString(R.string.duration_label) + text);
+            holder.mContentView.setText(text);
 
             PlantBatch latestPlantBatch = holder.mPlant.getLatestBatch();
             if (latestPlantBatch != null) {

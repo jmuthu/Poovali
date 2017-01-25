@@ -1,5 +1,7 @@
 package com.github.jmuthu.poovali.model.event;
 
+import android.net.Uri;
+
 import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.utility.Helper;
 
@@ -12,6 +14,15 @@ public class BatchActivityEvent extends Event implements Serializable {
     @Override
     public String getName() {
         return Helper.getLocalizedString(R.array.batch_activity_type, type.getValue());
+    }
+
+    @Override
+    public Uri getImageUri() {
+        return null;
+    }
+
+    public int getImageResourceId() {
+        return Helper.getResourceIdFromName(type.name());
     }
 
     public Type getType() {

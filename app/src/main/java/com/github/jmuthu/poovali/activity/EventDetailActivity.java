@@ -51,10 +51,7 @@ public class EventDetailActivity extends AppCompatActivity {
                 findViewById(R.id.toolbar_layout);
         collapsingToolbarLayout.setTitle(mEvent.getName());
         ImageView eventIconView = (ImageView) findViewById(R.id.event_type_icon);
-        eventIconView.setImageResource(getResources().getIdentifier(
-                Helper.getImageFileName(mEvent.getName()),
-                "drawable",
-                getPackageName()));
+        eventIconView.setImageResource(mEvent.getImageResourceId());
 
         TextView batchView = (TextView) findViewById(R.id.name);
         batchView.setText(mPlantBatch.getName());

@@ -10,4 +10,6 @@ public interface DisplayableItem {
     String getTypeName();
 
     Uri getImageUri();
+
+    int getImageResourceId();
 }

@@ -1,10 +1,14 @@
 package com.github.jmuthu.poovali.model.event;
 
+import android.net.Uri;
+
+import com.github.jmuthu.poovali.interfaces.DisplayableItem;
+
 import java.io.Serializable;
 import java.util.Comparator;
 import java.util.Date;
 
-public abstract class Event implements Serializable {
+public abstract class Event implements DisplayableItem, Serializable {
     private static final long serialVersionUID = 1L;
 
     private int id;
@@ -50,6 +54,14 @@ public abstract class Event implements Serializable {
     }
 
     public abstract String getName();
+
+    public abstract Uri getImageUri();
+
+    public abstract int getImageResourceId();
+
+    public String getTypeName() {
+        return getName();
+    }
 
     public static class EventModifiedDescendingComparator implements Comparator<Event> {
         @Override

@@ -83,10 +83,7 @@ public class EventListFragment extends Fragment {
             holder.mEventCreatedDateView.setText(date);
             String description = holder.mItem.getDescription();
             holder.mEventDescriptionView.setText(description);
-            holder.mEventIconView.setImageResource(getResources().getIdentifier(
-                    Helper.getImageFileName(holder.mItem.getName()),
-                    "drawable",
-                    holder.mEventIconView.getContext().getPackageName()));
+            holder.mEventIconView.setImageResource(holder.mItem.getImageResourceId());
 
             holder.mView.setOnClickListener(new View.OnClickListener() {
                 @Override

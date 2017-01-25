@@ -1,0 +1,54 @@
+<resources>
+    <string name="app_name">Poovali</string>
+    <string name="title_activity_plant_detail">PlantDetail</string>
+    <string name="title_activity_add_event">AddEvent</string>
+    <string name="plant_crop_duration">Duration</string>
+    <string name="duration_label">"Duration : "</string>
+    <string name="plants">Plants</string>
+    <string name="batches">lot</string>
+    <string name="events">Activities</string>
+    <string name="save_label">Save</string>
+    <string name="no_of_days">{0, choice,0#0 days|1#1 day|1&lt;{0} days}</string>
+    <string name="event_type_label">Activity for</string>
+    <string name="last_sowed">"Last sowed : "</string>
+    <string name="created_on">Créer date</string>
+    <string name="event_description">Notes</string>
+    <string name="plant_label">New batch for </string>
+    <string name="batch_label">lot</string>
+    <string name="delete">supprimer</string>
+    <string name="edit">edit</string>
+    <string name="delete_event_alert">Delete this event?</string>
+    <string name="delete_plant_alert">Delete this plant?</string>
+    <string name="delete_batch_alert">Delete this batch?</string>
+    <string name="add_batch">Nouveau lot</string>
+    <string name="add_plant">Nouvelle plante</string>
+    <string name="plant_name">Plant name</string>
+    <string name="select_plant_image">Select image</string>
+    <string name="plant_growth_stage">Plant growth stages in days</string>
+    <string name="seedling">Seedling</string>
+    <string name="flowering">Flowering</string>
+    <string name="fruiting">Fruiting</string>
+    <string name="ripening">Ripening</string>
+    <string name="add_event">Nouvelle activité</string>
+    <string name="settings">Settings</string>
+    <string name="growth_stage_invalid_days">Growth stage days cannot be empty or zero!</string>
+    <string name="invalid_name">Name cannot be empty</string>
+    <string name="invalid_date">Invalid date, try again!</string>
+    <string name="duplicate_batch">Batch already exists for this date, select another date!</string>
+    <string name="duplicate_plant">Duplicate plant name, input another name!</string>
+    <string name="duplicate_event">Activity already exists for this date, select another date!</string>
+    <string name="save_failed">Save failed</string>
+    <string name="days_due">{0,choice,0#planted today|1#1 day old|1&lt;{0} days old}</string>
+    <string name="sow_type">Sow</string>
+    <string-array name="batch_activity_type">
+        <item>DeWeed</item>
+        <item>Fertilizer</item>
+        <item>Harvest</item>
+        <item>Micro nutrients</item>
+        <item>Mulch</item>
+        <item>Pesticide</item>
+        <item>Prune</item>
+        <item>Re-plant</item>
+        <item>Water</item>
+    </string-array>
+</resources>

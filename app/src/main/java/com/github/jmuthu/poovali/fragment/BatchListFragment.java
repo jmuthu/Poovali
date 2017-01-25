@@ -100,10 +100,7 @@ public class BatchListFragment extends Fragment {
             String description = holder.mPlantBatch.getDescription();
             if (!holder.mPlantBatch.getEvents().isEmpty()) {
                 Event event = holder.mPlantBatch.getEvents().get(0);
-                holder.mEventIconView.setImageResource(getResources().getIdentifier(
-                        Helper.getImageFileName(event.getName()),
-                        "drawable",
-                        holder.mPlantIconView.getContext().getPackageName()));
+                holder.mEventIconView.setImageResource(event.getImageResourceId());
 
                 DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
                 String date = format.format(event.getCreatedDate());

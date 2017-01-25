@@ -125,6 +125,10 @@ public class PlantBatch implements Serializable, DisplayableItem {
         return plant.getImageUri();
     }
 
+    public int getImageResourceId() {
+        return plant.getImageResourceId();
+    }
+
     public int getProgress() {
         return getDurationInDays() * 100 / plant.getCropDuration();
     }
@@ -165,6 +169,10 @@ public class PlantBatch implements Serializable, DisplayableItem {
         return name;
     }
 
+    public boolean sameIdentityAs(final PlantBatch other) {
+        return other != null && this.getId() == other.getId();
+    }
+
     static class BatchDescendingComparator implements Comparator<PlantBatch> {
         @Override
         public int compare(PlantBatch b1, PlantBatch b2) {
@@ -184,9 +192,5 @@ public class PlantBatch implements Serializable, DisplayableItem {
         public int compare(PlantBatch b1, PlantBatch b2) {
             return b1.getName().compareTo(b2.getName());
         }
-    }
-
-    public boolean sameIdentityAs(final PlantBatch other) {
-        return other != null && this.getId() == other.getId();
     }
 }

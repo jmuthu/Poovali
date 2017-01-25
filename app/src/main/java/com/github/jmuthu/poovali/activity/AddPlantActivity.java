@@ -31,9 +31,9 @@ import static java.lang.Integer.parseInt;
 public class AddPlantActivity extends AppCompatActivity {
     private static final int SELECT_IMAGE_REQUEST = 1;
     private ImageView mPlantIcon;
-    private Uri mSelectedImage;
     private Plant mPlant = null;
     private EditText nameView;
+    private Bitmap mPhoto = null;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -60,14 +60,13 @@ public class AddPlantActivity extends AppCompatActivity {
             @Override
             public void onTextChanged(CharSequence s, int start,
                                       int before, int count) {
-                setImageIcon();
+                //setImageIcon();
             }
         });
 
         if (plantId != -1) {
             mPlant = PlantRepository.find(plantId);
             nameView.setText(mPlant.getName());
-            mSelectedImage = mPlant.getImageUri();
             EnumMap<Plant.GrowthStage, Integer> growthStageMap = mPlant.getGrowthStageMap();
             NumberFormat numberFormat = NumberFormat.getInstance();
             EditText seedling = (EditText) findViewById(R.id.seedling_days);
@@ -83,72 +82,71 @@ public class AddPlantActivity extends AppCompatActivity {
     }
 
     private void setImageIcon() {
-        File file = null;
-        if (mSelectedImage != null) {
-            file = new File(mSelectedImage.getPath());
-            if (file.exists()) {
-                mPlantIcon.setImageURI(mSelectedImage);
-            } else {
-                file = null;
+        if (mPlant != null) {
+            if (mPlant.getImageUri() != null) {
+                File file = new File(mPlant.getImageUri().getPath());
+                if (file.exists()) {
+                    mPlantIcon.setImageURI(mPlant.getImageUri());
+                    return;
+                }
+            } else if (mPlant.getImageResourceId() > -1) {
+                mPlantIcon.setImageResource(mPlant.getImageResourceId());
+                return;
             }
         }
-        if (file == null) {
-            int resId = getResources().getIdentifier(
-                    Helper.getImageFileName(nameView.getText().toString().toLowerCase().trim()),
-                    "drawable",
-                    getPackageName());
-            if (resId > 0) {
-                mPlantIcon.setImageResource(resId);
-            } else {
-                mPlantIcon.setImageResource(R.drawable.ic_add_a_photo_black_48dp);
-            }
-        }
+        mPlantIcon.setImageResource(R.drawable.ic_add_a_photo_black_48dp);
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
         if (requestCode == SELECT_IMAGE_REQUEST && resultCode == RESULT_OK) {
-            String plantName = nameView.getText().toString().trim();
-            FileOutputStream fos = null;
-
-            File path = Environment.getExternalStoragePublicDirectory(
-                    Environment.DIRECTORY_PICTURES);
-
-            File outFile = new File(path, plantName + ".png");
             try {
-                path.mkdirs();
-                Bitmap photo = MediaStore.Images.Media.getBitmap(this.getContentResolver(),
+                mPhoto = MediaStore.Images.Media.getBitmap(this.getContentResolver(),
                         imageReturnedIntent.getData());
                 int px = Math.round(Helper.dipToPixels(this, 64));
-                photo = Bitmap.createScaledBitmap(photo, px, px, false);
-                ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-                photo.compress(Bitmap.CompressFormat.PNG, 50, bytes);
-
-                if (!outFile.exists()) {
-                    outFile.createNewFile();
-                }
-                fos = new FileOutputStream(outFile);
-                fos.write(bytes.toByteArray());
-
-                bytes.close();
-                photo.recycle();
-
+                mPhoto = Bitmap.createScaledBitmap(mPhoto, px, px, false);
+                //mPlantIcon.setImageDrawable(null); // Forcing refresh after editing plant image
+                mPlantIcon.setImageBitmap(mPhoto);
             } catch (IOException e) {
                 Log.e(imageReturnedIntent.getData().toString(), "Unable to read image file", e);
                 Helper.alertAndCloseApp(null);
-            } finally {
-                try {
-                    if (fos != null) {
-                        fos.close();
-                    }
-                } catch (IOException e) {
-                    Helper.alertAndCloseApp(null);
-                }
             }
-            mSelectedImage = Uri.fromFile(outFile);
-            mPlantIcon.setImageDrawable(null); // Forcing refresh after editing plant image
-            mPlantIcon.setImageURI(mSelectedImage);
         }
+    }
+
+    private Uri saveImage(String plantName) {
+        FileOutputStream fos = null;
+        File path = Environment.getExternalStoragePublicDirectory(
+                Environment.DIRECTORY_PICTURES);
+
+        File outFile = new File(path, plantName + ".png");
+        try {
+            path.mkdirs();
+            ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+            mPhoto.compress(Bitmap.CompressFormat.PNG, 50, bytes);
+
+            if (!outFile.exists()) {
+                outFile.createNewFile();
+            }
+            fos = new FileOutputStream(outFile);
+            fos.write(bytes.toByteArray());
+
+            bytes.close();
+            mPhoto.recycle();
+
+        } catch (IOException e) {
+            Log.e(this.toString(), "Unable to read image file", e);
+            Helper.alertAndCloseApp(null);
+        } finally {
+            try {
+                if (fos != null) {
+                    fos.close();
+                }
+            } catch (IOException e) {
+                Helper.alertAndCloseApp(null);
+            }
+        }
+        return Uri.fromFile(outFile);
     }
 
     public void selectImage(View v) {
@@ -196,9 +194,17 @@ public class AddPlantActivity extends AppCompatActivity {
         Integer ripeningDays = parseText(ripening);
         if (ripeningDays == -1) return;
 
+        Uri selectedImage = null;
+
+        if (mPhoto != null) {
+            selectedImage = saveImage(plantName);
+        } else if (mPlant != null) {
+            selectedImage = mPlant.getImageUri();
+        }
+
         if (mPlant != null) {
             mPlant.setName(plantName);
-            mPlant.setImageUri(mSelectedImage);
+            mPlant.setImageUri(selectedImage);
             mPlant.getGrowthStageMap().put(Plant.GrowthStage.SEEDLING, seedlingDays);
             mPlant.getGrowthStageMap().put(Plant.GrowthStage.FLOWERING, floweringDays);
             mPlant.getGrowthStageMap().put(Plant.GrowthStage.FRUITING, fruitingDays);
@@ -207,7 +213,8 @@ public class AddPlantActivity extends AppCompatActivity {
             mPlant = new Plant(
                     PlantRepository.nextPlantId(),
                     plantName,
-                    mSelectedImage,
+                    selectedImage,
+                    -1,
                     seedlingDays,
                     floweringDays,
                     fruitingDays,

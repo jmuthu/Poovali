@@ -20,6 +20,9 @@ public class Plant implements Serializable, DisplayableItem {
     private static final long serialVersionUID = 1L;
     private int id;
     private String name;
+
+
+    private int imageResourceId = -1;
     //Storing uri as string as it is not serializable
     private String imageUri;
     private EnumMap<GrowthStage, Integer> growthStageMap = new EnumMap<>(GrowthStage.class);
@@ -32,6 +35,7 @@ public class Plant implements Serializable, DisplayableItem {
     public Plant(int id,
                  String name,
                  Uri imageUri,
+                 int imageResourceId,
                  Integer seedling,
                  Integer flowering,
                  Integer fruiting,
@@ -41,6 +45,7 @@ public class Plant implements Serializable, DisplayableItem {
         if (imageUri != null) {
             this.imageUri = imageUri.toString();
         }
+        this.imageResourceId = imageResourceId;
         this.growthStageMap.put(GrowthStage.SEEDLING, seedling);
         this.growthStageMap.put(GrowthStage.FLOWERING, flowering);
         this.growthStageMap.put(GrowthStage.FRUITING, fruiting);
@@ -114,6 +119,15 @@ public class Plant implements Serializable, DisplayableItem {
         }
     }
 
+    public int getImageResourceId() {
+        return imageResourceId;
+    }
+
+    public void setImageResourceId(int imageResourceId) {
+        this.imageResourceId = imageResourceId;
+    }
+
+
     @Override
     public String toString() {
         return name;
@@ -185,6 +199,24 @@ public class Plant implements Serializable, DisplayableItem {
         @Override
         public int compare(Plant p1, Plant p2) {
             return p1.getName().compareTo(p2.getName());
+        }
+    }
+
+    public enum DefaultPlants {
+        Brinjal(0),
+        Chilli(1),
+        LadysFinger(2),
+        Radish(3),
+        Tomato(4);
+
+        private final int value;
+
+        DefaultPlants(final int newValue) {
+            value = newValue;
+        }
+
+        public int getValue() {
+            return value;
         }
     }
 }

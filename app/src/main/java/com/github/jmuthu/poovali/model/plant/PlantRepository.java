@@ -77,52 +77,39 @@ public class PlantRepository {
     private static void initializeDefaultItems() {
         addPlant(
                 new Plant(
-                        PlantName.Brinjal.getValue(),
-                        Helper.getLocalizedString(R.array.plant_name, PlantName.Brinjal.getValue()),
+                        Plant.DefaultPlants.Brinjal.getValue(),
+                        Helper.getLocalizedString(R.array.plant_name, Plant.DefaultPlants.Brinjal.getValue()),
                         null,
+                        R.drawable.brinjal,
                         10, 30, 30, 80));
         addPlant(
                 new Plant(
-                        PlantName.Chilli.getValue(),
-                        Helper.getLocalizedString(R.array.plant_name, PlantName.Chilli.getValue()),
+                        Plant.DefaultPlants.Chilli.getValue(),
+                        Helper.getLocalizedString(R.array.plant_name, Plant.DefaultPlants.Chilli.getValue()),
                         null,
+                        R.drawable.chilli,
                         10, 30, 40, 80));
         addPlant(
                 new Plant(
-                        PlantName.LadysFinger.getValue(),
-                        Helper.getLocalizedString(R.array.plant_name, PlantName.LadysFinger.getValue()),
+                        Plant.DefaultPlants.LadysFinger.getValue(),
+                        Helper.getLocalizedString(R.array.plant_name, Plant.DefaultPlants.LadysFinger.getValue()),
                         null,
+                        R.drawable.ladys_finger,
                         10, 30, 30, 30));
         addPlant(
                 new Plant(
-                        PlantName.Radish.getValue(),
-                        Helper.getLocalizedString(R.array.plant_name, PlantName.Radish.getValue()),
+                        Plant.DefaultPlants.Radish.getValue(),
+                        Helper.getLocalizedString(R.array.plant_name, Plant.DefaultPlants.Radish.getValue()),
                         null,
+                        R.drawable.radish,
                         15, 20, 10, 10));
         addPlant(
                 new Plant(
-                        PlantName.Tomato.getValue(),
-                        Helper.getLocalizedString(R.array.plant_name, PlantName.Tomato.getValue()),
+                        Plant.DefaultPlants.Tomato.getValue(),
+                        Helper.getLocalizedString(R.array.plant_name, Plant.DefaultPlants.Tomato.getValue()),
                         null,
+                        R.drawable.tomato,
                         10, 30, 30, 80));
         FileRepository.writeAll(ENTITY_NAME, plantMap);
-    }
-
-    enum PlantName {
-        Brinjal(0),
-        Chilli(1),
-        LadysFinger(2),
-        Radish(3),
-        Tomato(4);
-
-        private final int value;
-
-        PlantName(final int newValue) {
-            value = newValue;
-        }
-
-        public int getValue() {
-            return value;
-        }
     }
 }
