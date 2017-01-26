@@ -63,6 +63,7 @@ public class AddPlantBatchActivity extends AppCompatActivity {
         TextView plant_label = (TextView) findViewById(R.id.plant_label);
         if (mPlantBatch != null) {
             if (Build.VERSION.SDK_INT < 23) {
+                //noinspection deprecation
                 plant_label.setTextAppearance(this, R.style.Label);
             } else {
                 plant_label.setTextAppearance(R.style.Label);
@@ -77,6 +78,7 @@ public class AddPlantBatchActivity extends AppCompatActivity {
             if (plantId != -1) {
                 mPlant = PlantRepository.find(plantId);
                 if (Build.VERSION.SDK_INT < 23) {
+                    //noinspection deprecation
                     plant_label.setTextAppearance(this, R.style.Label);
                 } else {
                     plant_label.setTextAppearance(R.style.Label);

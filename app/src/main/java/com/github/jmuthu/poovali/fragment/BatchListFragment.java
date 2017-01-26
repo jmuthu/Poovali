@@ -97,7 +97,7 @@ public class BatchListFragment extends Fragment {
                     Helper.getLocalizedString(R.array.plant_growth_stages,
                             holder.mPlantBatch.getStage().getValue()));
             holder.mProgressBar.setProgress(holder.mPlantBatch.getProgress());
-            String description = holder.mPlantBatch.getDescription();
+            String description;
             if (!holder.mPlantBatch.getEvents().isEmpty()) {
                 Event event = holder.mPlantBatch.getEvents().get(0);
                 holder.mEventIconView.setImageResource(event.getImageResourceId());

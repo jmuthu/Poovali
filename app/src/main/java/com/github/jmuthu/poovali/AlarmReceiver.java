@@ -4,8 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
-import android.media.RingtoneManager;
-import android.net.Uri;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.NotificationManagerCompat;
 
@@ -47,12 +45,12 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
-        long when = System.currentTimeMillis();
+        //long when = System.currentTimeMillis();
         //NotificationManager notificationManager = (NotificationManager) context
         //        .getSystemService(NOTIFICATION_SERVICE);
         NotificationManagerCompat notificationManager =
                 NotificationManagerCompat.from(context);
-        Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
+        //Uri alarmSound = RingtoneManager.getDefaultUri(RingtoneManager.TYPE_NOTIFICATION);
 
         // Set the intent that will fire when the user taps the notification.
         //Intent resultIntent = new Intent(this, ResultActivity.class);

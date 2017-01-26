@@ -10,7 +10,7 @@
     <string name="save_label">Save</string>
     <string name="no_of_days">{0, choice,0#0 days|1#1 day|1&lt;{0} days}</string>
     <string name="event_type_label">Activity for</string>
-    <string name="last_sowed">"Last sowed : "</string>
+    <string name="last_sowed">"Last sowed : %s"</string>
     <string name="created_on">Created on</string>
     <string name="event_description">Notes</string>
     <string name="plant_label">New batch for </string>

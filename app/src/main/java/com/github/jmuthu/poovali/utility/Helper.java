@@ -21,8 +21,6 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class Helper {
-    public static final String DETAIL_IMAGE_SUFFIX = "_detail";
-    public static final String ARG_IS_SOW_ACTIVITY = "IS_SOW_ACTIVITY";
     public static final String ARG_EVENT_ID = "EVENT_ID";
     public static final String ARG_PLANT_ID = "PLANT_ID";
     public static final String ARG_BATCH_ID = "BATCH_ID";
@@ -111,13 +109,15 @@ public class Helper {
     }
 
     public static void alertAndCloseApp(String message) {
-        //Intent intent = new Intent(myContext, AnotherActivity.class);
-        //intent.putExtra("error", errorReport.toString());
-        //myContext.startActivity(intent);
-        if (message == null) {
+
+       /* if (message == null) {
             message = MyApplication.getContext().getString(R.string.fatal_error_message);
         }
-       /* Toast toast = Toast.makeText(MyApplication.getContext(), message, Toast.LENGTH_LONG);
+        Intent intent = new Intent(myContext, AnotherActivity.class);
+        intent.putExtra("error", errorReport.toString());
+        myContext.startActivity(intent);
+
+        Toast toast = Toast.makeText(MyApplication.getContext(), message, Toast.LENGTH_LONG);
         toast.setGravity(Gravity.TOP | Gravity.LEFT, 0, 0);
         toast.show();
         new android.app.AlertDialog.Builder(context, R.style.AlertDialogTheme)

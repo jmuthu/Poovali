@@ -18,39 +18,31 @@ public class MyExceptionHandler implements
     public void uncaughtException(Thread thread, Throwable exception) {
         StringWriter stackTrace = new StringWriter();
         exception.printStackTrace(new PrintWriter(stackTrace));
-        StringBuilder errorReport = new StringBuilder();
-        errorReport.append("************ CAUSE OF ERROR ************\n\n");
-        errorReport.append(stackTrace.toString());
-
-        errorReport.append("\n************ DEVICE INFORMATION ***********\n");
-        errorReport.append("Brand: ");
-        errorReport.append(Build.BRAND);
         String LINE_SEPARATOR = "\n";
-        errorReport.append(LINE_SEPARATOR);
-        errorReport.append("Device: ");
-        errorReport.append(Build.DEVICE);
-        errorReport.append(LINE_SEPARATOR);
-        errorReport.append("Model: ");
-        errorReport.append(Build.MODEL);
-        errorReport.append(LINE_SEPARATOR);
-        errorReport.append("Id: ");
-        errorReport.append(Build.ID);
-        errorReport.append(LINE_SEPARATOR);
-        errorReport.append("Product: ");
-        errorReport.append(Build.PRODUCT);
-        errorReport.append(LINE_SEPARATOR);
-        errorReport.append("\n************ FIRMWARE ************\n");
-        errorReport.append("SDK: ");
-        errorReport.append(Build.VERSION.SDK_INT);
-        errorReport.append(LINE_SEPARATOR);
-        errorReport.append("Release: ");
-        errorReport.append(Build.VERSION.RELEASE);
-        errorReport.append(LINE_SEPARATOR);
-        errorReport.append("Incremental: ");
-        errorReport.append(Build.VERSION.INCREMENTAL);
-        errorReport.append(LINE_SEPARATOR);
+        String errorReport =
+                "************ CAUSE OF ERROR ************\n\n" +
+                        stackTrace.toString() +
+                        "\n************ DEVICE INFORMATION ***********\n" +
+                        "Brand: " +
+                        Build.BRAND + LINE_SEPARATOR +
+                        "Device: " +
+                        Build.DEVICE + LINE_SEPARATOR +
+                        "Model: " +
+                        Build.MODEL + LINE_SEPARATOR +
+                        "Id: " +
+                        Build.ID + LINE_SEPARATOR +
+                        "Product: " +
+                        Build.PRODUCT + LINE_SEPARATOR +
+                        "\n************ FIRMWARE ************\n" +
+                        "SDK: " +
+                        Build.VERSION.SDK_INT + LINE_SEPARATOR +
+                        "Release: " +
+                        Build.VERSION.RELEASE + LINE_SEPARATOR +
+                        "Incremental: " +
+                        Build.VERSION.INCREMENTAL + LINE_SEPARATOR;
+
         Log.e(myContext.getPackageName(), exception.getMessage(), exception);
-        Log.i(myContext.getPackageName(), errorReport.toString());
+        Log.e(myContext.getPackageName(), errorReport);
         Helper.alertAndCloseApp(null);
     }
 

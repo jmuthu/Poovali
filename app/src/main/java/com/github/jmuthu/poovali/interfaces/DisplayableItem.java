@@ -7,8 +7,6 @@ public interface DisplayableItem {
 
     String getName();
 
-    String getTypeName();
-
     Uri getImageUri();
 
     int getImageResourceId();

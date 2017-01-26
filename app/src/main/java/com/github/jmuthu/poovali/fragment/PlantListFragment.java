@@ -84,8 +84,8 @@ public class PlantListFragment extends Fragment {
             PlantBatch latestPlantBatch = holder.mPlant.getLatestBatch();
             if (latestPlantBatch != null) {
                 DateFormat format = DateFormat.getDateInstance(DateFormat.SHORT);
-                holder.mLastBatchDateView.setText(getString(R.string.last_sowed) +
-                        format.format(latestPlantBatch.getCreatedDate()));
+                holder.mLastBatchDateView.setText(String.format(getString(R.string.last_sowed),
+                        format.format(latestPlantBatch.getCreatedDate())));
             }
 
             Helper.setOverDueText(holder.mPlant, holder.mNextBatchDueView, Color.rgb(255, 140, 0));
