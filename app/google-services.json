@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "334441488845",
+    "firebase_url": "https://poovali-52d3f.firebaseio.com",
+    "project_id": "poovali-52d3f",
+    "storage_bucket": "poovali-52d3f.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:334441488845:android:a5a9388d9d40b365",
+        "android_client_info": {
+          "package_name": "com.github.jmuthu.poovali"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "334441488845-dgu2b4q4b85se6f2apuo425ftog76e8e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.github.jmuthu.poovali",
+            "certificate_hash": "190C7EAC77DBFB35543D5543AC55FFF5AF904384"
+          }
+        },
+        {
+          "client_id": "334441488845-955hdj8absli1bnqolrsfke0j11aukhs.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyC6wrlNfXD9u8WIg8juDrbaBvnP4txd8kQ"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 2,
+          "other_platform_oauth_client": [
+            {
+              "client_id": "334441488845-955hdj8absli1bnqolrsfke0j11aukhs.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

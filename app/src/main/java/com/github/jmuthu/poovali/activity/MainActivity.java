@@ -3,6 +3,7 @@ package com.github.jmuthu.poovali.activity;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
@@ -21,6 +22,10 @@ import com.github.jmuthu.poovali.fragment.BatchListFragment;
 import com.github.jmuthu.poovali.fragment.PlantListFragment;
 import com.github.jmuthu.poovali.model.plant.PlantBatchRepository;
 import com.github.jmuthu.poovali.utility.MyExceptionHandler;
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.appindexing.Thing;
+import com.google.android.gms.common.api.GoogleApiClient;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -28,6 +33,8 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private ViewPager mViewPager;
+    private GoogleApiClient client;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -61,6 +68,7 @@ public class MainActivity extends AppCompatActivity {
         });
 
         setAlarm();
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -133,6 +141,34 @@ public class MainActivity extends AppCompatActivity {
 
         AlarmManager alarmManager = (AlarmManager) this.getSystemService(ALARM_SERVICE);
         alarmManager.setRepeating(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), AlarmManager.INTERVAL_DAY, pendingIntent);
+    }
+
+
+    public Action getIndexApiAction() {
+        Thing object = new Thing.Builder()
+                .setName("Main Page")
+                .setUrl(Uri.parse("https://jmuthu.github.io/Poovali"))
+                .build();
+        return new Action.Builder(Action.TYPE_VIEW)
+                .setObject(object)
+                .setActionStatus(Action.STATUS_TYPE_COMPLETED)
+                .build();
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        client.connect();
+        AppIndex.AppIndexApi.start(client, getIndexApiAction());
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        AppIndex.AppIndexApi.end(client, getIndexApiAction());
+        client.disconnect();
     }
 
     class ViewPagerAdapter extends FragmentPagerAdapter {
