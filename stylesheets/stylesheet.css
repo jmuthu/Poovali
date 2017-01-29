@@ -164,6 +164,9 @@ a.button span {
 #view-on-github {
   margin-right: 0;
 }
+#play-store span {
+  background: transparent url(../images/play-store.png) 12px 50% no-repeat;
+}
 
 code, pre {
   margin-bottom: 30px;
