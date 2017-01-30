@@ -1,6 +1,5 @@
 package com.github.jmuthu.poovali.utility;
 
-import android.app.Activity;
 import android.os.Build;
 import android.util.Log;
 
@@ -9,10 +8,11 @@ import java.io.StringWriter;
 
 public class MyExceptionHandler implements
         java.lang.Thread.UncaughtExceptionHandler {
-    private final Activity myContext;
 
-    public MyExceptionHandler(Activity context) {
-        myContext = context;
+    String mPackageName = null;
+
+    public MyExceptionHandler(String packageName) {
+        mPackageName = packageName;
     }
 
     public void uncaughtException(Thread thread, Throwable exception) {
@@ -40,9 +40,8 @@ public class MyExceptionHandler implements
                         Build.VERSION.RELEASE + LINE_SEPARATOR +
                         "Incremental: " +
                         Build.VERSION.INCREMENTAL + LINE_SEPARATOR;
-
-        Log.e(myContext.getPackageName(), exception.getMessage(), exception);
-        Log.e(myContext.getPackageName(), errorReport);
+        Log.e(mPackageName, exception.getMessage(), exception);
+        Log.e(mPackageName, errorReport);
         Helper.alertAndCloseApp(null);
     }
 

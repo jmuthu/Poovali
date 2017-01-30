@@ -26,6 +26,7 @@ import com.github.jmuthu.poovali.model.event.EventRepository;
 import com.github.jmuthu.poovali.model.plant.PlantBatch;
 import com.github.jmuthu.poovali.model.plant.PlantBatchRepository;
 import com.github.jmuthu.poovali.utility.Helper;
+import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 
 import java.text.DateFormat;
 import java.text.MessageFormat;
@@ -38,6 +39,7 @@ public class BatchDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this.getPackageName()));
         setContentView(R.layout.activity_batch_detail);
         int batchId = getIntent().getIntExtra(Helper.ARG_BATCH_ID, -1);
         mPlantBatch = PlantBatchRepository.find(batchId);

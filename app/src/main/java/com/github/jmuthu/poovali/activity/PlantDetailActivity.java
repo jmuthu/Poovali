@@ -49,7 +49,7 @@ public class PlantDetailActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
+        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this.getPackageName()));
         setContentView(R.layout.activity_plant_detail);
 
         int plantId = getIntent().getIntExtra(Helper.ARG_PLANT_ID, -1);

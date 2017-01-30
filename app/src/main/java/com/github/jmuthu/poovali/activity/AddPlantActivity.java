@@ -18,6 +18,7 @@ import com.github.jmuthu.poovali.R;
 import com.github.jmuthu.poovali.model.plant.Plant;
 import com.github.jmuthu.poovali.model.plant.PlantRepository;
 import com.github.jmuthu.poovali.utility.Helper;
+import com.github.jmuthu.poovali.utility.MyExceptionHandler;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -38,6 +39,7 @@ public class AddPlantActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this.getPackageName()));
         setContentView(R.layout.activity_add_plant);
         Bundle extras = getIntent().getExtras();
         int plantId = -1;

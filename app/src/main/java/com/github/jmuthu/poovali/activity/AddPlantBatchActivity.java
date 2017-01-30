@@ -37,7 +37,7 @@ public class AddPlantBatchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this));
+        Thread.setDefaultUncaughtExceptionHandler(new MyExceptionHandler(this.getPackageName()));
 
         int plantId = -1;
         Bundle extras = getIntent().getExtras();
