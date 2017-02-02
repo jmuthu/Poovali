@@ -1,0 +1,40 @@
+language: android
+jdk: oraclejdk8
+sudo: false
+android:
+  components:
+  - tools
+  - platform-tools
+  - tools
+  - build-tools-25.0.1
+  - android-22
+  - android-25
+  - sys-img-armeabi-v7a-android-22
+  - extra-google-google_play_services
+  - extra-google-m2repository
+  - extra-android-m2repository
+  - extra-android-support
+licenses:
+- android-sdk-preview-license-.+
+- android-sdk-license-.+
+- google-gdk-license-.+
+before_cache:
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+cache:
+  directories:
+  - "$HOME/.m2"
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+  - "$HOME/.android/build-cache"
+script: "./gradlew build -x lint"
+deploy:
+  provider: releases
+  api_key:
+    secure: KWGYtu7+cS+la9FGqD+3s72oZo4fEkDAL5uCNdq5XHYWF3qPE4yVQUtM2VQp664gZSHrec3sHk3BrY3uHgwyf/h7f7AZIPy2JTxp+ywW8mel9MaEI3LQa/2TBqnsC+kOS5eCIGZnwn/a4RNNIROpa/V0TBwSsAGYgKtqX9nMzDk96v5JbPvxzpeYFRd+uPi6ZBbJ60gYcXF4JXd1aTxDQWWUZI5+Bos+LYQheOdbvxP4jurZUFEIYAmr3kOE9K34T+Xt2Zr4v/+Tru4kCLO4UViKQCeTnDiuzZ5jjmrJgJ2F8AqyjSutt+OtgYNb70TIAAwZhrKWdvZyTK97CDxp+stSrIp8BRVJZGVBFfYgSfyRmQaRZ9NOCzT1T72F6RHwOH2+1/rjBuIz7S3sVrx+Gue1a2FAw62HMmFB73bkJY/M7s7cMpNRdZUWFLXZa/ZGt2KxMFKsY3UBInM/mUsQJW+P0e6NfaC+2QUjNZXPWk/f9DO9DnZbt0foND8g8OGhDuBgeHr7sO/UvhSimkyNbRAZi/oF1kseaLDCXrDqNfh+ZvijlrvXpQ4sasTzhIEuRtNcS0mcY1euJCcua+MUsYfma2PsQEqgjfu6HQNnbwleNGS/E0ujyQWXIJxQxfs1f/b4Hdi5rMlkLL8/mnp5AYbV9IQ9eLQXVudh/VkjOuA=
+  file: app/poovali*release*.apk
+  file_glob: true
+  skip_cleanup: true
+  on:
+    tags: true
+    repo: jmuthu/Poovali
