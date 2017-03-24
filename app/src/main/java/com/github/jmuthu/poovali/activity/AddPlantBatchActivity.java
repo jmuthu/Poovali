@@ -24,10 +24,8 @@ import com.github.jmuthu.poovali.utility.TimePickerFragment;
 
 import java.text.DateFormat;
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
-import java.util.Locale;
 
 public class AddPlantBatchActivity extends AppCompatActivity {
 
@@ -131,9 +129,7 @@ public class AddPlantBatchActivity extends AppCompatActivity {
             mPlantBatch = new PlantBatch();
             mPlantBatch.setId(PlantBatchRepository.nextPlantBatchId());
         }
-        SimpleDateFormat format = new SimpleDateFormat("d MMM yy", Locale.getDefault());
-        mPlantBatch.setName(mPlant.getName() + " - " +
-                format.format(date));
+
         EditText desc = (EditText) findViewById(R.id.description);
         mPlantBatch.setDescription(desc.getText().toString().trim());
         mPlantBatch.setCreatedDate(date);

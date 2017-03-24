@@ -9,6 +9,7 @@ import com.github.jmuthu.poovali.utility.Helper;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.Serializable;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
@@ -16,6 +17,7 @@ import java.util.Date;
 import java.util.EnumMap;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Locale;
 
 import static com.github.jmuthu.poovali.utility.Helper.getStartOfDay;
 
@@ -92,9 +94,7 @@ public class PlantBatch implements Serializable, DisplayableItem {
         return name;
     }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    //public void setName(String name) { this.name = name; }
 
     public String getTypeName() {
         return plant.getName();
@@ -106,7 +106,12 @@ public class PlantBatch implements Serializable, DisplayableItem {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
-        this.latestEventCreatedDate = createdDate;
+        if (latestEventCreatedDate == null || createdDate.compareTo(this.latestEventCreatedDate) > 0 ) {
+            latestEventCreatedDate = createdDate;
+        }
+        SimpleDateFormat format = new SimpleDateFormat("d MMM yy", Locale.getDefault());
+        name = plant.getName() + " - " +
+                format.format(createdDate);
     }
 
     public Date getLatestEventCreatedDate() {
