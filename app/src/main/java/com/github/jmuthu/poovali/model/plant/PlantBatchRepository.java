@@ -13,8 +13,8 @@ public class PlantBatchRepository {
     private static Map<Integer, PlantBatch> batchMap = new HashMap<>();
     private static List<PlantBatch> plantBatchList = new LinkedList<>(); // To make findAll really fast
     //private static PlantBatch.BatchNameComparator batchNameComparator = new PlantBatch.BatchNameComparator();
-    private static final PlantBatch.BatchModifiedDescendingComparator batchModifiedDescendingComparator =
-            new PlantBatch.BatchModifiedDescendingComparator();
+    private static final PlantBatch.BatchDescendingComparator batchDescendingComparator =
+            new PlantBatch.BatchDescendingComparator();
     private static int maxPlantBatchId = 0;
 
     public static void store(PlantBatch plantBatch) {
@@ -22,7 +22,7 @@ public class PlantBatchRepository {
         if (!plantBatchList.contains(plantBatch)) {
             plantBatchList.add(plantBatch);
         }
-        Collections.sort(plantBatchList, batchModifiedDescendingComparator);
+        Collections.sort(plantBatchList, batchDescendingComparator);
         FileRepository.writeAll(ENTITY_NAME, batchMap);
     }
 
@@ -57,7 +57,7 @@ public class PlantBatchRepository {
         if (result != null) {
             batchMap = (Map<Integer, PlantBatch>) result;
             plantBatchList = new LinkedList<>(batchMap.values());
-            Collections.sort(plantBatchList, batchModifiedDescendingComparator);
+            Collections.sort(plantBatchList, batchDescendingComparator);
         }
         for (PlantBatch plantBatch : batchMap.values()) {
             Plant plant = PlantRepository.find(plantBatch.getPlantId());

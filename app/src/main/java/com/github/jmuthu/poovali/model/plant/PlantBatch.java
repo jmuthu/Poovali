@@ -28,7 +28,6 @@ public class PlantBatch implements Serializable, DisplayableItem {
     private int plantId;
     private String name;
     private Date createdDate;
-    private Date latestEventCreatedDate;
     private String description;
     transient private List<Event> eventsList = new LinkedList<>();
 
@@ -69,9 +68,6 @@ public class PlantBatch implements Serializable, DisplayableItem {
             eventsList.add(0, event);
             event.setBatchId(id);
         }
-        if (event.getCreatedDate().compareTo(latestEventCreatedDate) > 0) {
-            latestEventCreatedDate = event.getCreatedDate();
-        }
         Collections.sort(eventsList, new Event.EventModifiedDescendingComparator());
     }
 
@@ -106,16 +102,9 @@ public class PlantBatch implements Serializable, DisplayableItem {
 
     public void setCreatedDate(Date createdDate) {
         this.createdDate = createdDate;
-        if (latestEventCreatedDate == null || createdDate.compareTo(this.latestEventCreatedDate) > 0 ) {
-            latestEventCreatedDate = createdDate;
-        }
         SimpleDateFormat format = new SimpleDateFormat("d MMM yy", Locale.getDefault());
         name = plant.getName() + " - " +
                 format.format(createdDate);
-    }
-
-    public Date getLatestEventCreatedDate() {
-        return this.latestEventCreatedDate;
     }
 
     public String getDescription() {
@@ -182,13 +171,6 @@ public class PlantBatch implements Serializable, DisplayableItem {
         @Override
         public int compare(PlantBatch b1, PlantBatch b2) {
             return b2.getCreatedDate().compareTo(b1.getCreatedDate());
-        }
-    }
-
-    static class BatchModifiedDescendingComparator implements Comparator<PlantBatch> {
-        @Override
-        public int compare(PlantBatch b1, PlantBatch b2) {
-            return b2.getLatestEventCreatedDate().compareTo(b1.getLatestEventCreatedDate());
         }
     }
 
